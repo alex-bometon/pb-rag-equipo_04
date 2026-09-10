@@ -1,0 +1,31 @@
+EXPERIMENTO A
+
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 100
+
+Documentos HTML originales: 10
+Chunks HTML: 41
+Chunks totales: 47.194
+
+Observaciones:
+- Buena conservación semántica.
+- Algunos chunks finales pequeños (~241–275 caracteres).
+- El overlap produce algunas frases duplicadas entre chunks consecutivos.
+
+=====================================
+
+EXPERIMENTO B
+
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 100
+
+Documentos HTML originales: 10
+Chunks HTML: 31
+Chunks totales: 47.184
+
+Observaciones:
+- Mejor conservación de bloques temáticos completos respecto a la configuración 800/100.
+- Se reduce la fragmentación de los documentos HTML de 41 a 31 chunks.
+- Algunos chunks finales siguen siendo pequeños (~288 caracteres), pero mantienen unidades semánticas útiles.
+- El overlap de 100 caracteres sigue conservando contexto entre chunks consecutivos, aunque produce algunas frases o encabezados duplicados.
+- La mayor longitud permite mantener juntas listas y explicaciones relacionadas sin superar aproximadamente los 1000 caracteres.

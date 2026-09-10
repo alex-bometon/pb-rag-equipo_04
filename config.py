@@ -30,5 +30,5 @@ OUTPUT_DIR = BASE_DIR / "output"
 
 # Valores iniciales para la primera versión.
 # Se podrán modificar posteriormente durante la evaluación.
-CHUNK_SIZE = 800
+CHUNK_SIZE = 1_000
 CHUNK_OVERLAP = 100
