@@ -1,8 +1,11 @@
+# Localiza archivos
+# Abre archivos
+# interpreta CSV como DataFrame
+# conserva HTML originales como texto
+
 from pathlib import Path
-import re
 
 import pandas as pd
-from bs4 import BeautifulSoup
 
 from config import BASE_DIR, CSV_DIR, HTML_DIR
 
@@ -16,7 +19,7 @@ def _leer_texto_con_fallback(path: Path) -> tuple[str, str]:
     Lee un archivo de texto probando varias codificaciones.
 
     Devuelve:
-        - contenido del archivo
+        - contenido original del archivo
         - codificación utilizada
     """
 
@@ -31,6 +34,7 @@ def _leer_texto_con_fallback(path: Path) -> tuple[str, str]:
     for encoding in codificaciones:
         try:
             contenido = path.read_text(encoding=encoding)
+
             return contenido, encoding
 
         except UnicodeDecodeError as error:
@@ -42,66 +46,18 @@ def _leer_texto_con_fallback(path: Path) -> tuple[str, str]:
     )
 
 
-def _extraer_texto_html(contenedor) -> str:
-    """
-    Extrae el contenido textual útil de un bloque HTML.
-
-    Conserva títulos, subtítulos, párrafos y elementos
-    de listas, eliminando etiquetas HTML.
-    """
-
-    etiquetas = [
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "p",
-        "li",
-    ]
-
-    lineas = []
-
-    for elemento in contenedor.find_all(etiquetas):
-
-        # Evita duplicar contenido cuando un <li>
-        # contiene otra lista interna.
-        if elemento.name == "li" and elemento.find("li"):
-            continue
-
-        texto = " ".join(elemento.stripped_strings)
-
-        # Normalizamos espacios repetidos.
-        texto = re.sub(r"\s+", " ", texto).strip()
-
-        # Elementos de interfaz que no aportan
-        # información al corpus.
-        if texto in {"", "Volver", "Escuchar"}:
-            continue
-
-        # Evita duplicados consecutivos.
-        if lineas and texto == lineas[-1]:
-            continue
-
-        lineas.append(texto)
-
-    return "\n".join(lineas)
-
-
 # =========================================================
 # CARGA DE CSV
 # =========================================================
 
 def cargar_csv(path: Path) -> dict:
     """
-    Carga un CSV del corpus manteniendo su estructura tabular.
+    Carga un CSV manteniendo su estructura tabular original.
 
-    Los CSV del corpus utilizan ';' como separador.
+    Todos los CSV del corpus utilizan ';' como separador.
 
-    Se cargan todas las columnas como texto para conservar
-    los valores originales, incluidos códigos con ceros
-    iniciales.
+    Las columnas se cargan como texto para conservar
+    valores como códigos con ceros iniciales.
     """
 
     codificaciones = (
@@ -123,7 +79,6 @@ def cargar_csv(path: Path) -> dict:
 
             return {
                 "source": path.name,
-                "title": path.stem.replace("_", " "),
                 "path": str(path.relative_to(BASE_DIR)),
                 "format": "csv",
                 "encoding": encoding,
@@ -148,62 +103,16 @@ def cargar_csv(path: Path) -> dict:
 
 def cargar_html(path: Path) -> dict:
     """
-    Carga una página HTML del corpus y extrae
-    su contenido textual principal.
+    Carga el código HTML original.
+
+    La extracción y limpieza del contenido útil
+    se realizará posteriormente en clean.py.
     """
 
-    html, encoding = _leer_texto_con_fallback(path)
-
-    soup = BeautifulSoup(html, "html.parser")
-
-    # El contenido útil de las páginas del Ayuntamiento
-    # está dentro de <main id="readspeaker">.
-    main = soup.find("main", id="readspeaker")
-
-    if main is None:
-        raise ValueError(
-            f"No se ha encontrado el contenido principal "
-            f"en '{path.name}'."
-        )
-
-    # En la mayoría de páginas el contenido principal
-    # está todavía más acotado dentro de .detalle.
-    detalle = main.find("div", class_="detalle")
-
-    if detalle is not None:
-        contenedor = detalle
-    else:
-        contenedor = main
-
-    # Intentamos obtener un título útil.
-    titulo_elemento = contenedor.find(
-        ["h1", "h2", "h3"]
-    )
-
-    if titulo_elemento is not None:
-        titulo = " ".join(
-            titulo_elemento.stripped_strings
-        )
-
-    elif soup.title is not None:
-        titulo = " ".join(
-            soup.title.stripped_strings
-        )
-
-    else:
-        titulo = path.stem.replace("_", " ")
-
-    contenido = _extraer_texto_html(contenedor)
-
-    if not contenido:
-        raise ValueError(
-            f"No se ha podido extraer texto útil "
-            f"de '{path.name}'."
-        )
+    contenido, encoding = _leer_texto_con_fallback(path)
 
     return {
         "source": path.name,
-        "title": titulo,
         "path": str(path.relative_to(BASE_DIR)),
         "format": "html",
         "encoding": encoding,
@@ -212,29 +121,20 @@ def cargar_html(path: Path) -> dict:
 
 
 # =========================================================
-# CARGA DEL CORPUS COMPLETO
+# CARGA DEL CORPUS
 # =========================================================
 
 def cargar_corpus() -> list[dict]:
     """
-    Carga todos los documentos disponibles
-    en las carpetas configuradas en config.py.
-
-    Actualmente soporta:
-        - CSV
-        - HTML
+    Carga todos los CSV y HTML existentes en data/raw/.
     """
 
     documentos = []
 
     for path in sorted(CSV_DIR.glob("*.csv")):
-        documentos.append(
-            cargar_csv(path)
-        )
+        documentos.append(cargar_csv(path))
 
     for path in sorted(HTML_DIR.glob("*.html")):
-        documentos.append(
-            cargar_html(path)
-        )
+        documentos.append(cargar_html(path))
 
     return documentos
