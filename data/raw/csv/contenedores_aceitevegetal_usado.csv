@@ -1,0 +1,124 @@
+TIPO DATO;TIPO  SITUADO;DISTRITO;DIRECCION COMPLETA;CLASE_VIAL;NOMBRE_VIAL;NUM;COORDENADA X;COORDENADA Y;LATITUD;LONGITUD;DIRECCIÓN COMPLETA AMPLIADA
+Contenedor de aceite;Vía Pública;Arganzuela;Calle Arganda, 18 Frente a Calle Melilla;Calle;Arganda;18;439955,98;4472467,77;40,40065439;-3,707573358;Calle Arganda, 18 Frente a Calle Melilla Frente a Calle Melilla
+Contenedor de aceite;Vía Pública;Arganzuela;Paseo  Santa María de la Cabeza, 45 ;Paseo; Santa María de la Cabeza;45;440757,2772;4472644,297;40,40230203;-3,698147774;Paseo  Santa María de la Cabeza, 45 
+Contenedor de aceite;Vía Pública;Arganzuela;Calle Alonso Carbonell, 2 ;Calle;Alonso Carbonell;2;440899,6182;4471822,983;40,39491333;-3,696394229;Calle Alonso Carbonell, 2 
+Contenedor de aceite;Dependencias Municipales;Arganzuela;Calle Alicante, 14 ;Calle;Alicante;14;441327,73;4471765,77;40,39442819;-3,691344761;Calle Alicante, 14  C.D.M LA FUNDI
+Contenedor de aceite;Punto Limpio Fijo;Arganzuela;Calle Estrella Denebola, 5 ;Calle;Estrella Denebola;5;442002,0076;4471732,978;40,39418001;-3,683397192;Calle Estrella Denebola, 5  PUNTO LIMPIO FIJO ARGANZUELA
+Contenedor de aceite;Vía Pública;Barajas;Calle Ayerbe,  s/n ;Calle;Ayerbe; s/n;450980,0862;4480124,115;40,47034978;-3,578260176;Calle Ayerbe,  s/n 
+Contenedor de aceite;Punto Limpio Fijo;Barajas;Calle Alhaurín, 5 ;Calle;Alhaurín;5;450379,0038;4480534,935;40,47401501;-3,585382594;Calle Alhaurín, 5  PUNTO LIMPIO FIJO BARAJAS
+Contenedor de aceite;Vía Pública;Carabanchel;Calle Vía Lusitana, 10 ;Calle;Vía Lusitana;10;438828,32;4470657,29;40,38426264;-3,720687091;Calle Vía Lusitana, 10 
+Contenedor de aceite;Vía Pública;Carabanchel;Calle Camino de las Cruces,  s/n ;Calle;Camino de las Cruces; s/n;435871,3302;4469601,524;40,37452951;-3,755415481;Calle Camino de las Cruces,  s/n 
+Contenedor de aceite;Vía Pública;Carabanchel;Plaza Julio Cortázar, 2 ;Plaza;Julio Cortázar;2;437964,4547;4472111,645;40,39730027;-3,731005495;Plaza Julio Cortázar, 2 
+Contenedor de aceite;Punto Limpio Fijo;Carabanchel;Calle Cidro, 5 ;Calle;Cidro;5;436684,0076;4468897,893;40,36825301;-3,745773292;Calle Cidro, 5  PUNTO LIMPIO FIJO CARABANCHEL
+Contenedor de aceite;Vía Pública;Centro;Plaza San Miguel, 7 ;Plaza;San Miguel;7;439828,5059;4474082,099;40,41518783;-3,709228076;Plaza San Miguel, 7 
+Contenedor de aceite;Vía Pública;Centro;Plaza Campillo del Mundo Nuevo,  s/n ;Plaza;Campillo del Mundo Nuevo; s/n;439839,1352;4473127,763;40,40659149;-3,709012567;Plaza Campillo del Mundo Nuevo,  s/n 
+Contenedor de aceite;Dependencias Municipales;Centro;Calle Gran Vía de San Francisco, 1;Calle;Gran Vía de San Francisco;1;439572,66;4473192,34;40,40715393;-3,712158953;Calle Gran Vía de San Francisco, 1 CENTRO CULTURAL PUERTA DE TOLEDO
+Contenedor de aceite;Mercados Y Galerias;Centro;Calle Embajadores, 41 ;Calle;Embajadores;41;440279,8644;4473252,453;40,40774649;-3,703830524;Calle Embajadores, 41  MERCADO MUNICIPAL SAN FERNANDO
+Contenedor de aceite;Mercados Y Galerias;Centro;Plaza Cebada, 17 ;Plaza;Cebada;17;439780,01;4473650,22;40,41129375;-3,709758766;Plaza Cebada, 17  MERCADO MUNICIPAL LA CEBADA
+Contenedor de aceite;Vía Pública;Chamartín;Calle Corazón de María, 51 ;Calle;Corazón de María;51;443461,4819;4477543,135;40,44662136;-3,666717683;Calle Corazón de María, 51 
+Contenedor de aceite;Vía Pública;Chamartín;Calle Bolivia, 14 ;Calle;Bolivia;14;442507,4386;4478664,458;40,45665733;-3,67806881;Calle Bolivia, 14 
+Contenedor de aceite;Punto Limpio Fijo;Chamartín;Plaza José Maria Soler,  s/n ;Plaza;José Maria Soler; s/n;443406,0021;4478882,919;40,45868701;-3,667491293;Plaza José Maria Soler,  s/n  PUNTO LIMPIO FIJO CHAMARTÍN
+Contenedor de aceite;Vía Pública;Chamberí;Calle Arapiles, 4 ;Calle;Arapiles;4;440193,987;4476102,517;40,43341502;-3,705110578;Calle Arapiles, 4 
+Contenedor de aceite;Vía Pública;Chamberí;Calle Andrés Mellado, 50 ;Calle;Andrés Mellado;50;439412,4991;4476253,853;40,43472175;-3,714338042;Calle Andrés Mellado, 50 
+Contenedor de aceite;Vía Pública;Ciudad Lineal;Calle Vital Aza, 47 ;Calle;Vital Aza;47;445619,5571;4475951,484;40,43242686;-3,641134382;Calle Vital Aza, 47 
+Contenedor de aceite;Vía Pública;Ciudad Lineal;Calle Santa Genoveva,  s/n ;Calle;Santa Genoveva; s/n;445075,2853;4475284,643;40,42638382;-3,647493232;Calle Santa Genoveva,  s/n 
+Contenedor de aceite;Vía Pública;Ciudad Lineal;Calle Gandhi,  s/n ;Calle;Gandhi; s/n;446186,2214;4475025,586;40,42412269;-3,634375537;Calle Gandhi,  s/n 
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Calle Treviana, 1 ;Calle;Treviana;1;444168,6;4477658,6;40,44770932;-3,658389829;Calle Treviana, 1  C.D.M SAN JUAN BAUTISTA
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Pasaje Santa Felicidad, 39 ;Pasaje;Santa Felicidad;39;444839;4475068,3;40,42441925;-3,650259799;Pasaje Santa Felicidad, 39  CENTRO CULTURAL LA ELIPA
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Calle Nicolás Salmerón, 8 ;Calle;Nicolás Salmerón;8;446735,5;4474339,7;40,41797916;-3,627843374;Calle Nicolás Salmerón, 8  C.D.M LA ALMUDENA
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Avenida Hermanos García Noblejas, 160 ;Avenida;Hermanos García Noblejas;160;446694,9;4474996,6;40,42389431;-3,628376971;Avenida Hermanos García Noblejas, 160  C.S.S LUIS VIVES
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Avenida Hermanos García Noblejas, 16 ;Avenida;Hermanos García Noblejas;16;445971,8;4476343,9;40,43598492;-3,637015114;Avenida Hermanos García Noblejas, 16  JUNTA MUNICIPAL CIUDAD LINEAL
+Contenedor de aceite;Punto Limpio Fijo;Ciudad Lineal;Avenida Daroca, 104 ;Avenida;Daroca;104;446492,0056;4474350,963;40,41806501;-3,630714293;Avenida Daroca, 104  PUNTO LIMPIO FIJO CIUDAD LINEAL
+Contenedor de aceite;Vía Pública;Fuencarral - El Pardo;Calle San Cugat del Vallés,  s/n ;Calle;San Cugat del Vallés; s/n;441165,6622;4483128,147;40,4967741;-3,694306775;Calle San Cugat del Vallés,  s/n 
+Contenedor de aceite;Vía Pública;Fuencarral - El Pardo;Calle San Leandro,  s/n ;Calle;San Leandro; s/n;434307,8246;4485433,285;40,5170247;-3,77546891;Calle San Leandro,  s/n 
+Contenedor de aceite;Vía Pública;Fuencarral - El Pardo;Calle Monforte de Lemos, 105 ;Calle;Monforte de Lemos;105;440375,0007;4481193,001;40,47928518;-3,703454701;Calle Monforte de Lemos, 105 
+Contenedor de aceite;Punto Limpio Fijo;Fuencarral - El Pardo;Calle Ubeda, 6 ;Calle;Ubeda;6;439269,9994;4481530,899;40,48224901;-3,716522892;Calle Ubeda, 6  PUNTO LIMPIO FIJO FUENCARRAL
+Contenedor de aceite;Vía Pública;Hortaleza;Calle Alcorisa,  c/v Camino Silvano;Calle;Alcorisa;;445642,1433;4479256,536;40,46220202;-3,641150984;Calle Alcorisa,  c/v Camino Silvano c/v Camino Silvano
+Contenedor de aceite;Vía Pública;Hortaleza;Calle Santa Adela, 36 Esq Carretera  Estación de Hortaleza;Calle;Santa Adela;36;444796,2095;4481128,579;40,47901053;-3,651291074;Calle Santa Adela, 36 Esq Carretera  Estación de Hortaleza Esq Carretera  Estación de Hortaleza
+Contenedor de aceite;Punto Limpio Fijo;Hortaleza;Calle Tomás Redondo, 8 ;Calle;Tomás Redondo;8;446787;4480106,937;40,46993701;-3,627719493;Calle Tomás Redondo, 8  PUNTO LIMPIO FIJO HORTALEZA
+Contenedor de aceite;Vía Pública;Latina;Avenida Águilas,  s/n ;Avenida;Águilas; s/n;435261,1808;4470742,916;40,38476447;-3,762718198;Avenida Águilas,  s/n 
+Contenedor de aceite;Vía Pública;Latina;Calle José Cadalso, 78 ;Calle;José Cadalso;78;434741,8746;4469977,893;40,37783232;-3,76875752;Calle José Cadalso, 78 
+Contenedor de aceite;Mercados Y Galerias;Latina;Calle Doña Urraca, 22 ;Calle;Doña Urraca;22;438370,917;4473877,628;40,41323921;-3,726387252;Calle Doña Urraca, 22  MERCADO MUNICIPAL TIRSO DE MOLINA
+Contenedor de aceite;Punto Limpio Fijo;Latina;Calle Concejar Francsico José Jiménez Martín, 5 ;Calle;Concejar Francsico José Jiménez Martín;5;437576,8364;4472480,729;40,40059617;-3,735608888;Calle Concejar Francsico José Jiménez Martín, 5  PUNTO LIMPIO FIJO LATINA
+Contenedor de aceite;Vía Pública;Moncloa - Aravaca;Calle San Restituto, 22 ;Calle;San Restituto;22;439694,68;4479595,3;40,46484337;-3,711328636;Calle San Restituto, 22 
+Contenedor de aceite;Punto Limpio Fijo;Moncloa - Aravaca;Avenida  Senda del Rey, 20 ;Avenida; Senda del Rey;20;437241,0038;4478162,888;40,45175801;-3,740126992;Avenida  Senda del Rey, 20  PUNTO LIMPIO FIJO MONCLOA ARAVACA
+Contenedor de aceite;Vía Pública;Moratalaz;Calle Hacienda de Pavones, 232 ;Calle;Hacienda de Pavones;232;445717,579;4472533,893;40,40164559;-3,639687136;Calle Hacienda de Pavones, 232 
+Contenedor de aceite;Vía Pública;Moratalaz;Calle Arroyo de la Media Legua, 4 ;Calle;Arroyo de la Media Legua;4;444178,4161;4473213,014;40,40766174;-3,657883731;Calle Arroyo de la Media Legua, 4 
+Contenedor de aceite;Mercados Y Galerias;Moratalaz;Calle Cañada, 17 ;Calle;Cañada;17;445210,9283;4472921,14;40,40510096;-3,645690699;Calle Cañada, 17  MERCADO MUNICIPAL DE MORATALAZ
+Contenedor de aceite;Mercados Y Galerias;Moratalaz;Calle Arroyo de las Pilillas, 16 ;Calle;Arroyo de las Pilillas;16;444790,8813;4473270,528;40,40822071;-3,650670973;Calle Arroyo de las Pilillas, 16  GALERIAS EFE
+Contenedor de aceite;Punto Limpio Fijo;Moratalaz;Calle Arroyo de la Media Legua, 72 ;Calle;Arroyo de la Media Legua;72;444743,0012;4473975,909;40,41457201;-3,651296493;Calle Arroyo de la Media Legua, 72  PUNTO LIMPIO FIJO MORATALAZ
+Contenedor de aceite;Vía Pública;Puente de Vallecas;Calle Doctor Lozano, 16 ;Calle;Doctor Lozano;16;443878,2926;4472724,39;40,40323976;-3,661377518;Calle Doctor Lozano, 16 
+Contenedor de aceite;Vía Pública;Puente de Vallecas;Calle Cooperativa Eléctrica, 2 ;Calle;Cooperativa Eléctrica;2;443871,932;4469577,735;40,37489239;-3,661175195;Calle Cooperativa Eléctrica, 2 
+Contenedor de aceite;Vía Pública;Puente de Vallecas;Calle Ramón Pérez de Ayala,  s/n ;Calle;Ramón Pérez de Ayala; s/n;444823,6667;4472357,645;40,39999909;-3,650205464;Calle Ramón Pérez de Ayala,  s/n 
+Contenedor de aceite;Dependencias Municipales;Puente de Vallecas;Calle Puerto de Navacerrada, 1 ;Calle;Puerto de Navacerrada;1;444253,2;4472504,4;40,40128315;-3,656940357;Calle Puerto de Navacerrada, 1  C.M.M NAVACERRADA
+Contenedor de aceite;Dependencias Municipales;Puente de Vallecas;Calle Sierra Carbonera, 74 ;Calle;Sierra Carbonera;74;443540,1;4471293,1;40,39032301;-3,665235846;Calle Sierra Carbonera, 74  CENTRO SOCIO CULTURAL TALLERES DE CREATIVIDAD
+Contenedor de aceite;Dependencias Municipales;Puente de Vallecas;Calle Javier de Miguel, 10 ;Calle;Javier de Miguel;10;443663,5;4471119,9;40,38877108;-3,663766665;Calle Javier de Miguel, 10  C.S.S SAN DIEGO
+Contenedor de aceite;Dependencias Municipales;Puente de Vallecas;Calle Yuste, 8 ;Calle;Yuste;8;443251,2;4469670,5;40,37568604;-3,668495059;Calle Yuste, 8  C.S.S ENTREVÍAS
+Contenedor de aceite;Mercados Y Galerias;Puente de Vallecas;Calle Martinez de la Riva, 4 ;Calle;Martinez de la Riva;4;443328,6019;4471864,316;40,39545449;-3,667778482;Calle Martinez de la Riva, 4  MERCADO MUNICIPAL DE PUENTE DE VALLECAS
+Contenedor de aceite;Punto Limpio Fijo;Puente de Vallecas;Calle José Paulete, 43 ;Calle;José Paulete;43;444457,0039;4471702,969;40,39407701;-3,654468893;Calle José Paulete, 43  PUNTO LIMPIO FIJO PUENTE DE VALLECAS
+Contenedor de aceite;Vía Pública;Retiro;Avenida Mediterráneo, 47 ;Avenida;Mediterráneo;47;443266,6582;4473125,94;40,40681569;-3,668620777;Avenida Mediterráneo, 47 
+Contenedor de aceite;Vía Pública;Retiro;Calle Marqués de Lozoya, 3 ;Calle;Marqués de Lozoya;3;443610,7988;4474270,337;40,41714844;-3,664666655;Calle Marqués de Lozoya, 3 
+Contenedor de aceite;Vía Pública;Retiro;Calle Seco, 4 ;Calle;Seco;4;442965,9832;4472258,834;40,39898378;-3,672086405;Calle Seco, 4 
+Contenedor de aceite;Dependencias Municipales;Retiro;Calle José Martinez de Velasco, 22 ;Calle;José Martinez de Velasco;22;443353,2;4473996,5;40,41466407;-3,667678424;Calle José Martinez de Velasco, 22  C.S.S RETIRO
+Contenedor de aceite;Vía Pública;Salamanca;Calle Ardemans, 17 ;Calle;Ardemans;17;443000,4926;4476174,515;40,43426068;-3,672030655;Calle Ardemans, 17 
+Contenedor de aceite;Vía Pública;Salamanca;Avenida Bruselas, 57 ;Avenida;Bruselas;57;443767,9447;4476741,016;40,43941625;-3,663033016;Avenida Bruselas, 57 
+Contenedor de aceite;Dependencias Municipales;Salamanca;Calle Elvira, 36 ;Calle;Elvira;36;443558,1;4474702,9;40,42104162;-3,66532617;Calle Elvira, 36  C.D.M FUENTE DEL BERRO
+Contenedor de aceite;Dependencias Municipales;Salamanca;Calle Nuñez de Balboa, 40 ;Calle;Nuñez de Balboa;40;442107;4475350,5;40,42677583;-3,682489281;Calle Nuñez de Balboa, 40  JUNTA MUNICIPAL DISTRITO SALAMANCA
+Contenedor de aceite;Dependencias Municipales;Salamanca;Calle Velazquez, 52 ;Calle;Velazquez;52;442011,7;4475415,7;40,42735655;-3,683618625;Calle Velazquez, 52  EDIFICIO ADSCRITO A LA JUNTA MUNICIPAL DE SALAMANCA
+Contenedor de aceite;Dependencias Municipales;Salamanca;Calle Pilar de Zaragoza, 28 ;Calle;Pilar de Zaragoza;28;443247,7;4476088,9;40,43350632;-3,669108595;Calle Pilar de Zaragoza, 28  C.S.S LA GUINDALERA
+Contenedor de aceite;Mercados Y Galerias;Salamanca;Calle Ayala, 28 ;Calle;Ayala;28;441833,3;4475420,7;40,42738914;-3,685722081;Calle Ayala, 28  MERCADO MUNICIPAL LA PAZ
+Contenedor de aceite;Vía Pública;San Blas - Canillejas;Calle San Román del valle,  s/n ;Calle;San Román del valle; s/n;447323,4681;4474489,563;40,41936664;-3,620925631;Calle San Román del valle,  s/n 
+Contenedor de aceite;Vía Pública;San Blas - Canillejas;Calle Castillo de Uclés, 26 c/v  Calle  Altas Torres;Calle;Castillo de Uclés;26;446951,383;4475435,232;40,42786217;-3,62539024;Calle Castillo de Uclés, 26 c/v  Calle  Altas Torres c/v  Calle  Altas Torres
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Calle Arcos de Jalón, 59 ;Calle;Arcos de Jalón;59;448142,8;4475530,2;40,42879282;-3,611353136;Calle Arcos de Jalón, 59  C.D.M SAN BLAS
+Contenedor de aceite;Punto Limpio Fijo;San Blas - Canillejas;Calle San Romualdo, 10 ;Calle;San Romualdo;10;447149,0043;4476847,913;40,44060101;-3,623178093;Calle San Romualdo, 10  PUNTO LIMPIO FIJO SAN BLAS
+Contenedor de aceite;Vía Pública;Tetuán;Avenida Asturias,  s/n ;Avenida;Asturias; s/n;441283,2307;4479917,106;40,46785612;-3,692622055;Avenida Asturias,  s/n 
+Contenedor de aceite;Vía Pública;Tetuán;Calle Orense, 5 ;Calle;Orense;5;441013,349;4477647,15;40,44738828;-3,69559442;Calle Orense, 5 
+Contenedor de aceite;Vía Pública;Tetuán;Calle Ceuta, 3 ;Calle;Ceuta;3;440740,7015;4479265,098;40,46194405;-3,698960381;Calle Ceuta, 3 
+Contenedor de aceite;Vía Pública;Usera;Avenida Orcasur,  s/n ;Avenida;Orcasur; s/n;440543,4679;4468848,357;40,36809096;-3,700312984;Avenida Orcasur,  s/n 
+Contenedor de aceite;Vía Pública;Usera;Calle Guetaria, 47 Esquina con Calle Villbona;Calle;Guetaria;47;439239,1717;4468987,873;40,36925375;-3,715687901;Calle Guetaria, 47 Esquina con Calle Villbona Esquina con Calle Villbona
+Contenedor de aceite;Mercados Y Galerias;Usera;Calle Villabona, 2 ;Calle;Villabona;2;439266,6;4468950,2;40,36891637;-3,715361264;Calle Villabona, 2  MERCADO MUNICIPAL ORCASITAS
+Contenedor de aceite;Punto Limpio Fijo;Usera;Calle Cristo de la Victoria, 245 ;Calle;Cristo de la Victoria;245;439780,0045;4470023,893;40,37862601;-3,709415892;Calle Cristo de la Victoria, 245  PUNTO LIMPIO FIJO USERA
+Contenedor de aceite;Vía Pública;Vicálvaro;Calle Pedernal, 1 ;Calle;Pedernal;1;449230,2794;4472955,421;40,40566459;-3,598327817;Calle Pedernal, 1 
+Contenedor de aceite;Vía Pública;Vicálvaro;Calle San Cipriano, 32 ;Calle;San Cipriano;32;448582,4066;4472798,369;40,40421;-3,60595;Calle San Cipriano, 32 
+Contenedor de aceite;Vía Pública;Vicálvaro;Calle Calahorra, 17 ;Calle;Calahorra;17;447966,5115;4473105,904;40,40694222;-3,613232992;Calle Calahorra, 17 
+Contenedor de aceite;Mercados Y Galerias;Vicálvaro;Calle San Cipriano, 11 ;Calle;San Cipriano;11;453159,67;4473034,12;40,4040797;-3,6079359;Calle San Cipriano, 11  MERCADO MUNICIPAL DE VICÁLVARO
+Contenedor de aceite;Punto Limpio Fijo;Vicálvaro;Calle Sepiolita, 6 ;Calle;Sepiolita;6;448413,7935;4472785,063;40,40680201;-3,598730093;Calle Sepiolita, 6  PUNTO LIMPIO FIJO VICÁLVARO
+Contenedor de aceite;Vía Pública;Villa de Vallecas;Calle Enrique García Álvarez, 5 ;Calle;Enrique García Álvarez;5;447866,8245;4470201,372;40,38077;-3,61417;Calle Enrique García Álvarez, 5 
+Contenedor de aceite;Vía Pública;Villa de Vallecas;Avenida Suertes, 62 ;Avenida;Suertes;62;449022,0468;4468725,332;40,36754425;-3,600443236;Avenida Suertes, 62 
+Contenedor de aceite;Dependencias Municipales;Villa de Vallecas;Calle Peña Veiga, 6 ;Calle;Peña Veiga;6;447105,2903;4469828,175;40,37736;-3,62311;Calle Peña Veiga, 6  C.S.S PEÑA VEIGA
+Contenedor de aceite;Dependencias Municipales;Villa de Vallecas;Calle Pico Mampodre, 6 ;Calle;Pico Mampodre;6;447094,5;4469817,56;40,37726369;-3,623236216;Calle Pico Mampodre, 6  CENTRO DE MAYORES VILLA DE VALLECAS
+Contenedor de aceite;Dependencias Municipales;Villa de Vallecas;Calle Zazuar, 4 ;Calle;Zazuar;4;448540,0337;4470455,365;40,3831;-3,60626;Calle Zazuar, 4  CENTRO CULTURAL ZAZUAR
+Contenedor de aceite;Dependencias Municipales;Villa de Vallecas;Calle Cerro Almodovar, 9 ;Calle;Cerro Almodovar;9;448853,9365;4470429,909;40,38289;-3,60256;Calle Cerro Almodovar, 9  C.D.M CERRO ALMODOVAR
+Contenedor de aceite;Punto Limpio Fijo;Villa de Vallecas;Calle Luis I, 36 ;Calle;Luis I;36;445357,002;4469697,944;40,37607401;-3,643692793;Calle Luis I, 36  PUNTO LIMPIO FIJO VILLA DE VALLECAS
+Contenedor de aceite;Vía Pública;Villaverde;Paseo  Ferroviarios, s/n ;Paseo; Ferroviarios;s/n;439242,7578;4466651,163;40,34820366;-3,715423116;Paseo  Ferroviarios, s/n 
+Contenedor de aceite;Vía Pública;Villaverde;Calle Benimamet, 24 ;Calle;Benimamet;24;441803,662;4466115,665;40,34356215;-3,68522146;Calle Benimamet, 24 
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle José Ortuño Ponce, 3 ;Calle;José Ortuño Ponce;3;440094,5316;4466394,157;40,34595;-3,70537;Calle José Ortuño Ponce, 3  C.M.M JOSÉ ORTUÑO PONCE
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle Villalonso, 12 ;Calle;Villalonso;12;439783,9696;4466855,091;40,35008;-3,70907;Calle Villalonso, 12  C.M.M VILLALONSO
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle Arama, 3 ;Calle;Arama;3;440727,4669;4467062,94;40,35202;-3,69798;Calle Arama, 3  C.M.M NUESTRA SEÑORA DE LOS ÁNGELES
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle Leonor Góngora, 62 ;Calle;Leonor Góngora;62;441693,4073;4466667,976;40,34853;-3,68657;Calle Leonor Góngora, 62  C.M.M EDUARDO MINGUITO
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle Concepción de la Oliva, s/n ;Calle;Concepción de la Oliva;s/n;442109,251;4467288,608;40,35415;-3,68173;Calle Concepción de la Oliva, s/n  C.M.M LA PLATANERA
+Contenedor de aceite;Dependencias Municipales;Villaverde;Plaza Pinazo, s/n ;Plaza;Pinazo;s/n;441247,0331;4466062,035;40,34304;-3,69177;Plaza Pinazo, s/n  C.M.M MARIA ZAMBRANO
+Contenedor de aceite;Dependencias Municipales;Villaverde;Avenida Felicidad, 26 ;Avenida;Felicidad;26;441550,3979;4467826,869;40,35896;-3,68836;Avenida Felicidad, 26  C.M.M MIGUEL DELIBES
+Contenedor de aceite;Dependencias Municipales;Villaverde;Calle San Luciano, 16 ;Calle;San Luciano;16;440723,95;4468285,58;40,363034;-3,698135003;Calle San Luciano, 16  C.M.M SAN LUCIANO
+Contenedor de aceite;Punto Limpio Fijo;Villaverde;Avenida Real de Pinto, 108 ;Avenida;Real de Pinto;108;439669,0073;4465583,891;40,33862001;-3,710303492;Avenida Real de Pinto, 108  PUNTO LIMPIO FIJO DE VILLAVERDE
+Contenedor de aceite;Punto Limpio De Movilidad;Villaverde;Avenida Real de Pinto, 108 ;Avenida;Real de Pinto;108;439669,0073;4465583,891;40,33862001;-3,710303492;Avenida Real de Pinto, 108  PUNTO LIMPIO FIJO DE VILLAVERDE
+Contenedor de aceite;Punto Limpio De Proximidad;Villaverde;Avenida Real de Pinto, 108 ;Avenida;Real de Pinto;108;439669,0073;4465583,891;40,33862001;-3,710303492;Avenida Real de Pinto, 108  PUNTO LIMPIO FIJO DE VILLAVERDE
+Contenedor de aceite;Dependencias Municipales;Chamartín;Calle Mantuano, 51 ;Calle;Mantuano;51;442658,88;4477740;40,44833985;-3,676199338;Calle Mantuano, 51  CENTRO CULTURAL NICOLÁS SALMERÓN
+Contenedor de aceite;Dependencias Municipales;Chamartín;Paseo Castellana, 304 ;Paseo;Castellana;304;441951,33;4481377,35;40,48105756;-3,684875351;Paseo Castellana, 304  CENTRO DE MAYORES CASTILLA
+Contenedor de aceite;Dependencias Municipales;Chamartín;Calle Santa Hortensia, 15 ;Calle;Santa Hortensia;15;443252,05;4477337,77;40,44475706;-3,669168854;Calle Santa Hortensia, 15  CENTRO DE MAYORES SANTA HORTENSIA
+Contenedor de aceite;Dependencias Municipales;Latina;Calle Fuente del Tiro, 72 ;Calle;Fuente del Tiro;72;433795,98;4470560,79;40,38300867;-3,779959987;Calle Fuente del Tiro, 72  CENTRO SOCIOCULTURAL ALMIRANTE CHURRUCA
+Contenedor de aceite;Dependencias Municipales;Latina;Calle Serradilla, 13 ;Calle;Serradilla;13;433628,79;4470096,72;40,37881485;-3,78188117;Calle Serradilla, 13  CENTRO CULTURAL MIGUEL HERNÁNDEZ
+Contenedor de aceite;Dependencias Municipales;Latina;Calle Rodrigo Arana, 50 ;Calle;Rodrigo Arana;50;434975,7;4470121,89;40,37914778;-3,766017922;Calle Rodrigo Arana, 50  CENTRO SOCIOCULTURAL LATINA
+Contenedor de aceite;Dependencias Municipales;Latina;Calle María del Carmen, 65 ;Calle;María del Carmen;65;437827,33;4473132,93;40,40649022;-3,732720948;Calle María del Carmen, 65  CENTRO SOCIOCULTURAL ROSARIO ACUÑA
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Calle Febrero, 4 ;Calle;Febrero;4;451429;4477506,9;40,44679862;-3,572764577;Calle Febrero, 4  CENTRO CULTURAL JOSÉ LUIS LÓPEZ VÁZQUEZ
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Calle Aliaga, 5 ;Calle;Aliaga;5;448138,4;4476445,5;40,43703813;-3,611479693;Calle Aliaga, 5  CENTRO CULTURAL MIGUEL DE CERVANTES
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Calle Boltaña, 27 ;Calle;Boltaña;27;448141,7;4477503,3;40,44656763;-3,611527135;Calle Boltaña, 27  CENTRO CULTURAL BUERO VALLEJO
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Plaza Mayor Ciudad Pegaso,  s/n ;Plaza;Mayor Ciudad Pegaso; s/n;449544,4;4477553,2;40,44710347;-3,594990938;Plaza Mayor Ciudad Pegaso,  s/n  CENTRO MUNICIPAL DE MAYORES CIUDAD PEGASO
+Contenedor de aceite;Mercados Y Galerias;Chamartín;Calle Bolivia, 9;Calle;Bolivia;9;442489,4373;4478762,579;40,45754;-3,67829;Calle Bolivia, 9 MERCADO MUNICIPAL DE CHAMARTÍN
+Contenedor de aceite;Dependencias Municipales;San Blas - Canillejas;Avenida Séptima, 11;Avenida;Séptima;11;449287,3299;4477775,451;40,44909;-3,59804;Avenida Séptima, 11 C.C CIUDAD PEGASO
+Contenedor de aceite;Dependencias Municipales;Hortaleza;Carretera de Canillas, 2;Carretera;De Canillas;2;444280,5762;4479374;40,46317;-3,65722;Carretera de Canillas, 2 JUNTA MUNICIPAL DISTRITO HORTALEZA
+Contenedor de aceite;Dependencias Municipales;Hortaleza;Carretera de la Estación de Hortaleza, 11;Carretera;De la Estación de Hortaleza;11;444675,0924;4481129,416;40,47901;-3,65272;Carretera de la Estación de Hortaleza, 11 C.D.M. HORTALEZA
+Contenedor de aceite;Dependencias Municipales;Hortaleza;Calle de Santa Virgilia, 15;Calle;De Santa Virgilia;15;445593,1925;4480908,44;40,47708;-3,64187;Calle de Santa Virgilia, 15 C.C. HORTALEZA
+Contenedor de aceite;Dependencias Municipales;Hortaleza;Calle El Provencio, 20;Calle;El Provencio;20;446695,4602;4479639,477;40,46572;-3,62876;Calle El Provencio, 20 C.D.M. LUIS ARAGONÉS
+Contenedor de aceite;Dependencias Municipales;Hortaleza;Calle Carrión de los Condes, 73;Calle;Carrión de los Condes;73;444213,4769;4480836,456;40,47634;-3,65814;Calle Carrión de los Condes, 73 CENTRO MUNICIPAL DE MAYORES SAN BENITO
+Contenedor de aceite;Dependencias Municipales;Ciudad Lineal;Calle San Nemesio, 4;Calle;San Nemesio;4;444220,036;4478190,013;40,4525;-3,65783;Calle San Nemesio, 4 CENTRO CULTURAL SAN JUAN BAUTISTA
