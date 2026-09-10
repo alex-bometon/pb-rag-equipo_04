@@ -1,6 +1,11 @@
 from pathlib import Path
 
 
+
+# =========================================================
+# RUTAS
+# =========================================================
+
 # Raíz del proyecto:
 # pg-rag-equipo_04/
 BASE_DIR = Path(__file__).resolve().parent
@@ -17,3 +22,13 @@ HTML_DIR = RAW_DIR / "html"
 
 # Salidas generadas por el pipeline
 OUTPUT_DIR = BASE_DIR / "output"
+
+
+# =========================================================
+# CHUNKING
+# =========================================================
+
+# Valores iniciales para la primera versión.
+# Se podrán modificar posteriormente durante la evaluación.
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 100
