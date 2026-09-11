@@ -1,11 +1,16 @@
 # Se encarga de producir los vectores, embeddings
 
-from google.genai import types
+import time
+
+from google.genai import types, errors
 
 from config import (
     EMBEDDING_MODEL,
     EMBEDDING_DIMENSIONS,
     EMBED_BATCH_SIZE,
+    EMBED_BATCH_PAUSE_SECONDS,
+    EMBED_MAX_RETRIES,
+    EMBED_RETRY_SECONDS,    
     MAX_CHUNKS_EMBED,
 )
 
@@ -108,6 +113,56 @@ def embeddear_documento(
 # GENERACIÓN DE EMBEDDINGS POR LOTES
 # =========================================================
 
+def _embeddear_lote(
+    client,
+    contenidos,
+):
+    """
+    Genera los embeddings de un lote.
+
+    Si se alcanza temporalmente el límite del Free Tier,
+    espera y vuelve a intentarlo.
+    """
+
+    for intento in range(
+        EMBED_MAX_RETRIES
+    ):
+        try:
+            return client.models.embed_content(
+                model=EMBEDDING_MODEL,
+                contents=contenidos,
+                config=types.EmbedContentConfig(
+                    output_dimensionality=EMBEDDING_DIMENSIONS
+                ),
+            )
+
+        except errors.ClientError as error:
+
+            # Si no es un error de cuota 429,
+            # dejamos que el error continúe normalmente.
+            if error.code != 429:
+                raise
+
+            # Si hemos agotado todos los reintentos,
+            # dejamos que se muestre el error.
+            if intento == EMBED_MAX_RETRIES - 1:
+                raise
+
+            print()
+            print(
+                "Límite temporal del Free Tier "
+                "alcanzado (429)."
+            )
+
+            print(
+                f"Esperando {EMBED_RETRY_SECONDS} segundos "
+                "antes de reintentar..."
+            )
+
+            time.sleep(
+                EMBED_RETRY_SECONDS
+            )
+
 def embeddear_documentos(
     client,
     chunks: list[dict],
@@ -151,12 +206,9 @@ def embeddear_documentos(
             for chunk in lote
         ]
 
-        resultado = client.models.embed_content(
-            model=EMBEDDING_MODEL,
-            contents=contenidos,
-            config=types.EmbedContentConfig(
-                output_dimensionality=EMBEDDING_DIMENSIONS
-            ),
+        resultado = _embeddear_lote(
+            client,
+            contenidos,
         )
 
         # Comprobamos que Gemini devuelve exactamente
@@ -187,6 +239,14 @@ def embeddear_documentos(
 
             embeddings.append(
                 vector
+            )
+
+        # Cada lote de 50 consume 50 operaciones de la cuota.
+        # Introducimos una pausa para mantenernos por debajo
+        # del límite de 100 embeddings/minuto del Free Tier.
+        if fin < len(chunks):
+            time.sleep(
+                EMBED_BATCH_PAUSE_SECONDS
             )
 
     return embeddings

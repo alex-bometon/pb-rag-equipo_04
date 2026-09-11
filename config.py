@@ -53,4 +53,15 @@ EMBED_BATCH_SIZE = 50
 # Durante las primeras pruebas se procesará
 # únicamente una parte del corpus.
 # None = procesar todos los chunks.
-MAX_CHUNKS_EMBED = 100
+MAX_CHUNKS_EMBED = None
+
+# Pausa entre lotes para respetar el límite del Free Tier.
+# Con 50 embeddings por lote y un máximo de 100/minuto,
+# dejamos margen respecto al límite.
+EMBED_BATCH_PAUSE_SECONDS = 32
+
+# Reintentos adicionales si la API devuelve 429.
+EMBED_MAX_RETRIES = 5
+
+# Espera tras alcanzar temporalmente la cuota.
+EMBED_RETRY_SECONDS = 60
