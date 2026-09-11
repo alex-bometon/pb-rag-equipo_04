@@ -34,3 +34,21 @@ CHUNKS_JSON = OUTPUT_DIR / "chunks.json"
 # Se podrán modificar posteriormente durante la evaluación.
 CHUNK_SIZE = 1_000
 CHUNK_OVERLAP = 100
+
+
+# =========================================================
+# EMBEDDINGS
+# =========================================================
+
+EMBEDDING_MODEL = "gemini-embedding-2"
+
+EMBEDDING_DIMENSIONS = 768
+
+# Tamaño de los grupos procesados por nuestro código.
+# No corresponde a la Batch API de Google.
+EMBED_BATCH_SIZE = 50
+
+# Durante las primeras pruebas se procesará
+# únicamente una parte del corpus.
+# None = procesar todos los chunks.
+MAX_CHUNKS_EMBED = 100
