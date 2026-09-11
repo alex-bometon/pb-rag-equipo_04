@@ -455,7 +455,7 @@ def limpiar_contenedores_aceite(
 
 
 # =========================================================
-# CSV: CONTENEDORES ORDINARIOS
+# CSV: CONTENEDORES ORDINARIOS --> No estará en la versión V1 pero se mantiene para futuro
 # =========================================================
 
 def limpiar_contenedores_ordinarios(
@@ -999,8 +999,9 @@ LIMPIADORES_CSV = {
     "contenedores_aceitevegetal_usado.csv":
         limpiar_contenedores_aceite,
 
-    "contenedores_papel_carton_todos.csv":
-        limpiar_contenedores_ordinarios,
+    # Se queda comentado ya que se excluye de la V1
+    #"contenedores_papel_carton_todos.csv":
+    #    limpiar_contenedores_ordinarios,
 
     "contenedores_pilas_marquesinas.csv":
         limpiar_contenedores_pilas,
