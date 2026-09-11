@@ -540,3 +540,19 @@ El cambio deberá quedar reflejado también en los metadatos del artefacto de em
 La implementación con Gemini ha cumplido su función de validar el diseño de la fase de embeddings, el batching, la estructura del artefacto y las pruebas de integridad. Sin embargo, los límites reales observados del Free Tier convierten a Gemini Embedding 2 en una opción poco práctica para generar y regenerar el corpus completo de esta V1.
 
 La siguiente fase no debe comenzar modificando código directamente. Primero se validará la alternativa local, con `intfloat/multilingual-e5-base` como candidato principal. Una vez confirmada, se documentará la configuración definitiva y sólo entonces se adaptarán `config.py`, `src/embed.py`, `src/artifacts.py`, dependencias y tests.
+
+---
+
+## 18. Decisión final sobre la reducción del corpus
+
+Tras detectar las limitaciones de cuota del Free Tier de Gemini Embedding 2, se valoró la migración a un modelo local mediante Hugging Face, concretamente `intfloat/multilingual-e5-base`. La alternativa se consideró técnicamente viable.
+
+Sin embargo, dicha migración implicaba modificar la implementación ya desarrollada y validada para Gemini, adaptar la preparación de documentos y consultas al nuevo modelo, incorporar un nuevo cliente/dependencias y volver a validar la fase completa de embeddings.
+
+Al revisar la composición del corpus se observó además que `2.223` de los `2.935` chunks correspondían exclusivamente a ubicaciones individuales de contenedores de aceite vegetal usado, pilas y ropa. Estos datos son altamente estructurados, repetitivos y resultan más adecuados para una futura recuperación mediante filtros o consultas estructuradas que para búsqueda semántica mediante embeddings.
+
+Por ello se decidió excluir de la V1 los tres CSV de localizaciones individuales de contenedores, manteniendo en el corpus la información conceptual sobre la correcta separación de estos residuos y las ubicaciones de los distintos tipos de puntos limpios.
+
+El corpus vectorial pasa así de `2.935` a `712` chunks. Esta reducción permite continuar utilizando la implementación ya validada con `gemini-embedding-2`, manteniendo `768` dimensiones, al tiempo que produce un índice semántico más pequeño y menos redundante.
+
+La alternativa `multilingual-e5-base` queda documentada como opción viable para una futura migración, pero no se incorpora en esta versión.

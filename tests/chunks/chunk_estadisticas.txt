@@ -2,48 +2,24 @@
 ======================================================================
 ESTADÍSTICAS DEL CORPUS PARA EMBEDDINGS
 ======================================================================
-Total chunks:              2,935
-Total caracteres:          436,329
-Media caracteres/chunk:    148.66
-Mediana caracteres/chunk:  135.00
+Total chunks:              712
+Total caracteres:          133,072
+Media caracteres/chunk:    186.90
+Mediana caracteres/chunk:  131.00
 Chunk más pequeño:         41
 Chunk más grande:          997
 
-Total palabras:            64,499
-Media palabras/chunk:      21.98
-Mediana palabras/chunk:    20.00
+Total palabras:            19,716
+Media palabras/chunk:      27.69
+Mediana palabras/chunk:    18.50
 
 --- ESTIMACIÓN ORIENTATIVA DE TOKENS ---
-Entre aproximadamente 109,082 y 145,443 tokens
+Entre aproximadamente 33,268 y 44,357 tokens
 (estimación por caracteres, no tokenizer real de Gemini)
 
 ======================================================================
 POR TIPO DE DOCUMENTO
 ======================================================================
-
-contenedor_aceite
-  Chunks:       123
-  Caracteres:   18,708
-  Media:        152.10
-  Mediana:      157.00
-  Mínimo:       111
-  Máximo:       198
-
-contenedor_pilas
-  Chunks:       1,492
-  Caracteres:   207,981
-  Media:        139.40
-  Mediana:      139.00
-  Mínimo:       102
-  Máximo:       192
-
-contenedor_ropa
-  Chunks:       608
-  Caracteres:   76,568
-  Media:        125.93
-  Mediana:      122.00
-  Mínimo:       103
-  Máximo:       206
 
 documentacion_municipal
   Chunks:       31
@@ -96,27 +72,6 @@ residuo_destino
 ======================================================================
 POR ARCHIVO DE ORIGEN
 ======================================================================
-
-contenedores_aceitevegetal_usado.csv
-  Chunks:       123
-  Caracteres:   18,708
-  Media:        152.10
-  Mínimo:       111
-  Máximo:       198
-
-contenedores_pilas_marquesinas.csv
-  Chunks:       1,492
-  Caracteres:   207,981
-  Media:        139.40
-  Mínimo:       102
-  Máximo:       192
-
-contenedores_ropa.csv
-  Chunks:       608
-  Caracteres:   76,568
-  Media:        125.93
-  Mínimo:       103
-  Máximo:       206
 
 fraccion_organica.html
   Chunks:       2
