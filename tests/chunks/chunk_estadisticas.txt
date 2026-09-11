@@ -1,0 +1,224 @@
+
+======================================================================
+ESTADÍSTICAS DEL CORPUS PARA EMBEDDINGS
+======================================================================
+Total chunks:              2,935
+Total caracteres:          436,329
+Media caracteres/chunk:    148.66
+Mediana caracteres/chunk:  135.00
+Chunk más pequeño:         41
+Chunk más grande:          997
+
+Total palabras:            64,499
+Media palabras/chunk:      21.98
+Mediana palabras/chunk:    20.00
+
+--- ESTIMACIÓN ORIENTATIVA DE TOKENS ---
+Entre aproximadamente 109,082 y 145,443 tokens
+(estimación por caracteres, no tokenizer real de Gemini)
+
+======================================================================
+POR TIPO DE DOCUMENTO
+======================================================================
+
+contenedor_aceite
+  Chunks:       123
+  Caracteres:   18,708
+  Media:        152.10
+  Mediana:      157.00
+  Mínimo:       111
+  Máximo:       198
+
+contenedor_pilas
+  Chunks:       1,492
+  Caracteres:   207,981
+  Media:        139.40
+  Mediana:      139.00
+  Mínimo:       102
+  Máximo:       192
+
+contenedor_ropa
+  Chunks:       608
+  Caracteres:   76,568
+  Media:        125.93
+  Mediana:      122.00
+  Mínimo:       103
+  Máximo:       206
+
+documentacion_municipal
+  Chunks:       31
+  Caracteres:   25,538
+  Media:        823.81
+  Mediana:      905.00
+  Mínimo:       216
+  Máximo:       997
+
+punto_limpio_fijo
+  Chunks:       16
+  Caracteres:   10,849
+  Media:        678.06
+  Mediana:      666.50
+  Mínimo:       644
+  Máximo:       813
+
+punto_limpio_movil
+  Chunks:       351
+  Caracteres:   45,495
+  Media:        129.62
+  Mediana:      129.00
+  Mínimo:       113
+  Máximo:       157
+
+punto_limpio_movil_24h
+  Chunks:       42
+  Caracteres:   8,204
+  Media:        195.33
+  Mediana:      193.00
+  Mínimo:       149
+  Máximo:       243
+
+punto_limpio_proximidad
+  Chunks:       95
+  Caracteres:   23,778
+  Media:        250.29
+  Mediana:      241.00
+  Mínimo:       162
+  Máximo:       401
+
+residuo_destino
+  Chunks:       177
+  Caracteres:   19,208
+  Media:        108.52
+  Mediana:      92.00
+  Mínimo:       41
+  Máximo:       679
+
+======================================================================
+POR ARCHIVO DE ORIGEN
+======================================================================
+
+contenedores_aceitevegetal_usado.csv
+  Chunks:       123
+  Caracteres:   18,708
+  Media:        152.10
+  Mínimo:       111
+  Máximo:       198
+
+contenedores_pilas_marquesinas.csv
+  Chunks:       1,492
+  Caracteres:   207,981
+  Media:        139.40
+  Mínimo:       102
+  Máximo:       192
+
+contenedores_ropa.csv
+  Chunks:       608
+  Caracteres:   76,568
+  Media:        125.93
+  Mínimo:       103
+  Máximo:       206
+
+fraccion_organica.html
+  Chunks:       2
+  Caracteres:   1,827
+  Media:        913.50
+  Mínimo:       857
+  Máximo:       970
+
+fraccion_papel.html
+  Chunks:       4
+  Caracteres:   3,564
+  Media:        891.00
+  Mínimo:       710
+  Máximo:       960
+
+fraccion_plasticos_metales_briks.html
+  Chunks:       3
+  Caracteres:   2,180
+  Media:        726.67
+  Mínimo:       288
+  Máximo:       987
+
+fraccion_resto.html
+  Chunks:       2
+  Caracteres:   1,710
+  Media:        855.00
+  Mínimo:       715
+  Máximo:       995
+
+fraccion_vidrio.html
+  Chunks:       3
+  Caracteres:   2,761
+  Media:        920.33
+  Mínimo:       859
+  Máximo:       992
+
+puntos_limpios_fijos.csv
+  Chunks:       16
+  Caracteres:   10,849
+  Media:        678.06
+  Mínimo:       644
+  Máximo:       813
+
+puntos_limpios_moviles.csv
+  Chunks:       351
+  Caracteres:   45,495
+  Media:        129.62
+  Mínimo:       113
+  Máximo:       157
+
+puntos_limpios_moviles_24h.csv
+  Chunks:       42
+  Caracteres:   8,204
+  Media:        195.33
+  Mínimo:       149
+  Máximo:       243
+
+puntos_limpios_proximidad.csv
+  Chunks:       95
+  Caracteres:   23,778
+  Media:        250.29
+  Mínimo:       162
+  Máximo:       401
+
+recogida_aceite_vegetal.html
+  Chunks:       2
+  Caracteres:   1,668
+  Media:        834.00
+  Mínimo:       772
+  Máximo:       896
+
+recogida_muebles_enseres.html
+  Chunks:       2
+  Caracteres:   1,188
+  Media:        594.00
+  Mínimo:       216
+  Máximo:       972
+
+residuos_punto_limpio_fijo.html
+  Chunks:       6
+  Caracteres:   5,015
+  Media:        835.83
+  Mínimo:       296
+  Máximo:       997
+
+residuos_punto_limpio_movil.html
+  Chunks:       5
+  Caracteres:   3,866
+  Media:        773.20
+  Mínimo:       221
+  Máximo:       997
+
+residuos_punto_limpio_proximidad.html
+  Chunks:       2
+  Caracteres:   1,759
+  Media:        879.50
+  Mínimo:       856
+  Máximo:       903
+
+tipos_residuos.csv
+  Chunks:       177
+  Caracteres:   19,208
+  Media:        108.52
+  Mínimo:       41
+  Máximo:       679
