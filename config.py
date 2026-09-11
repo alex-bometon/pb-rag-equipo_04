@@ -65,3 +65,21 @@ EMBED_MAX_RETRIES = 5
 
 # Espera tras alcanzar temporalmente la cuota.
 EMBED_RETRY_SECONDS = 60
+
+
+# =========================================================
+# CHROMADB
+# =========================================================
+
+# Base de datos vectorial persistente.
+CHROMA_DIR = OUTPUT_DIR / "chroma_db"
+
+# Nombre de la colección utilizada por el RAG.
+CHROMA_COLLECTION_NAME = "residuos_madrid"
+
+# Métrica utilizada para comparar embeddings.
+CHROMA_DISTANCE = "cosine"
+
+# Número máximo de registros que intentaremos insertar
+# en una misma operación.
+INDEX_BATCH_SIZE = 100

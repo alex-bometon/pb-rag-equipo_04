@@ -3,8 +3,8 @@
 COMPROBACIÓN DE EMBEDDINGS
 ======================================================================
 Modelo:                  gemini-embedding-2
-Chunks en corpus:        2,935
-Embeddings comprobados:  100
+Chunks en corpus:        712
+Embeddings comprobados:  712
 Dimensiones por vector:  768
 
 Correspondencia texto:   OK

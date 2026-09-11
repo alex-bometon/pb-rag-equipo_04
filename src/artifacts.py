@@ -158,3 +158,46 @@ def guardar_embeddings_json(
         )
 
     return ruta
+
+def cargar_embeddings_json(
+    ruta: Path = EMBEDDINGS_JSON,
+) -> list[dict]:
+    """
+    Carga los embeddings previamente generados.
+
+    Devuelve únicamente la lista de elementos que mantienen
+    la relación:
+
+        texto <-> metadata <-> vector
+
+    Esto permite que index.py trabaje directamente desde
+    embeddings.json sin volver a generar los embeddings.
+    """
+
+    if not ruta.exists():
+        raise FileNotFoundError(
+            f"No existe el archivo de embeddings: {ruta}"
+        )
+
+    with ruta.open(
+        "r",
+        encoding="utf-8",
+    ) as archivo:
+
+        payload = json.load(
+            archivo
+        )
+
+    if "items" not in payload:
+        raise ValueError(
+            "El archivo no contiene la clave 'items'."
+        )
+
+    items = payload["items"]
+
+    if not isinstance(items, list):
+        raise ValueError(
+            "La clave 'items' debe contener una lista."
+        )
+
+    return items
