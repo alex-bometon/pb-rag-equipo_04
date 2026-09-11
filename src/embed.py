@@ -5,8 +5,15 @@ from google.genai import types
 from config import (
     EMBEDDING_MODEL,
     EMBEDDING_DIMENSIONS,
-    EMBED_BATCH_SIZE
+    EMBED_BATCH_SIZE,
+    MAX_CHUNKS_EMBED,
 )
+
+from src.artifacts import (
+    cargar_chunks_json,
+    guardar_embeddings_json,
+)
+
 from src.gemini_client import crear_cliente_gemini
 
 
@@ -183,3 +190,112 @@ def embeddear_documentos(
             )
 
     return embeddings
+
+
+# =========================================================
+# EJECUCIÓN DE LA FASE DE EMBEDDINGS
+# =========================================================
+
+def ejecutar_embeddings() -> list[dict]:
+    """
+    Ejecuta la fase completa de generación de embeddings.
+
+    Flujo:
+
+        chunks.json
+            -> selección de chunks
+            -> generación de embeddings
+            -> asociación texto/metadata/vector
+            -> embeddings.json
+    """
+
+
+    # CARGAR CHUNKS
+
+    chunks = cargar_chunks_json()
+
+    total_chunks_origen = len(chunks)
+
+    if MAX_CHUNKS_EMBED is not None:
+        chunks_a_procesar = chunks[
+            :MAX_CHUNKS_EMBED
+        ]
+    else:
+        chunks_a_procesar = chunks
+
+    print(
+        f"Chunks disponibles: {total_chunks_origen}"
+    )
+
+    print(
+        f"Chunks que se procesarán: "
+        f"{len(chunks_a_procesar)}"
+    )
+
+
+    # GENERAR EMBEDDINGS
+
+    client = crear_cliente_gemini()
+
+    try:
+        vectores = embeddear_documentos(
+            client,
+            chunks_a_procesar,
+        )
+
+    finally:
+        client.close()
+
+
+    # VALIDAR RESULTADO
+
+    if len(vectores) != len(chunks_a_procesar):
+        raise ValueError(
+            "El número total de embeddings no coincide "
+            "con el número de chunks procesados."
+        )
+
+
+    # ASOCIAR CADA CHUNK CON SU VECTOR
+
+    items = []
+
+    for chunk, vector in zip(
+        chunks_a_procesar,
+        vectores,
+    ):
+
+        items.append(
+            {
+                "text": chunk["text"],
+                "vector": vector,
+                "metadata": chunk["metadata"],
+            }
+        )
+
+
+    # GUARDAR EMBEDDINGS.JSON
+
+    ruta = guardar_embeddings_json(
+        items,
+        modelo=EMBEDDING_MODEL,
+        dimensiones=EMBEDDING_DIMENSIONS,
+        total_chunks_origen=total_chunks_origen,
+    )
+
+    print()
+    print("Embeddings generados correctamente.")
+    print(f"Modelo: {EMBEDDING_MODEL}")
+    print(f"Dimensiones: {EMBEDDING_DIMENSIONS}")
+    print(f"Embeddings generados: {len(items)}")
+    print(f"Archivo generado: {ruta}")
+
+    return items
+
+
+# =========================================================
+# EJECUCIÓN DIRECTA
+# =========================================================
+
+if __name__ == "__main__":
+    ejecutar_embeddings()

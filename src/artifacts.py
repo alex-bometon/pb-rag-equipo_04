@@ -1,5 +1,7 @@
 # Carga y guarda artefactos intermediarios del pipeline
+# Se encarga de la persistencia
 # chunks.json
+# embeddings.json
 
 import json
 from pathlib import Path
@@ -8,6 +10,7 @@ from config import (
     CHUNKS_JSON,
     CHUNK_SIZE,
     CHUNK_OVERLAP,
+    EMBEDDINGS_JSON
 )
 
 
@@ -99,3 +102,59 @@ def cargar_chunks_json(
         )
 
     return payload["chunks"]
+
+
+# =========================================================
+# EMBEDDINGS
+# =========================================================
+
+def guardar_embeddings_json(
+    items: list[dict],
+    *,
+    modelo: str,
+    dimensiones: int,
+    total_chunks_origen: int,
+    ruta: Path = EMBEDDINGS_JSON,
+) -> Path:
+    """
+    Guarda los embeddings generados junto con el texto
+    y los metadatos correspondientes.
+
+    Cada elemento mantiene la relación:
+
+        texto <-> metadata <-> vector
+
+    También se guarda información general necesaria
+    para reproducir la generación de embeddings.
+    """
+
+    payload = {
+        "schema_version": 1,
+        "embedding_model": modelo,
+        "embedding_dimensions": dimensiones,
+        "embedding_input_format": (
+            "title: {title_or_none} | text: {text}"
+        ),
+        "total_chunks_origen": total_chunks_origen,
+        "total_embeddings": len(items),
+        "items": items,
+    }
+
+    ruta.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    with ruta.open(
+        "w",
+        encoding="utf-8",
+    ) as archivo:
+
+        json.dump(
+            payload,
+            archivo,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    return ruta

@@ -40,6 +40,8 @@ CHUNK_OVERLAP = 100
 # EMBEDDINGS
 # =========================================================
 
+EMBEDDINGS_JSON = OUTPUT_DIR / "embeddings.json"
+
 EMBEDDING_MODEL = "gemini-embedding-2"
 
 EMBEDDING_DIMENSIONS = 768
