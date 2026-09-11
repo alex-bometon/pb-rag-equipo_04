@@ -23,6 +23,8 @@ HTML_DIR = RAW_DIR / "html"
 # Salidas generadas por el pipeline
 OUTPUT_DIR = BASE_DIR / "output"
 
+CHUNKS_JSON = OUTPUT_DIR / "chunks.json"
+
 
 # =========================================================
 # CHUNKING
