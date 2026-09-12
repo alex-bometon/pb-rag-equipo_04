@@ -1,0 +1,22 @@
+# Tratamiento de datos
+pandas
+numpy
+
+# Lectura y limpieza HTML
+beautifulsoup4
+
+# Chunking
+langchain-text-splitters
+
+# Embeddings y generación con Gemini
+google-genai
+
+# Variables de entorno
+python-dotenv
+
+# Base vectorial
+chromadb
+langchain-chroma
+
+# Interfaz
+streamlit
