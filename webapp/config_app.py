@@ -5,27 +5,41 @@
 # Afecta a: SQLite, Streamlit, usuarios, sesiones,
 # modos de consulta (por interfaz), configuración visual...
 
+# ¿Cómo se llama la app? ¿Qué descripción tiene? ¿Qué modos tiene?
+# ¿Cómo se llaman visualmente los modos? ¿En qué ruta está cada cosa, como la BBDD?
+
 from pathlib import Path
 
-# RUTAS
+
+# -------------------------
+# Rutas de la webapp
+# -------------------------
+
 WEBAPP_DIR = Path(__file__).resolve().parent
-
 STORAGE_DIR = WEBAPP_DIR / "storage"
-
 DB_PATH = STORAGE_DIR / "webapp.db"
 
-# Configuración visual
-APP_NAME = "ReciclaTIA"
-# APP_ICON
 
-# Opciones del asistente
+# -------------------------
+# Configuración general
+# -------------------------
+
+APP_NAME = "ReciclaTIA"
+
+APP_DESCRIPTION = (
+    "Consulta cómo gestionar correctamente tus residuos "
+    "y obtén información sobre reciclaje y puntos de recogida."
+)
+
+
+# -------------------------
+# Modos de consulta
+# -------------------------
+
 QUERY_MODES = {
     "auto": "Automático",
-    "classification": "Clasificar residuo",
-    "recycling": "Cómo reciclarlo",
-    "containers": "Información sobre contenedores",
-    "clean_points": "Información sobre puntos limpios",
+    "clasificar": "Clasificar residuo",
+    "reciclaje": "Cómo reciclarlo",
+    "contenedores": "Información sobre contenedores",
+    "puntos_limpios": "Información sobre puntos limpios",
 }
-
-# Configuración de sesión
-# SESSION_KEYS

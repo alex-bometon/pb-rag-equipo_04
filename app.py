@@ -1,8 +1,17 @@
+# ¿Qué pantalla enseño? ¿Qué botón se ha pulsado?
+# ¿Se ha autenticado el usuario? ¿Qué formulario se tiene que mostrar?
+# ¿Qué consulta se ha escrito? ¿Qué hago cuando se pulsa determinado botón?
+
 import streamlit as st
 
+from webapp.assistant_service import ask_assistant
 from webapp.auth import authenticate_user, register_user
-from webapp.config_app import APP_NAME
 from webapp.database import init_database
+from webapp.config_app import (
+    APP_DESCRIPTION,
+    APP_NAME,
+    QUERY_MODES,
+)
 
 
 # -------------------------
@@ -32,6 +41,9 @@ if "usuario" not in st.session_state:
 if "vista" not in st.session_state:
     st.session_state.vista = "inicio"
 
+if "mensajes" not in st.session_state:
+    st.session_state.mensajes = []
+
 
 # -------------------------
 # Funciones de navegación
@@ -50,6 +62,7 @@ def cerrar_sesion():
     """
     st.session_state.usuario = None
     st.session_state.vista = "inicio"
+    st.session_state.mensajes = []
 
     st.rerun()
 
@@ -72,10 +85,7 @@ if st.session_state.usuario is None:
 
     if st.session_state.vista == "inicio":
 
-        st.write(
-            "Consulta cómo gestionar correctamente tus residuos "
-            "y obtén información sobre reciclaje y puntos de recogida."
-        )
+        st.write(APP_DESCRIPTION)
 
         st.subheader("Bienvenido")
 
@@ -289,16 +299,90 @@ else:
 
     usuario = st.session_state.usuario
 
-    st.subheader(
-        f"Bienvenido, {usuario['nombre']}."
+    # -------------------------
+    # Cabecera privada
+    # -------------------------
+
+    columna_usuario, columna_logout = st.columns(
+        [3, 1]
     )
 
-    st.write(
-        "Has iniciado sesión correctamente."
+    with columna_usuario:
+        st.write(
+            f"Hola, **{usuario['nombre']}**"
+        )
+
+    with columna_logout:
+        if st.button(
+            "Cerrar sesión",
+            use_container_width=True,
+        ):
+            cerrar_sesion()
+
+    st.divider()
+
+    # -------------------------
+    # Asistente
+    # -------------------------
+
+    st.subheader("Asistente de residuos")
+
+    # Mostrar mensajes anteriores
+    for mensaje in st.session_state.mensajes:
+
+        with st.chat_message(mensaje["role"]):
+            st.write(mensaje["content"])
+
+    # -------------------------
+    # Opciones de consulta
+    # -------------------------
+
+    modo = st.selectbox(
+        "Tipo de consulta",
+        options=list(QUERY_MODES.keys()),
+        format_func=lambda valor: QUERY_MODES[valor],
     )
 
-    if st.button(
-        "Cerrar sesión",
-        use_container_width=True,
-    ):
-        cerrar_sesion()
+    # -------------------------
+    # Entrada del usuario
+    # -------------------------
+
+    consulta = st.chat_input(
+        "Escribe tu consulta..."
+    )
+
+    if consulta:
+
+        # Guardamos el mensaje del usuario.
+        st.session_state.mensajes.append(
+            {
+                "role": "user",
+                "content": consulta,
+            }
+        )
+
+        # Llamamos al asistente.
+        resultado = ask_assistant(
+            consulta=consulta,
+            modo=modo,
+        )
+
+        if resultado["success"]:
+
+            respuesta = resultado["answer"]
+
+        else:
+
+            respuesta = (
+                "No se ha podido procesar la consulta."
+            )
+
+        # Guardamos la respuesta.
+        st.session_state.mensajes.append(
+            {
+                "role": "assistant",
+                "content": respuesta,
+            }
+        )
+
+        st.rerun()
