@@ -5,6 +5,7 @@
 # Más adelante hara imports como:
 # from src.rag import ...
 
+
 def ask_assistant(
     consulta: str,
     modo: str = "auto",
@@ -12,7 +13,10 @@ def ask_assistant(
     """
     Punto de entrada de la webapp hacia el asistente.
 
-    Por ahora devuelve una respuesta simulada.
+    Por ahora devuelve una respuesta simulada para comprobar
+    que la interfaz y el modo de consulta están conectados
+    correctamente.
+
     Más adelante esta función llamará al RAG real.
     """
 
@@ -20,7 +24,8 @@ def ask_assistant(
         "success": True,
         "answer": (
             f"Respuesta provisional para la consulta: "
-            f"'{consulta}'"
+            f"'{consulta}'\n\n"
+            f"Modo recibido: {modo}"
         ),
         "mode": modo,
     }
