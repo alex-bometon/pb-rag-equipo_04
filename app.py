@@ -44,6 +44,14 @@ def cambiar_vista(vista: str):
     st.session_state.vista = vista
     st.rerun()
 
+def cerrar_sesion():
+    """
+    Cierra la sesión del usuario y vuelve a la vista inicial.
+    """
+    st.session_state.usuario = None
+    st.session_state.vista = "inicio"
+
+    st.rerun()
 
 # -------------------------
 # Cabecera
@@ -244,14 +252,24 @@ if st.session_state.usuario is None:
             cambiar_vista("inicio")
 
 
-# -------------------------
-# Usuario autenticado
-# -------------------------
-
 else:
 
-    st.write(
-        f"Bienvenido, {st.session_state.usuario['nombre']}."
+    # -------------------------
+    # Usuario autenticado
+    # -------------------------
+
+    usuario = st.session_state.usuario
+
+    st.subheader(
+        f"Bienvenido, {usuario['nombre']}."
     )
 
-    st.write("Has iniciado sesión correctamente.")
+    st.write(
+        "Has iniciado sesión correctamente."
+    )
+
+    if st.button(
+        "Cerrar sesión",
+        use_container_width=True,
+    ):
+        cerrar_sesion()
