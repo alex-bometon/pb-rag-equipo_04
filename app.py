@@ -103,6 +103,17 @@ if st.session_state.usuario is None:
 
         st.subheader("Iniciar sesión")
 
+        st.write("¿No tienes cuenta?")
+
+        if st.button(
+            "Crear cuenta",
+            use_container_width=True,
+            key="ir_registro_desde_login",
+        ):
+            cambiar_vista("registro")
+
+        st.divider()
+
         with st.form("form_login"):
 
             email = st.text_input(
@@ -139,7 +150,10 @@ if st.session_state.usuario is None:
                     resultado["error"]
                 )
 
-        if st.button("← Volver"):
+        if st.button(
+            "← Volver al inicio",
+            key="volver_inicio_desde_login",
+        ):
             cambiar_vista("inicio")
 
     # -------------------------
@@ -149,6 +163,17 @@ if st.session_state.usuario is None:
     elif st.session_state.vista == "registro":
 
         st.subheader("Crear cuenta")
+
+        st.write("¿Ya tienes cuenta?")
+
+        if st.button(
+            "Iniciar sesión",
+            use_container_width=True,
+            key="ir_login_desde_registro",
+        ):
+            cambiar_vista("login")
+
+        st.divider()
 
         st.write(
             "Los campos marcados con * son obligatorios."
@@ -240,6 +265,7 @@ if st.session_state.usuario is None:
                 if st.button(
                     "Ir a iniciar sesión",
                     use_container_width=True,
+                    key="login_despues_registro",
                 ):
                     cambiar_vista("login")
 
@@ -248,7 +274,10 @@ if st.session_state.usuario is None:
                 for error in resultado["errors"]:
                     st.error(error)
 
-        if st.button("← Volver"):
+        if st.button(
+            "← Volver al inicio",
+            key="volver_inicio_desde_registro",
+        ):
             cambiar_vista("inicio")
 
 
