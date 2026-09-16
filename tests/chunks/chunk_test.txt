@@ -1,0 +1,244 @@
+============================================================
+RESUMEN DEL PIPELINE
+============================================================
+Archivos originales: 15
+Documentos limpios: 691
+Chunks generados: 712
+
+============================================================
+PRIMEROS 5 CHUNKS
+============================================================
+
+--- CHUNK 0 ---
+
+TEXTO:
+Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Arganzuela
+Dirección: CALLE ESTRELLA DENEBOLA 5.
+Distrito: ARGANZUELA.
+Barrio: DELICIAS.
+Horario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.
+Transporte público: Metro: Méndez Álvaro (línea 6)Bus: 148, 102, 152
+El traslado de residuos correrá a cuenta de la persona interesada que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada). Si tiene dudas puede contactar con el teléfono 010 Línea Madrid (914 800 010) si llama desde fuera de la ciudad de Madrid).
+
+METADATOS:
+{'source': 'puntos_limpios_fijos.csv', 'path': 'data/raw/csv/puntos_limpios_fijos.csv', 'format': 'csv', 'document_type': 'punto_limpio_fijo', 'district': 'ARGANZUELA', 'neighborhood': 'DELICIAS', 'latitude': 40.39419901357015, 'longitude': -3.6834210425750737, 'source_row': 2, 'chunk_index': 0, 'chunk_count': 1, 'chunk_size': 813}
+
+--- CHUNK 1 ---
+
+TEXTO:
+Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Barajas
+Dirección: CALLE ALHAURIN 5.
+Distrito: BARAJAS.
+Barrio: TIMON.
+Horario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.
+Transporte público: Metro: Barajas (línea 8)Bus: 105 , 115
+El traslado de residuos correrá a cuenta de la persona interesada, que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada).
+
+METADATOS:
+{'source': 'puntos_limpios_fijos.csv', 'path': 'data/raw/csv/puntos_limpios_fijos.csv', 'format': 'csv', 'document_type': 'punto_limpio_fijo', 'district': 'BARAJAS', 'neighborhood': 'TIMON', 'latitude': 40.473907649051704, 'longitude': -3.5855350682202047, 'source_row': 3, 'chunk_index': 0, 'chunk_count': 1, 'chunk_size': 662}
+
+--- CHUNK 2 ---
+
+TEXTO:
+Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Carabanchel
+Dirección: CALLE CIDRO 5.
+Distrito: CARABANCHEL.
+Barrio: BUENAVISTA.
+Horario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.
+Transporte público: Bus: 47 , 108 , 118
+El traslado de residuos correrá a cuenta de la persona interesada que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada).
+
+METADATOS:
+{'source': 'puntos_limpios_fijos.csv', 'path': 'data/raw/csv/puntos_limpios_fijos.csv', 'format': 'csv', 'document_type': 'punto_limpio_fijo', 'district': 'CARABANCHEL', 'neighborhood': 'BUENAVISTA', 'latitude': 40.36815527702884, 'longitude': -3.7458547551539705, 'source_row': 4, 'chunk_index': 0, 'chunk_count': 1, 'chunk_size': 652}
+
+--- CHUNK 3 ---
+
+TEXTO:
+Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Chamartín
+Dirección: AVENIDA ALFONSO XIII 128.
+Distrito: CHAMARTIN.
+Barrio: HISPANOAMERICA.
+Horario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.
+Transporte público: Bus: 7 , 11 , 40 , 52
+El traslado de residuos correrá a cuenta de la persona interesada que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada).
+
+METADATOS:
+{'source': 'puntos_limpios_fijos.csv', 'path': 'data/raw/csv/puntos_limpios_fijos.csv', 'format': 'csv', 'document_type': 'punto_limpio_fijo', 'district': 'CHAMARTIN', 'neighborhood': 'HISPANOAMERICA', 'latitude': 40.45887476564644, 'longitude': -3.6664670709154676, 'source_row': 5, 'chunk_index': 0, 'chunk_count': 1, 'chunk_size': 665}
+
+--- CHUNK 4 ---
+
+TEXTO:
+Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Ciudad Lineal
+Dirección: AVENIDA DAROCA 104.
+Distrito: CIUDAD LINEAL.
+Barrio: VENTAS.
+Horario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.
+Transporte público: Bus: 70 , 106
+El traslado de residuos correrá a cuenta de la persona interesada que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada).
+
+METADATOS:
+{'source': 'puntos_limpios_fijos.csv', 'path': 'data/raw/csv/puntos_limpios_fijos.csv', 'format': 'csv', 'document_type': 'punto_limpio_fijo', 'district': 'CIUDAD LINEAL', 'neighborhood': 'VENTAS', 'latitude': 40.41826330408995, 'longitude': -3.630928382853009, 'source_row': 6, 'chunk_index': 0, 'chunk_count': 1, 'chunk_size': 651}
+
+============================================================
+CHUNKS POR TIPO
+============================================================
+punto_limpio_fijo: 16
+punto_limpio_movil: 351
+punto_limpio_movil_24h: 42
+punto_limpio_proximidad: 95
+residuo_destino: 177
+documentacion_municipal: 31
+
+============================================================
+CHUNKS HTML: 31
+============================================================
+
+--- HTML CHUNK 0 ---
+Fuente: fraccion_organica.html
+Chunk: 1/2
+Tamaño: 857
+
+TEXTO:
+Recogida de residuos orgánicos
+Frecuencia de recogida
+TODOS LOS DÍAS, incluso domingos y festivos (en la documentación asociada se pueden consultar los turnos de recogida de la fracción orgánica en los diferentes distritos y barrios de la ciudad) .
+Depósito de los residuos
+Los residuos orgánicos o biorresiduos, recogidos en bolsas compostables, se depositaránen el contenedor de la fracción orgánica (tapa marrón) .
+Tipología de residuos orgánicos
+Se consideran residuos orgánicos los siguientes:
+Restos de fruta y verdura
+Restos de carne y pescado
+Cáscaras de huevo, de marisco y de frutos secos
+Otros restos de comida
+Restos de infusiones y posos de café
+Servilletas de papel usadas, papel de cocina sucio y papel y cartón sucios de aceite o de restos de comida
+Pequeños restos de jardinería: plantas, hojarasca, ramos de flores...
+Residuos no admitidos
+
+--- HTML CHUNK 1 ---
+Fuente: fraccion_organica.html
+Chunk: 2/2
+Tamaño: 970
+
+TEXTO:
+Pequeños restos de jardinería: plantas, hojarasca, ramos de flores...
+Residuos no admitidos
+NO van al contenedor marrón : aceite de cocina, residuos de barrer, pelo, colillas, pañales, compresas, toallitas húmedas y productos de higiene personal, excrementos de animales y arena de gato, por ejemplo . Estos residuos deben depositarse en el contenedor de tapa naranja , junto con el resto de los residuos no reciclables. Para poder obtener abono de calidad, es muy importante que no se deposite en el contenedor marrón residuos no orgánicos.
+Ante la duda sobre el material que compone un residuo, es mejor tirarlo al contenedor de resto no reciclable (color naranja) para no estropear las fracciones reciclables o reutilizables.
+Esta separación en origen, realizada en nuestras casas y establecimientos, nos permite mejorar el aprovechamiento de los residuos, obteniendo fertilizante y energía, y nos sitúa al nivel de otras ciudades europeas que ya lo están realizando.
+
+--- HTML CHUNK 2 ---
+Fuente: fraccion_papel.html
+Chunk: 1/4
+Tamaño: 959
+
+TEXTO:
+Recogida de la fracción papel y cartón
+La recogida selectiva de la fracción de papel y cartón se efectúa a través de contenedores ubicados en la vía pública .
+¿Que comprende la fracción de papel y cartón?
+hojas de papel,
+sobres o cuadernos,
+revistas y periódicos viejos,
+propaganda del buzón,
+hueveras de cartón,
+cajas y envases de cartón,
+tubos y canutos de este mismo material
+y papel de envolver.
+El papel o cartón manchado de aceite, de pintura, de pizza, etc . no debe ir al contenedor azul: deposítalo en el de tapa marrón si está manchado de restos de comida, si no, en el de tapa naranja.
+Los libros puedes llevarlos a librerías y organizaciones sociales para su reutilización . También puedes llevarlos a los puntos limpios fijos para intercambiarlos por libros u otros productos en ReMAD . Infórmate en el Ayuntamiento sobre esta y otras iniciativas de intercambio. En los puntos limpios de proximidad también puedes depositar los libros o revistas.
+
+--- HTML CHUNK 3 ---
+Fuente: fraccion_papel.html
+Chunk: 2/4
+Tamaño: 960
+
+TEXTO:
+El papel y el cartón reciclados se transforma nuevamente en papel, cajas y embalajes.
+No olvides, plegar el cartón antes de introducirlo en el contenedor. Al plegarlo, ocupa menos espacio y deja más espacio en el contenedor.
+Las cajas y los cartones deben introducirse siempre dentro del contenedor para que puedan ser recogidos y reciclados adecuadamente.
+En el caso de que dispongas de un gran volumen de estos residuos, como en el caso de una mudanza, se deben llevar a un punto limpio fijo y evitar la saturación en los contenedores.
+Contenedores de recogida de la fracción papel-cartón
+Los contenedores de papel y cartón en la ciudad de Madrid son de gran capacidad, presentan el color distintivo azul en su cubierta y se encuentran situados de manera permanente en la vía pública , permitiendo a los ciudadanos depositar los residuos en cualquier momento.
+Recueda doblar los cartones antes de introducirlos en el contenedor para que ocupen menos espacio.
+
+--- HTML CHUNK 4 ---
+Fuente: fraccion_papel.html
+Chunk: 3/4
+Tamaño: 710
+
+TEXTO:
+Recueda doblar los cartones antes de introducirlos en el contenedor para que ocupen menos espacio.
+Si quieres saber dónde se encuentran los contenedores más cercanos a tu ubicación puedes consultarlo en la localización de contenedores que tienes disponible en Visualiza Madrid con Datos Abiertos .
+Frecuencia de recogida de los contenedores
+Su recogida se lleva a cabo atendiendo al grado de llenado de los mismos.
+Puedes consultar los turnos de recogida en la ciudad en el enlace del visualizador de Recogida de Residuos , en la pestaña de “Mapas de zonificación, turnos y calendarios de recogida de residuos" y seleccionando " Fracción de papel-cartón”.
+Recogida de cartón en zonas de alta densidad hostelera
+
+--- HTML CHUNK 5 ---
+Fuente: fraccion_papel.html
+Chunk: 4/4
+Tamaño: 935
+
+TEXTO:
+Recogida de cartón en zonas de alta densidad hostelera
+En determinadas zonas de alta densidad comercial y hostelera la recogida del cartón comercial se realiza exclusivamente bajo el servicio puerta a puerta que tiene unas características específicas y que se detallan en el apartado de Recogida de cartón comercial en zonas de alta densidad hostelera .
+Pajarita Azul - Reconocimiento por la gestión selectiva de papel y cartón
+Por tercer año consecutivo, el Ayuntamiento de Madrid ha recibido una Pajarita Azul en la edición del año 2025 de Pajaritas Azules, programa gestionado por la Asociación Española de Fabricantes de Pasta, Papel y Cartón ( ASPAPEL) .
+Un reconocimiento otorgado por el esfuerzo desarrollado por el Ayuntamiento para la mejora continua de la calidad en la gestión municipal en la recogida selectiva para el reciclaje de papel y cartón.
+Puedes encontrar más información en el apartado de información relacionada.
+
+--- HTML CHUNK 6 ---
+Fuente: fraccion_plasticos_metales_briks.html
+Chunk: 1/3
+Tamaño: 905
+
+TEXTO:
+Recogida de la fracción de plásticos, metales y briks.
+Frecuencia de recogida de la fracción de plásticos, métales y briks:
+Zonas de cubos domiciliarios de dos ruedas : TODOS LOS DÍAS, domingos y festivos incluidos.
+Zona de contenedores permanentes en vía pública : 4 días a la semana, dependiendo del distrito.
+Los turnos de recogida se pueden consultar en el visualizador de datos abiertos en el apartado de recogida de residuos , en la pestaña de "Mapas de zonificación, turnos y calendarios de recogida de residuos" y seleccionando el tipo de fracción a consultar.
+Los contenedores correspondientes a la recogida selectiva de plásticos, metales y briks se identifican por su color amarillo .
+Las Comunidades de propietarios que dispongan de cubos domiciliarios pueden solicitar cubos de recogida selectiva de plásticos, metales y briks llamando al 010.
+Componen esta fracción los siguientes elementos:
+
+--- HTML CHUNK 7 ---
+Fuente: fraccion_plasticos_metales_briks.html
+Chunk: 2/3
+Tamaño: 987
+
+TEXTO:
+Componen esta fracción los siguientes elementos:
+- Plásticos: bolsas de plástico, botellas de plástico de bebidas, aceite, salsas, envases de productos lácteos y sus tapas, como yogures o mantequilla, hueveras de plástico, vasos y platos desechables, tapas y tapones, mallas de fruta y verduras, film transparente, botes de productos de aseo y limpieza vacíos, como jabones de baño o detergentes, así como el plástico de los envases tipo blíster, donde vienen por ejemplo las pilas o las cuchillas de afeitar. También los plásticos que no sean envases ni envoltorios (muñecos, maquinillas de afeitar...),
+- Metales: latas de bebidas y conservas, platos y bandejas de aluminio para alimentación, chapas y tapas, aerosoles vacíos como desodorante o limpiadores domésticos y papel de aluminio para la cocina.
+- Briks: ya sean de leche, zumos, caldos…
+- Bandejas y embalajes usados en alimientación o como protectores de productos frágiles: “corcho blanco” o “poliespán”, papel de burbujas .
+
+--- HTML CHUNK 8 ---
+Fuente: fraccion_plasticos_metales_briks.html
+Chunk: 3/3
+Tamaño: 288
+
+TEXTO:
+- Cajas de madera de pequeño tamaño : de fresas, puros, estuches…
+- y otros como sartenes pequeñas, cubiertos, chupetes, cápsulas de café ... En general, envases y no envases de las carácterísticas materiales descritas que no vayan al punto limpio y que quepan por la boca del contenedor.
+
+--- HTML CHUNK 9 ---
+Fuente: fraccion_resto.html
+Chunk: 1/2
+Tamaño: 995
+
+TEXTO:
+Recogida de la fracción "resto no reciclable"
+Frecuencia de recogida de la fracción resto: LUNES A SÁBADO (excepto festivos), según los turnos establecidos.
+Los turnos de recogida se pueden consultar en el visualizador de datos abiertos en el apartado de recogida de residuos , en la pestaña de "Mapas de zonificación, turnos y calendarios de recogida de residuos" y seleccionando el tipo de fracción a consultar.
+Los contenedores para la recogida selectiva de resto no reciclable están identificados en color naranja.
+¿Qué residuos se pueden depositar en el contenedor de la fracción de resto?
+La fracción resto (no reciclable) comprende los siguientes residuos:
+- residuos textiles sanitarios (pañales, compresas, toallitas húmedas…),
+- residuos de pequeñas curas (tiritas, esparadrapo, gasas, vendas, algodón),
+- colillas,
+- arena de gato o similar,
+- excrementos de animales domésticos,
+- cerámica y porcelana,
+- residuos de limpieza doméstica (polvo de barrer, pelo, bolsas de aspiradora…),
