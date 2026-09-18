@@ -83,3 +83,21 @@ CHROMA_DISTANCE = "cosine"
 # Número máximo de registros que intentaremos insertar
 # en una misma operación.
 INDEX_BATCH_SIZE = 100
+
+
+# =========================================================
+# RETRIEVAL
+# =========================================================
+
+# Número de chunks más relevantes que se recuperan de
+# ChromaDB para cada pregunta.
+#
+# Se ajusta durante el "experimento K" para comparar la
+# calidad del retrieval con distintos valores (ver
+# tests/retrieval/retrieve_test.py).
+TOP_K = 5
+
+# Preguntas de evaluación utilizadas para probar el
+# retrieval de forma repetible.
+QUERIES_DIR = BASE_DIR / "queries"
+EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
