@@ -1,48 +1,58 @@
-# Se encarga de recuperar, para una pregunta dada, los chunks
-# más relevantes almacenados en ChromaDB.
+import re
+import unicodedata
 
+import chromadb
 from google.genai import types
 
 from config import (
     CHROMA_COLLECTION_NAME,
+    CHROMA_DIR,
     EMBEDDING_MODEL,
     EMBEDDING_DIMENSIONS,
-    TOP_K,
 )
 
 from src.gemini_client import crear_cliente_gemini
-from src.index import crear_cliente_chroma
 
 
-# =========================================================
-# EMBEDDING DE LA PREGUNTA
-# =========================================================
+DEFAULT_CANDIDATE_K = 50
 
-def embeddear_pregunta(
-    client,
-    pregunta: str,
-) -> list[float]:
-    """
-    Genera el embedding de la pregunta del usuario.
 
-    Se utiliza el mismo modelo y las mismas dimensiones que
-    en embed.py, para que la pregunta y los chunks del corpus
-    vivan en el mismo espacio vectorial y sean comparables
-    mediante similitud coseno.
-    """
+def crear_cliente_chroma():
+    return chromadb.PersistentClient(path=str(CHROMA_DIR))
 
-    resultado = client.models.embed_content(
-        model=EMBEDDING_MODEL,
-        contents=pregunta,
-        config=types.EmbedContentConfig(
-            output_dimensionality=EMBEDDING_DIMENSIONS
-        ),
+
+def obtener_coleccion():
+    client = crear_cliente_chroma()
+    collection = client.get_collection(name=CHROMA_COLLECTION_NAME)
+    return collection
+
+
+def preparar_query(pregunta: str) -> str:
+    return (
+        f"task: question answering | "
+        f"query: {pregunta}"
     )
+
+
+def generar_embedding_query(pregunta: str) -> list[float]:
+    client = crear_cliente_gemini()
+
+    try:
+        contenido = preparar_query(pregunta)
+
+        resultado = client.models.embed_content(
+            model=EMBEDDING_MODEL,
+            contents=contenido,
+            config=types.EmbedContentConfig(
+                output_dimensionality=EMBEDDING_DIMENSIONS
+            ),
+        )
+    finally:
+        client.close()
 
     if not resultado.embeddings:
         raise ValueError(
-            "Gemini no ha devuelto ningún embedding "
-            "para la pregunta."
+            "Gemini no ha devuelto ningún embedding para la pregunta."
         )
 
     vector = resultado.embeddings[0].values
@@ -54,7 +64,7 @@ def embeddear_pregunta(
 
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError(
-            "Dimensión inesperada del embedding: "
+            "Dimensión inesperada del embedding de la pregunta: "
             f"{len(vector)}. "
             f"Se esperaban {EMBEDDING_DIMENSIONS}."
         )
@@ -62,182 +72,287 @@ def embeddear_pregunta(
     return vector
 
 
-# =========================================================
-# BÚSQUEDA EN CHROMADB
-# =========================================================
+def normalizar_texto(texto: str) -> str:
+    """
+    Convierte el texto a minúsculas, elimina acentos
+    y normaliza espacios.
+    """
+    texto = str(texto).lower()
 
-def buscar_chunks_relevantes(
+    texto = unicodedata.normalize("NFD", texto)
+    texto = "".join(
+        caracter
+        for caracter in texto
+        if unicodedata.category(caracter) != "Mn"
+    )
+
+    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
+
+    return texto
+
+
+def extraer_palabras_importantes(texto: str) -> set[str]:
+    """
+    Extrae palabras relevantes de la consulta eliminando
+    palabras muy comunes.
+    """
+    stopwords = {
+        "a",
+        "al",
+        "con",
+        "como",
+        "cual",
+        "cuales",
+        "de",
+        "del",
+        "donde",
+        "el",
+        "en",
+        "es",
+        "hay",
+        "la",
+        "las",
+        "lo",
+        "los",
+        "me",
+        "para",
+        "por",
+        "que",
+        "se",
+        "un",
+        "una",
+        "y",
+    }
+
+    palabras = normalizar_texto(texto).split()
+
+    return {
+        palabra
+        for palabra in palabras
+        if palabra not in stopwords and len(palabra) > 2
+    }
+
+
+def construir_texto_busqueda(
+    documento: str,
+    metadata: dict,
+) -> str:
+    """
+    Construye el texto que utilizamos para el reranking.
+
+    Además del contenido del chunk, incluimos algunos campos
+    de metadata que pueden ser importantes para distinguir
+    documentos similares.
+    """
+    campos_metadata = [
+        metadata.get("source", ""),
+        metadata.get("document_type", ""),
+        metadata.get("district", ""),
+        metadata.get("neighborhood", ""),
+    ]
+
+    return " ".join(
+        [documento] + [str(campo) for campo in campos_metadata]
+    )
+
+
+def calcular_coincidencia_lexica(
     pregunta: str,
-    top_k: int = TOP_K,
-    client=None,
-    collection=None,
+    documento: str,
+    metadata: dict,
+) -> float:
+    """
+    Calcula qué proporción de las palabras importantes
+    de la pregunta aparecen en el documento o metadata.
+    """
+    palabras_pregunta = extraer_palabras_importantes(pregunta)
+
+    if not palabras_pregunta:
+        return 0.0
+
+    texto_busqueda = construir_texto_busqueda(
+        documento,
+        metadata,
+    )
+
+    texto_normalizado = normalizar_texto(texto_busqueda)
+
+    palabras_documento = set(texto_normalizado.split())
+
+    coincidencias = palabras_pregunta.intersection(
+        palabras_documento
+    )
+
+    return len(coincidencias) / len(palabras_pregunta)
+
+
+def calcular_score(
+    distancia: float,
+    coincidencia_lexica: float,
+) -> float:
+    """
+    Combina similitud semántica y coincidencia textual.
+
+    Chroma devuelve distancia coseno:
+        menor distancia = mayor similitud.
+
+    Convertimos la distancia en una similitud aproximada.
+    """
+    similitud_semantica = 1 - distancia
+
+    return (
+        0.70 * similitud_semantica
+        + 0.30 * coincidencia_lexica
+    )
+
+
+def recuperar_chunks(
+    pregunta: str,
+    k: int = 5,
 ) -> list[dict]:
-    """
-    Recupera los `top_k` chunks más relevantes para una
-    pregunta.
 
-    Flujo:
-
-        pregunta
-            -> embedding de la pregunta
-            -> búsqueda por similitud en ChromaDB
-            -> lista de chunks con texto, metadata y distancia
-
-    Parameters
-    ----------
-    pregunta : str
-        Pregunta del usuario, en lenguaje natural.
-    top_k : int
-        Número de chunks a recuperar. Por defecto, TOP_K
-        de config.py.
-    client, collection : opcional
-        Permiten reutilizar un cliente de Gemini y una
-        colección de ChromaDB ya abiertos (por ejemplo,
-        desde rag.py o desde los tests), en vez de abrir
-        una conexión nueva en cada llamada.
-
-    Returns
-    -------
-    list[dict]
-        Cada elemento contiene:
-            text, distance, metadata
-        ordenados del más al menos relevante (menor
-        distancia = más relevante).
-    """
-
-    cliente_propio = client is None
-    coleccion_propia = collection is None
-
-    if cliente_propio:
-        client = crear_cliente_gemini()
-
-    if coleccion_propia:
-        chroma_client = crear_cliente_chroma()
-
-        collection = chroma_client.get_collection(
-            name=CHROMA_COLLECTION_NAME
+    if not pregunta or not pregunta.strip():
+        raise ValueError(
+            "La pregunta no puede estar vacía."
         )
 
-    try:
-        vector_pregunta = embeddear_pregunta(
-            client,
-            pregunta,
+    if k <= 0:
+        raise ValueError(
+            "k debe ser mayor que 0."
         )
 
-        resultado = collection.query(
-            query_embeddings=[vector_pregunta],
-            n_results=top_k,
+    query_embedding = generar_embedding_query(pregunta)
+
+    collection = obtener_coleccion()
+
+    total_documentos = collection.count()
+
+    if total_documentos == 0:
+        raise ValueError(
+            "La colección de ChromaDB está vacía."
         )
 
-    finally:
-        if cliente_propio:
-            client.close()
+    # Recuperamos más candidatos de los que finalmente
+    # vamos a devolver para poder reordenarlos.
+    candidate_k = min(
+        max(k * 10, DEFAULT_CANDIDATE_K),
+        total_documentos,
+    )
 
-    documentos = resultado["documents"][0]
-    metadatas = resultado["metadatas"][0]
-    distancias = resultado["distances"][0]
+    resultados = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=candidate_k,
+        include=[
+            "documents",
+            "metadatas",
+            "distances",
+        ],
+    )
 
-    chunks = []
+    documentos = resultados.get(
+        "documents",
+        [[]],
+    )[0]
 
-    for texto, metadata, distancia in zip(
+    metadatas = resultados.get(
+        "metadatas",
+        [[]],
+    )[0]
+
+    distancias = resultados.get(
+        "distances",
+        [[]],
+    )[0]
+
+    candidatos = []
+
+    for documento, metadata, distancia in zip(
         documentos,
         metadatas,
         distancias,
     ):
+        metadata = metadata or {}
 
-        chunks.append(
+        coincidencia_lexica = calcular_coincidencia_lexica(
+            pregunta,
+            documento,
+            metadata,
+        )
+
+        score = calcular_score(
+            distancia,
+            coincidencia_lexica,
+        )
+
+        candidatos.append(
             {
-                "text": texto,
-                "distance": distancia,
+                "text": documento,
                 "metadata": metadata,
+                "distance": distancia,
+                "lexical_score": coincidencia_lexica,
+                "score": score,
             }
         )
 
-    return chunks
-
-
-# =========================================================
-# EVALUACIÓN DE FUENTES
-# =========================================================
-
-def resumir_fuentes(
-    chunks: list[dict],
-) -> list[dict]:
-    """
-    Extrae, para un conjunto de chunks recuperados, un
-    resumen de las fuentes utilizadas: de qué documento
-    procede cada uno y a qué distancia quedó de la pregunta.
-
-    Sirve para:
-        - poder citar las fuentes en la respuesta final
-          (generate.py / rag.py las necesitará);
-        - evaluar si el retrieval está trayendo documentos
-          del dominio correcto (ver tests/retrieval).
-    """
-
-    fuentes = []
-
-    for chunk in chunks:
-
-        metadata = chunk["metadata"]
-
-        fuentes.append(
-            {
-                "source": metadata.get("source"),
-                "document_type": metadata.get("document_type"),
-                "district": metadata.get("district"),
-                "distance": chunk["distance"],
-            }
-        )
-
-    return fuentes
-
-
-# =========================================================
-# EJECUCIÓN MANUAL / PRUEBA RÁPIDA
-# =========================================================
-
-def ejecutar_retrieval(
-    pregunta: str,
-    top_k: int = TOP_K,
-) -> list[dict]:
-    """
-    Ejecuta el retrieval completo para una pregunta y
-    muestra el resultado por pantalla.
-
-    Pensado para probar retrieve.py de forma manual, sin
-    depender todavía de generate.py / rag.py.
-    """
-
-    print(f"Pregunta: {pregunta}")
-    print(f"TOP_K: {top_k}")
-    print()
-
-    chunks = buscar_chunks_relevantes(
-        pregunta,
-        top_k=top_k,
+    # Reordenamos de mayor score a menor.
+    candidatos.sort(
+        key=lambda x: x["score"],
+        reverse=True,
     )
 
-    for posicion, chunk in enumerate(chunks, start=1):
+    return candidatos[:k]
 
-        metadata = chunk["metadata"]
-
-        print(
-            f"[{posicion}] distancia={chunk['distance']:.4f} "
-            f"fuente={metadata.get('source')}"
-        )
-
-        print(f"    {chunk['text'][:200]}...")
-        print()
-
-    return chunks
-
-
-# =========================================================
-# EJECUCIÓN DIRECTA
-# =========================================================
 
 if __name__ == "__main__":
-    ejecutar_retrieval(
-        "¿Dónde puedo tirar aceite vegetal usado?"
+
+    pregunta = (
+        "¿Dónde hay un punto limpio fijo "
+        "en el distrito de Arganzuela?"
     )
+
+    resultados = recuperar_chunks(
+        pregunta,
+        k=5,
+    )
+
+    print()
+    print("RESULTADOS DEL RETRIEVAL")
+    print("=" * 70)
+
+    for i, chunk in enumerate(
+        resultados,
+        start=1,
+    ):
+        metadata = chunk["metadata"]
+
+        print()
+        print(f"CHUNK {i}")
+        print("-" * 70)
+        print(
+            f"Score final: {chunk['score']:.4f}"
+        )
+        print(
+            f"Distancia semántica: "
+            f"{chunk['distance']:.4f}"
+        )
+        print(
+            f"Coincidencia léxica: "
+            f"{chunk['lexical_score']:.4f}"
+        )
+        print(
+            f"Fuente: "
+            f"{metadata.get('source')}"
+        )
+        print(
+            f"Tipo: "
+            f"{metadata.get('document_type')}"
+        )
+        print(
+            f"Distrito: "
+            f"{metadata.get('district')}"
+        )
+        print(
+            f"Texto: "
+            f"{chunk['text'][:500]}"
+        )

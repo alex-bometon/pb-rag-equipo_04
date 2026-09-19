@@ -1,90 +1,50 @@
-{
-  "schema_version": 1,
-  "total_queries": 12,
-  "queries": [
-    {
-      "id": 1,
-      "categoria": "separacion_residuos",
-      "pregunta": "¿En qué contenedor tiro un envase de plástico?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["fraccion_plasticos_metales_briks.html"]
-    },
-    {
-      "id": 2,
-      "categoria": "separacion_residuos",
-      "pregunta": "¿Dónde tiro los restos de comida y las cáscaras de fruta?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["fraccion_organica.html"]
-    },
-    {
-      "id": 3,
-      "categoria": "separacion_residuos",
-      "pregunta": "¿Qué puedo depositar en el contenedor verde de vidrio?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["fraccion_vidrio.html"]
-    },
-    {
-      "id": 4,
-      "categoria": "separacion_residuos",
-      "pregunta": "¿Qué se debe tirar en el contenedor azul de papel y cartón?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["fraccion_papel.html"]
-    },
-    {
-      "id": 5,
-      "categoria": "separacion_residuos",
-      "pregunta": "¿Qué va en el contenedor gris de restos?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["fraccion_resto.html"]
-    },
-    {
-      "id": 6,
-      "categoria": "residuos_domesticos_especiales",
-      "pregunta": "¿Dónde puedo tirar el aceite vegetal usado de la cocina?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["recogida_aceite_vegetal.html"]
-    },
-    {
-      "id": 7,
-      "categoria": "servicios_recogida",
-      "pregunta": "¿Cómo puedo deshacerme de un colchón o un mueble viejo?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["recogida_muebles_enseres.html"]
-    },
-    {
-      "id": 8,
-      "categoria": "puntos_recogida",
-      "pregunta": "¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["puntos_limpios_fijos.csv", "residuos_punto_limpio_fijo.html"]
-    },
-    {
-      "id": 9,
-      "categoria": "puntos_recogida",
-      "pregunta": "¿Qué horario tiene el punto limpio móvil?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["puntos_limpios_moviles.csv", "residuos_punto_limpio_movil.html"]
-    },
-    {
-      "id": 10,
-      "categoria": "destino_residuo",
-      "pregunta": "¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?",
-      "es_respondible": true,
-      "fuentes_esperadas": ["tipos_residuos.csv"]
-    },
-    {
-      "id": 11,
-      "categoria": "fuera_de_dominio",
-      "pregunta": "¿Cuál es el horario de las piscinas municipales de Madrid?",
-      "es_respondible": false,
-      "fuentes_esperadas": []
-    },
-    {
-      "id": 12,
-      "categoria": "fuera_de_dominio",
-      "pregunta": "¿Dónde reciclo el vidrio en Barcelona?",
-      "es_respondible": false,
-      "fuentes_esperadas": []
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "question": "¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?"
+  },
+  {
+    "id": 2,
+    "question": "¿Cuál es la dirección del punto limpio fijo de Arganzuela?"
+  },
+  {
+    "id": 3,
+    "question": "¿Qué punto limpio fijo hay en Carabanchel?"
+  },
+  {
+    "id": 4,
+    "question": "¿Dónde hay puntos limpios móviles en Arganzuela?"
+  },
+  {
+    "id": 5,
+    "question": "¿Dónde puedo encontrar un punto limpio de proximidad en Arganzuela?"
+  },
+  {
+    "id": 6,
+    "question": "¿Qué residuos se pueden llevar a un punto limpio fijo?"
+  },
+  {
+    "id": 7,
+    "question": "¿Dónde hay puntos limpios móviles abiertos las 24 horas?"
+  },
+  {
+    "id": 8,
+    "question": "¿Qué tipos de residuos se pueden depositar en los puntos limpios?"
+  },
+  {
+    "id": 9,
+    "question": "¿Cuál es la capital de Francia?"
+  },
+  {
+    "id": 10,
+    "question": "¿Quién ganó el Mundial de fútbol de 2022?"
+  },
+  {
+    "id": 11,
+    "question": "¿Cuál es la población actual de Madrid?"
+  },
+  {
+    "id": 12,
+    "question": "¿Qué restaurantes hay cerca de la Puerta del Sol?"
+  }
+]
