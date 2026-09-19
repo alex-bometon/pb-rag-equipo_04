@@ -89,15 +89,60 @@ INDEX_BATCH_SIZE = 100
 # RETRIEVAL
 # =========================================================
 
-# Número de chunks más relevantes que se recuperan de
-# ChromaDB para cada pregunta.
+# Número final de chunks que se entregan al RAG.
 #
-# Se ajusta durante el "experimento K" para comparar la
-# calidad del retrieval con distintos valores (ver
-# tests/retrieval/retrieve_test.py).
+# Este valor fue seleccionado durante la evaluación inicial
+# del retrieval comparando distintos valores de K.
 TOP_K = 5
+
+
+# ---------------------------------------------------------
+# RECUPERACIÓN DE CANDIDATOS
+# ---------------------------------------------------------
+
+# Número mínimo de candidatos que recuperamos inicialmente
+# mediante similitud semántica antes de aplicar el reranking.
+#
+# Recuperar más candidatos que TOP_K permite que el
+# reranking híbrido pueda rescatar documentos relevantes
+# que no aparezcan inicialmente entre los primeros
+# resultados del ranking puramente vectorial.
+RETRIEVAL_MIN_CANDIDATES = 50
+
+
+# ---------------------------------------------------------
+# RERANKING HÍBRIDO
+# ---------------------------------------------------------
+
+# Peso de la similitud semántica en el score final.
+RETRIEVAL_SEMANTIC_WEIGHT = 0.70
+
+# Peso de la coincidencia léxica en el score final.
+RETRIEVAL_LEXICAL_WEIGHT = 0.30
+
+
+# ---------------------------------------------------------
+# EVALUACIÓN
+# ---------------------------------------------------------
 
 # Preguntas de evaluación utilizadas para probar el
 # retrieval de forma repetible.
 QUERIES_DIR = BASE_DIR / "queries"
+
 EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
+
+
+
+# Caché persistente de los embeddings de las preguntas de
+# evaluación.
+#
+# Permite generar cada embedding una sola vez y reutilizarlo
+# posteriormente en:
+#
+#   - retrieval semántico;
+#   - retrieval híbrido;
+#   - experimentos con distintos valores de K.
+#
+# De esta forma las evaluaciones repetidas no consumen
+# llamadas innecesarias a la API de embeddings.
+EVAL_QUERY_EMBEDDINGS_JSON = QUERIES_DIR / "eval_query_embeddings.json"
