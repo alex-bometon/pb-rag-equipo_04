@@ -1,3 +1,18 @@
+# Secretos / configuración local
 .env
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+
+# Editor / SO
+.vscode/
+.DS_Store
+Thumbs.db
