@@ -9,6 +9,9 @@ from src.rag import responder
 def main():
     parser = argparse.ArgumentParser(
         description=(
+            "==========\n"
+            "ReciclaTIA\n"
+            "==========\n"
             "Sistema RAG sobre gestión de residuos "
             "de Madrid."
         )

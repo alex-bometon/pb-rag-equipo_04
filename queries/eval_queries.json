@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "total_queries": 12,
+  "schema_version": 2,
+  "total_queries": 14,
   "queries": [
     {
       "id": 1,
@@ -96,15 +96,31 @@
     },
     {
       "id": 11,
+      "categoria": "puntos_recogida",
+      "pregunta": "¿Cuál es la dirección del punto limpio fijo de Hortaleza?",
+      "es_respondible": true,
+      "fuentes_esperadas": [
+        "puntos_limpios_fijos.csv"
+      ]
+    },
+    {
+      "id": 12,
       "categoria": "fuera_de_dominio",
       "pregunta": "¿Cuál es el horario de las piscinas municipales de Madrid?",
       "es_respondible": false,
       "fuentes_esperadas": []
     },
     {
-      "id": 12,
+      "id": 13,
       "categoria": "fuera_de_dominio",
       "pregunta": "¿Dónde reciclo el vidrio en Barcelona?",
+      "es_respondible": false,
+      "fuentes_esperadas": []
+    },
+    {
+      "id": 14,
+      "categoria": "fuera_de_dominio",
+      "pregunta": "¿Qué servicios de reparación de móviles hay cerca de Gran Vía?",
       "es_respondible": false,
       "fuentes_esperadas": []
     }
