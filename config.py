@@ -147,6 +147,16 @@ EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
 # llamadas innecesarias a la API de embeddings.
 EVAL_QUERY_EMBEDDINGS_JSON = QUERIES_DIR / "eval_query_embeddings.json"
 
+# Dataset utilizado para evaluar el flujo RAG completo.
+#
+# Corresponde al conjunto de preguntas desarrollado para
+# evaluar retrieval + generación de forma conjunta.
+EVAL_RAG_JSON = QUERIES_DIR / "eval_rag.json"
+
+
+# Dataset adicional de preguntas de estrés.
+EVAL_STRESS_JSON = QUERIES_DIR / "eval_stress.json"
+
 # =========================================================
 # GENERACIÓN
 # =========================================================
