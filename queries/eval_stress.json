@@ -1,0 +1,22 @@
+[
+  {
+    "id": "stress_01",
+    "question": "¿Cuál es la dirección del punto limpio fijo de Hortaleza?"
+  },
+  {
+    "id": "stress_02",
+    "question": "¿En qué barrio se encuentra el punto limpio fijo de Arganzuela?"
+  },
+  {
+    "id": "stress_03",
+    "question": "¿Cuál es el horario del punto limpio fijo de Arganzuela?"
+  },
+  {
+    "id": "stress_04",
+    "question": "¿Se pueden depositar medicamentos en los puntos limpios fijos?"
+  },
+  {
+    "id": "stress_05",
+    "question": "¿Qué servicios de reparación de móviles hay cerca de Gran Vía?"
+  }
+]

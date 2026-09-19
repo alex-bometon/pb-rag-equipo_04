@@ -2,7 +2,7 @@ from src.gemini_client import crear_cliente_gemini
 
 
 # Modelo utilizado para generar las respuestas del RAG
-GENERATION_MODEL = "gemini-3.6-flash"
+GENERATION_MODEL = "gemini-3.1-flash-lite"
 
 
 def generar_respuesta(pregunta: str, contexto: str) -> str:
