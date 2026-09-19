@@ -146,3 +146,24 @@ EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
 # De esta forma las evaluaciones repetidas no consumen
 # llamadas innecesarias a la API de embeddings.
 EVAL_QUERY_EMBEDDINGS_JSON = QUERIES_DIR / "eval_query_embeddings.json"
+
+# =========================================================
+# GENERACIÓN
+# =========================================================
+
+# Modelo utilizado para generar la respuesta final del RAG.
+GENERATION_MODEL = "gemini-3.1-flash-lite"
+
+
+# Número máximo de intentos ante errores temporales de la API.
+GENERATION_MAX_RETRIES = 3
+
+
+# Espera inicial entre reintentos.
+#
+# Se aplica backoff exponencial:
+#
+#   intento 1 -> 2 segundos
+#   intento 2 -> 4 segundos
+#   intento 3 -> error definitivo
+GENERATION_RETRY_SECONDS = 2
