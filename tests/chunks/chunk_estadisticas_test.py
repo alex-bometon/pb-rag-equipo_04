@@ -28,15 +28,8 @@ def calcular_estadisticas(chunks: list[dict]) -> dict:
     No modifica ningún dato.
     """
 
-    tamanos = [
-        len(chunk["text"])
-        for chunk in chunks
-    ]
-
-    palabras = [
-        len(chunk["text"].split())
-        for chunk in chunks
-    ]
+    tamanos = [len(chunk["text"]) for chunk in chunks]
+    palabras = [len(chunk["text"].split()) for chunk in chunks]
 
     if not tamanos:
         return {
@@ -56,7 +49,7 @@ def calcular_estadisticas(chunks: list[dict]) -> dict:
 
         "total_palabras": sum(palabras),
         "media_palabras": mean(palabras),
-        "mediana_palabras": median(palabras),
+        "mediana_palabras": median(palabras)
     }
 
 
@@ -64,9 +57,7 @@ def calcular_estadisticas(chunks: list[dict]) -> dict:
 # ESTADÍSTICAS POR TIPO DE DOCUMENTO
 # =========================================================
 
-def estadisticas_por_tipo(
-    chunks: list[dict],
-) -> dict[str, dict]:
+def estadisticas_por_tipo(chunks: list[dict]) -> dict[str, dict]:
     """
     Agrupa los chunks según metadata['document_type'].
     """
@@ -74,27 +65,20 @@ def estadisticas_por_tipo(
     grupos = defaultdict(list)
 
     for chunk in chunks:
+        tipo = chunk["metadata"].get("document_type", "desconocido")
 
-        tipo = chunk["metadata"].get(
-            "document_type",
-            "desconocido",
-        )
-
-        grupos[tipo].append(
-            len(chunk["text"])
-        )
+        grupos[tipo].append(len(chunk["text"]))
 
     resultado = {}
 
     for tipo, tamanos in grupos.items():
-
         resultado[tipo] = {
             "chunks": len(tamanos),
             "caracteres": sum(tamanos),
             "media": mean(tamanos),
             "mediana": median(tamanos),
             "min": min(tamanos),
-            "max": max(tamanos),
+            "max": max(tamanos)
         }
 
     return resultado
@@ -104,9 +88,7 @@ def estadisticas_por_tipo(
 # ESTADÍSTICAS POR FUENTE
 # =========================================================
 
-def estadisticas_por_fuente(
-    chunks: list[dict],
-) -> dict[str, dict]:
+def estadisticas_por_fuente(chunks: list[dict]) -> dict[str, dict]:
     """
     Agrupa los chunks según el archivo de origen.
     """
@@ -114,26 +96,19 @@ def estadisticas_por_fuente(
     grupos = defaultdict(list)
 
     for chunk in chunks:
+        source = chunk["metadata"].get("source", "desconocido")
 
-        source = chunk["metadata"].get(
-            "source",
-            "desconocido",
-        )
-
-        grupos[source].append(
-            len(chunk["text"])
-        )
+        grupos[source].append(len(chunk["text"]))
 
     resultado = {}
 
     for source, tamanos in grupos.items():
-
         resultado[source] = {
             "chunks": len(tamanos),
             "caracteres": sum(tamanos),
             "media": mean(tamanos),
             "min": min(tamanos),
-            "max": max(tamanos),
+            "max": max(tamanos)
         }
 
     return resultado
@@ -143,9 +118,7 @@ def estadisticas_por_fuente(
 # ESTIMACIÓN ORIENTATIVA DE TOKENS
 # =========================================================
 
-def estimar_tokens(
-    total_caracteres: int,
-) -> tuple[int, int]:
+def estimar_tokens(total_caracteres: int) -> tuple[int, int]:
     """
     Estimación aproximada del número de tokens.
 
@@ -166,182 +139,77 @@ def estimar_tokens(
 # IMPRESIÓN DEL INFORME
 # =========================================================
 
-def imprimir_estadisticas(
-    chunks: list[dict],
-) -> None:
+def imprimir_estadisticas(chunks: list[dict]) -> None:
 
-    generales = calcular_estadisticas(
-        chunks
-    )
-
-    por_tipo = estadisticas_por_tipo(
-        chunks
-    )
-
-    por_fuente = estadisticas_por_fuente(
-        chunks
-    )
+    generales = calcular_estadisticas(chunks)
+    por_tipo = estadisticas_por_tipo(chunks)
+    por_fuente = estadisticas_por_fuente(chunks)
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print("ESTADÍSTICAS DEL CORPUS PARA EMBEDDINGS")
-    print("=" * 70)
+    print("=" * 60)
 
-    print(
-        f"Total chunks:              "
-        f"{generales['total_chunks']:,}"
-    )
-
-    print(
-        f"Total caracteres:          "
-        f"{generales['total_caracteres']:,}"
-    )
-
-    print(
-        f"Media caracteres/chunk:    "
-        f"{generales['media_caracteres']:.2f}"
-    )
-
-    print(
-        f"Mediana caracteres/chunk:  "
-        f"{generales['mediana_caracteres']:.2f}"
-    )
-
-    print(
-        f"Chunk más pequeño:         "
-        f"{generales['min_caracteres']:,}"
-    )
-
-    print(
-        f"Chunk más grande:          "
-        f"{generales['max_caracteres']:,}"
-    )
-
+    print(f"Total chunks:              {generales['total_chunks']:,}")
+    print(f"Total caracteres:          {generales['total_caracteres']:,}")
+    print(f"Media caracteres/chunk:    {generales['media_caracteres']:.2f}")
+    print(f"Mediana caracteres/chunk:  {generales['mediana_caracteres']:.2f}")
+    print(f"Chunk más pequeño:         {generales['min_caracteres']:,}")
+    print(f"Chunk más grande:          {generales['max_caracteres']:,}")
     print()
-
-    print(
-        f"Total palabras:            "
-        f"{generales['total_palabras']:,}"
-    )
-
-    print(
-        f"Media palabras/chunk:      "
-        f"{generales['media_palabras']:.2f}"
-    )
-
-    print(
-        f"Mediana palabras/chunk:    "
-        f"{generales['mediana_palabras']:.2f}"
-    )
+    print(f"Total palabras:            {generales['total_palabras']:,}")
+    print(f"Media palabras/chunk:      {generales['media_palabras']:.2f}")
+    print(f"Mediana palabras/chunk:    {generales['mediana_palabras']:.2f}")
 
     # -----------------------------------------------------
     # ESTIMACIÓN DE TOKENS
     # -----------------------------------------------------
 
-    tokens_min, tokens_max = estimar_tokens(
-        generales["total_caracteres"]
-    )
+    tokens_min, tokens_max = estimar_tokens(generales["total_caracteres"])
 
     print()
     print("--- ESTIMACIÓN ORIENTATIVA DE TOKENS ---")
 
-    print(
-        f"Entre aproximadamente "
-        f"{tokens_min:,} y {tokens_max:,} tokens"
-    )
-
-    print(
-        "(estimación por caracteres, "
-        "no tokenizer real de Gemini)"
-    )
+    print(f"Entre aproximadamente {tokens_min:,} y {tokens_max:,} tokens")
+    print("(estimación por caracteres, no tokenizer real de Gemini)")
 
     # -----------------------------------------------------
     # POR TIPO
     # -----------------------------------------------------
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print("POR TIPO DE DOCUMENTO")
-    print("=" * 70)
+    print("=" * 60)
 
-    for tipo, datos in sorted(
-        por_tipo.items()
-    ):
-
+    for tipo, datos in sorted(por_tipo.items()):
         print()
         print(tipo)
-
-        print(
-            f"  Chunks:       "
-            f"{datos['chunks']:,}"
-        )
-
-        print(
-            f"  Caracteres:   "
-            f"{datos['caracteres']:,}"
-        )
-
-        print(
-            f"  Media:        "
-            f"{datos['media']:.2f}"
-        )
-
-        print(
-            f"  Mediana:      "
-            f"{datos['mediana']:.2f}"
-        )
-
-        print(
-            f"  Mínimo:       "
-            f"{datos['min']:,}"
-        )
-
-        print(
-            f"  Máximo:       "
-            f"{datos['max']:,}"
-        )
+        print(f"  Chunks:       {datos['chunks']:,}")
+        print(f"  Caracteres:   {datos['caracteres']:,}")
+        print(f"  Media:        {datos['media']:.2f}")
+        print(f"  Mediana:      {datos['mediana']:.2f}")
+        print(f"  Mínimo:       {datos['min']:,}")
+        print(f"  Máximo:       {datos['max']:,}")
 
     # -----------------------------------------------------
     # POR FUENTE
     # -----------------------------------------------------
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print("POR ARCHIVO DE ORIGEN")
-    print("=" * 70)
+    print("=" * 60)
 
-    for source, datos in sorted(
-        por_fuente.items()
-    ):
-
+    for source, datos in sorted(por_fuente.items()):
         print()
         print(source)
 
-        print(
-            f"  Chunks:       "
-            f"{datos['chunks']:,}"
-        )
-
-        print(
-            f"  Caracteres:   "
-            f"{datos['caracteres']:,}"
-        )
-
-        print(
-            f"  Media:        "
-            f"{datos['media']:.2f}"
-        )
-
-        print(
-            f"  Mínimo:       "
-            f"{datos['min']:,}"
-        )
-
-        print(
-            f"  Máximo:       "
-            f"{datos['max']:,}"
-        )
-
+        print(f"  Chunks:       {datos['chunks']:,}")
+        print(f"  Caracteres:   {datos['caracteres']:,}")
+        print(f"  Media:        {datos['media']:.2f}")
+        print(f"  Mínimo:       {datos['min']:,}")
+        print(f"  Máximo:       {datos['max']:,}")
 
 # =========================================================
 # EJECUCIÓN
@@ -350,15 +218,7 @@ def imprimir_estadisticas(
 if __name__ == "__main__":
 
     corpus = cargar_corpus()
+    documentos_limpios = limpiar_corpus(corpus)
+    chunks = crear_chunks(documentos_limpios)
 
-    documentos_limpios = limpiar_corpus(
-        corpus
-    )
-
-    chunks = crear_chunks(
-        documentos_limpios
-    )
-
-    imprimir_estadisticas(
-        chunks
-    )
+    imprimir_estadisticas(chunks)

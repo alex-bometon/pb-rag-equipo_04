@@ -7,20 +7,14 @@ import streamlit as st
 from webapp.assistant_service import ask_assistant
 from webapp.auth import authenticate_user, register_user
 from webapp.database import init_database
-from webapp.config_app import (
-    APP_DESCRIPTION,
-    APP_NAME,
-)
+from webapp.config_app import APP_DESCRIPTION, APP_NAME
 
 
 # -------------------------
 # Configuración de página
 # -------------------------
 
-st.set_page_config(
-    page_title=APP_NAME,
-    layout="centered",
-)
+st.set_page_config(page_title=APP_NAME, layout="centered")
 
 
 # -------------------------
@@ -73,20 +67,9 @@ def mostrar_detalles_asistente(
     asociadas a una respuesta del asistente.
     """
 
-    fuentes = mensaje.get(
-        "sources",
-        [],
-    )
-
-    chunks = mensaje.get(
-        "chunks",
-        [],
-    )
-
-    metricas = mensaje.get(
-        "metrics",
-        {},
-    )
+    fuentes = mensaje.get("sources", [])
+    chunks = mensaje.get("chunks", [])
+    metricas = mensaje.get("metrics", {})
 
     # -------------------------
     # Métricas
@@ -94,31 +77,14 @@ def mostrar_detalles_asistente(
 
     if metricas:
 
-        k = metricas.get(
-            "k",
-            "-",
-        )
-
-        num_chunks = metricas.get(
-            "num_chunks",
-            "-",
-        )
-
-        tiempo = metricas.get(
-            "time_seconds"
-        )
-
-        modelo = metricas.get(
-            "model",
-            "-",
-        )
+        k = metricas.get("k", "-")
+        num_chunks = metricas.get("num_chunks", "-")
+        tiempo = metricas.get("time_seconds")
+        modelo = metricas.get("model", "-")
 
         tiempo_texto = (
             f"{tiempo:.2f} s"
-            if isinstance(
-                tiempo,
-                (int, float),
-            )
+            if isinstance(tiempo, (int, float))
             else "-"
         )
 
@@ -136,78 +102,31 @@ def mostrar_detalles_asistente(
     # -------------------------
 
     if fuentes:
-
-        with st.expander(
-            "Fuentes utilizadas"
-        ):
-
+        with st.expander("Fuentes utilizadas"):
             for fuente in fuentes:
-
-                nombre = fuente.get(
-                    "source"
-                )
+                nombre = fuente.get("source")
 
                 if nombre:
-                    st.write(
-                        f"- `{nombre}`"
-                    )
+                    st.write(f"- `{nombre}`")
 
     # -------------------------
     # Contexto / chunks
     # -------------------------
 
     if chunks:
+        with st.expander("Contexto recuperado"):
+            for indice, chunk in enumerate(chunks, start=1):
+                metadata = chunk.get("metadata", {}) or {}
+                source = metadata.get("source", "Fuente desconocida")
+                distancia = chunk.get("distance")
+                texto = chunk.get("text", "") or ""
 
-        with st.expander(
-            "Contexto recuperado"
-        ):
+                st.markdown(f"**Chunk {indice} — {source}**")
 
-            for indice, chunk in enumerate(
-                chunks,
-                start=1,
-            ):
+                if isinstance(distancia, (int, float)):
+                    st.caption("Distancia vectorial: {distancia:.4f}")
 
-                metadata = (
-                    chunk.get(
-                        "metadata",
-                        {},
-                    )
-                    or {}
-                )
-
-                source = metadata.get(
-                    "source",
-                    "Fuente desconocida",
-                )
-
-                distancia = chunk.get(
-                    "distance"
-                )
-
-                texto = (
-                    chunk.get(
-                        "text",
-                        "",
-                    )
-                    or ""
-                )
-
-                st.markdown(
-                    f"**Chunk {indice} — {source}**"
-                )
-
-                if isinstance(
-                    distancia,
-                    (int, float),
-                ):
-                    st.caption(
-                        "Distancia vectorial: "
-                        f"{distancia:.4f}"
-                    )
-
-                st.write(
-                    texto
-                )
+                st.write(texto)
 
                 if indice < len(chunks):
                     st.divider()
@@ -238,17 +157,11 @@ if st.session_state.usuario is None:
         columna_login, columna_registro = st.columns(2)
 
         with columna_login:
-            if st.button(
-                "Iniciar sesión",
-                use_container_width=True,
-            ):
+            if st.button("Iniciar sesión",  use_container_width=True):
                 cambiar_vista("login")
 
         with columna_registro:
-            if st.button(
-                "Crear cuenta",
-                use_container_width=True,
-            ):
+            if st.button("Crear cuenta", use_container_width=True):
                 cambiar_vista("registro")
 
     # -------------------------
@@ -271,45 +184,23 @@ if st.session_state.usuario is None:
         st.divider()
 
         with st.form("form_login"):
-
-            email = st.text_input(
-                "Email"
-            )
-
-            password = st.text_input(
-                "Contraseña",
-                type="password",
-            )
-
-            enviar_login = st.form_submit_button(
-                "Iniciar sesión",
-                use_container_width=True,
-            )
+            email = st.text_input("Email")
+            password = st.text_input("Contraseña", type="password")
+            enviar_login = st.form_submit_button("Iniciar sesión", use_container_width=True)
 
         if enviar_login:
-
-            resultado = authenticate_user(
-                email=email,
-                password=password,
-            )
+            resultado = authenticate_user(email=email, password=password)
 
             if resultado["success"]:
-
                 st.session_state.usuario = resultado["user"]
                 st.session_state.vista = "asistente"
 
                 st.rerun()
 
             else:
+                st.error(resultado["error"])
 
-                st.error(
-                    resultado["error"]
-                )
-
-        if st.button(
-            "← Volver al inicio",
-            key="volver_inicio_desde_login",
-        ):
+        if st.button("← Volver al inicio", key="volver_inicio_desde_login"):
             cambiar_vista("inicio")
 
     # -------------------------
@@ -317,9 +208,7 @@ if st.session_state.usuario is None:
     # -------------------------
 
     elif st.session_state.vista == "registro":
-
         st.subheader("Crear cuenta")
-
         st.write("¿Ya tienes cuenta?")
 
         if st.button(
@@ -331,50 +220,19 @@ if st.session_state.usuario is None:
 
         st.divider()
 
-        st.write(
-            "Los campos marcados con * son obligatorios."
-        )
+        st.write("Los campos marcados con * son obligatorios.")
 
         with st.form("form_registro"):
 
-            nombre = st.text_input(
-                "Nombre *"
-            )
-
-            apellido1 = st.text_input(
-                "Primer apellido *"
-            )
-
-            apellido2 = st.text_input(
-                "Segundo apellido"
-            )
-
-            direccion = st.text_input(
-                "Dirección *",
-                placeholder="Calle y número",
-            )
-
-            direccion2 = st.text_input(
-                "Dirección adicional",
-                placeholder="Piso, puerta, escalera...",
-            )
-
-            provincia = st.text_input(
-                "Provincia *"
-            )
-
-            ciudad = st.text_input(
-                "Ciudad *"
-            )
-
-            cp = st.text_input(
-                "Código postal *",
-                max_chars=5,
-            )
-
-            email = st.text_input(
-                "Email *"
-            )
+            nombre = st.text_input("Nombre *")
+            apellido1 = st.text_input("Primer apellido *")
+            apellido2 = st.text_input("Segundo apellido")
+            direccion = st.text_input("Dirección *", placeholder="Calle y número")
+            direccion2 = st.text_input("Dirección adicional", placeholder="Piso, puerta, escalera...")
+            provincia = st.text_input("Provincia *")
+            ciudad = st.text_input("Ciudad *")
+            cp = st.text_input("Código postal *", max_chars=5)
+            email = st.text_input("Email *")
 
             password = st.text_input(
                 "Contraseña *",
@@ -385,18 +243,10 @@ if st.session_state.usuario is None:
                 ),
             )
 
-            repetir_password = st.text_input(
-                "Repetir contraseña *",
-                type="password",
-            )
-
-            enviar_registro = st.form_submit_button(
-                "Crear cuenta",
-                use_container_width=True,
-            )
+            repetir_password = st.text_input("Repetir contraseña *", type="password")
+            enviar_registro = st.form_submit_button("Crear cuenta", use_container_width=True)
 
         if enviar_registro:
-
             resultado = register_user(
                 nombre=nombre,
                 apellido1=apellido1,
@@ -408,14 +258,12 @@ if st.session_state.usuario is None:
                 cp=cp,
                 email=email,
                 password=password,
-                repetir_password=repetir_password,
+                repetir_password=repetir_password
             )
 
             if resultado["success"]:
-
                 st.success(
-                    "Cuenta creada correctamente. "
-                    "Ya puedes iniciar sesión."
+                    "Cuenta creada correctamente. Ya puedes iniciar sesión."
                 )
 
                 if st.button(
@@ -426,14 +274,10 @@ if st.session_state.usuario is None:
                     cambiar_vista("login")
 
             else:
-
                 for error in resultado["errors"]:
                     st.error(error)
 
-        if st.button(
-            "← Volver al inicio",
-            key="volver_inicio_desde_registro",
-        ):
+        if st.button("← Volver al inicio", key="volver_inicio_desde_registro"):
             cambiar_vista("inicio")
 
 
@@ -449,20 +293,13 @@ else:
     # Cabecera privada
     # -------------------------
 
-    columna_usuario, columna_logout = st.columns(
-        [3, 1]
-    )
+    columna_usuario, columna_logout = st.columns([3, 1])
 
     with columna_usuario:
-        st.write(
-            f"Hola, **{usuario['nombre']}**"
-        )
+        st.write(f"Hola, **{usuario['nombre']}**")
 
     with columna_logout:
-        if st.button(
-            "Cerrar sesión",
-            use_container_width=True,
-        ):
+        if st.button("Cerrar sesión", use_container_width=True):
             cerrar_sesion()
 
     st.divider()
@@ -471,9 +308,7 @@ else:
     # Asistente
     # -------------------------
 
-    st.subheader(
-        "Asistente de residuos"
-    )
+    st.subheader("Asistente de residuos")
 
     st.write(
         "Pregunta sobre reciclaje, residuos, "
@@ -486,30 +321,17 @@ else:
     # -------------------------
 
     for mensaje in st.session_state.mensajes:
+        with st.chat_message(mensaje["role"]):
+            st.write(mensaje["content"])
 
-        with st.chat_message(
-            mensaje["role"]
-        ):
-
-            st.write(
-                mensaje["content"]
-            )
-
-            if (
-                mensaje["role"]
-                == "assistant"
-            ):
-                mostrar_detalles_asistente(
-                    mensaje
-                )
+            if mensaje["role"] == "assistant":
+                mostrar_detalles_asistente(mensaje)
 
     # -------------------------
     # Entrada del usuario
     # -------------------------
 
-    consulta = st.chat_input(
-        "Escribe tu consulta..."
-    )
+    consulta = st.chat_input("Escribe tu consulta...")
 
     if consulta:
 
@@ -522,34 +344,21 @@ else:
         )
 
         # Ejecutamos el RAG.
-        with st.spinner(
-            "Buscando información..."
-        ):
-            resultado = ask_assistant(
-                consulta=consulta,
-            )
+        with st.spinner("Buscando información..."):
+            resultado = ask_assistant(consulta=consulta)
 
         # -------------------------
         # Respuesta correcta
         # -------------------------
 
         if resultado["success"]:
-
             st.session_state.mensajes.append(
                 {
                     "role": "assistant",
-                    "content": resultado[
-                        "answer"
-                    ],
-                    "sources": resultado[
-                        "sources"
-                    ],
-                    "chunks": resultado[
-                        "chunks"
-                    ],
-                    "metrics": resultado[
-                        "metrics"
-                    ],
+                    "content": resultado["answer"],
+                    "sources": resultado["sources"],
+                    "chunks": resultado["chunks"],
+                    "metrics": resultado["metrics"]
                 }
             )
 
@@ -558,17 +367,13 @@ else:
         # -------------------------
 
         else:
-
             st.session_state.mensajes.append(
                 {
                     "role": "assistant",
-                    "content": (
-                        "No se ha podido procesar "
-                        "la consulta."
-                    ),
+                    "content": "No se ha podido procesar la consulta.",
                     "sources": [],
                     "chunks": [],
-                    "metrics": {},
+                    "metrics": {}
                 }
             )
 

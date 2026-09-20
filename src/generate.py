@@ -19,8 +19,7 @@ from src.gemini_client import crear_cliente_gemini
 # =========================================================
 
 ABSTENTION_MESSAGE = (
-    "No puedo responder con la información disponible "
-    "en los documentos."
+    "No puedo responder con la información disponible en los documentos."
 )
 
 
@@ -28,10 +27,7 @@ ABSTENTION_MESSAGE = (
 # CONSTRUCCIÓN DEL PROMPT
 # =========================================================
 
-def construir_prompt(
-    pregunta: str,
-    contexto: str,
-) -> str:
+def construir_prompt(pregunta: str, contexto: str) -> str:
     """
     Construye el prompt utilizado para generar la respuesta.
 
@@ -72,10 +68,7 @@ PREGUNTA:
 # LLAMADA AL MODELO
 # =========================================================
 
-def _generar_con_reintentos(
-    client,
-    prompt: str,
-) -> str:
+def _generar_con_reintentos(client, prompt: str) -> str:
     """
     Ejecuta la llamada al modelo de generación.
 
@@ -91,11 +84,8 @@ def _generar_con_reintentos(
         504,  # Gateway Timeout
     }
 
-    for intento in range(
-        GENERATION_MAX_RETRIES
-    ):
+    for intento in range(GENERATION_MAX_RETRIES):
         try:
-
             respuesta = client.models.generate_content(
                 model=GENERATION_MODEL,
                 contents=prompt,
@@ -111,9 +101,7 @@ def _generar_con_reintentos(
             texto = respuesta.text
 
             if not texto:
-                raise ValueError(
-                    "Gemini ha devuelto una respuesta vacía."
-                )
+                raise ValueError("Gemini ha devuelto una respuesta vacía.")
 
             return texto.strip()
 
@@ -121,15 +109,11 @@ def _generar_con_reintentos(
 
             if (
                 error.code not in errores_reintentables
-                or intento
-                == GENERATION_MAX_RETRIES - 1
+                or intento == GENERATION_MAX_RETRIES - 1
             ):
                 raise
 
-            espera = (
-                GENERATION_RETRY_SECONDS
-                * (2 ** intento)
-            )
+            espera = GENERATION_RETRY_SECONDS * (2 ** intento)
 
             print(
                 "Error temporal de Gemini "
@@ -137,26 +121,18 @@ def _generar_con_reintentos(
                 f"Reintentando en {espera} segundos..."
             )
 
-            time.sleep(
-                espera
-            )
+            time.sleep(espera)
 
     # Esta línea no debería alcanzarse, pero evita que la
     # función pueda finalizar sin devolver un valor.
-    raise RuntimeError(
-        "No se pudo generar una respuesta."
-    )
+    raise RuntimeError("No se pudo generar una respuesta.")
 
 
 # =========================================================
 # GENERACIÓN DE LA RESPUESTA
 # =========================================================
 
-def generar_respuesta(
-    pregunta: str,
-    contexto: str,
-    client=None,
-) -> str:
+def generar_respuesta(pregunta: str, contexto: str, client=None) -> str:
     """
     Genera una respuesta fundamentada exclusivamente en los
     chunks recuperados por el RAG.
@@ -181,32 +157,22 @@ def generar_respuesta(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
     # Si retrieval no ha proporcionado ningún contexto,
     # no tiene sentido consumir una llamada al modelo.
     if not contexto or not contexto.strip():
         return ABSTENTION_MESSAGE
 
-    prompt = construir_prompt(
-        pregunta=pregunta.strip(),
-        contexto=contexto.strip(),
-    )
+    prompt = construir_prompt(pregunta=pregunta.strip(), contexto=contexto.strip())
 
-    cliente_propio = (
-        client is None
-    )
+    cliente_propio = client is None
 
     if cliente_propio:
         client = crear_cliente_gemini()
 
     try:
-        return _generar_con_reintentos(
-            client,
-            prompt,
-        )
+        return _generar_con_reintentos(client, prompt)
 
     finally:
         if cliente_propio:

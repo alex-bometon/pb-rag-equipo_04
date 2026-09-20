@@ -31,14 +31,9 @@ def cargar_embeddings_json() -> dict:
     """
 
     if not EMBEDDINGS_JSON.exists():
-        raise FileNotFoundError(
-            f"No existe el archivo: {EMBEDDINGS_JSON}"
-        )
+        raise FileNotFoundError(f"No existe el archivo: {EMBEDDINGS_JSON}")
 
-    with EMBEDDINGS_JSON.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
+    with EMBEDDINGS_JSON.open("r", encoding="utf-8") as archivo:
         return json.load(archivo)
 
 
@@ -81,10 +76,8 @@ def metadata_equivalente(
         return False
 
     for clave in metadata_origen:
-
         valor_origen = metadata_origen[clave]
         valor_chroma = metadata_chroma[clave]
-
 
         # Los bool también son int en Python,
         # por eso se excluyen explícitamente.
@@ -97,7 +90,6 @@ def metadata_equivalente(
 
 
         if ambos_numericos:
-
             if not math.isclose(
                 float(valor_origen),
                 float(valor_chroma),
@@ -107,7 +99,6 @@ def metadata_equivalente(
                 return False
 
         else:
-
             if valor_origen != valor_chroma:
                 return False
 
@@ -121,9 +112,9 @@ def metadata_equivalente(
 
 def main() -> None:
 
-    print("=" * 70)
+    print("=" * 60)
     print("COMPROBACIÓN DE INDEXACIÓN EN CHROMADB")
-    print("=" * 70)
+    print("=" * 60)
     print()
 
     errores = 0
@@ -134,29 +125,15 @@ def main() -> None:
     # =====================================================
 
     print("1. ARTEFACTO DE REFERENCIA")
-    print("-" * 70)
+    print("-" * 60)
 
     payload = cargar_embeddings_json()
-
-    items = payload.get(
-        "items",
-        [],
-    )
-
+    items = payload.get("items", [])
     total_embeddings = len(items)
+    dimensiones_esperadas = payload.get("embedding_dimensions")
 
-    dimensiones_esperadas = payload.get(
-        "embedding_dimensions"
-    )
-
-    print(
-        f"Embeddings en embeddings.json: {total_embeddings}"
-    )
-
-    print(
-        f"Dimensiones esperadas:         {dimensiones_esperadas}"
-    )
-
+    print(f"Embeddings en embeddings.json: {total_embeddings}")
+    print(f"Dimensiones esperadas:         {dimensiones_esperadas}")
     print()
 
 
@@ -165,10 +142,9 @@ def main() -> None:
     # =====================================================
 
     print("2. CONEXIÓN CON CHROMADB")
-    print("-" * 70)
+    print("-" * 60)
 
     if not CHROMA_DIR.exists():
-
         mostrar_resultado(
             "Existe la base de datos persistente",
             False,
@@ -185,9 +161,7 @@ def main() -> None:
         errores += 1
 
 
-    client = chromadb.PersistentClient(
-        path=str(CHROMA_DIR)
-    )
+    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 
     print()
 
@@ -197,18 +171,13 @@ def main() -> None:
     # =====================================================
 
     print("3. COLECCIÓN")
-    print("-" * 70)
+    print("-" * 60)
 
     colecciones = client.list_collections()
 
-    nombres = [
-        coleccion.name
-        for coleccion in colecciones
-    ]
+    nombres = [coleccion.name for coleccion in colecciones]
 
-    existe_coleccion = (
-        CHROMA_COLLECTION_NAME in nombres
-    )
+    existe_coleccion = CHROMA_COLLECTION_NAME in nombres
 
     if not mostrar_resultado(
         "Existe la colección esperada",
@@ -218,16 +187,14 @@ def main() -> None:
         errores += 1
 
         print()
-        print("=" * 70)
+        print("=" * 60)
         print("RESULTADO: INDEXACIÓN NO VÁLIDA")
-        print("=" * 70)
+        print("=" * 60)
 
         return
 
 
-    collection = client.get_collection(
-        name=CHROMA_COLLECTION_NAME
-    )
+    collection = client.get_collection(name=CHROMA_COLLECTION_NAME)
 
     print()
 
@@ -237,21 +204,15 @@ def main() -> None:
     # =====================================================
 
     print("4. CANTIDAD DE REGISTROS")
-    print("-" * 70)
+    print("-" * 60)
 
     total_chroma = collection.count()
-
-    correcto = (
-        total_chroma == total_embeddings
-    )
+    correcto = total_chroma == total_embeddings
 
     if not mostrar_resultado(
         "Chroma contiene un registro por embedding",
         correcto,
-        (
-            f"embeddings.json: {total_embeddings} | "
-            f"ChromaDB: {total_chroma}"
-        ),
+        f"embeddings.json: {total_embeddings} | ChromaDB: {total_chroma}",
     ):
         errores += 1
 
@@ -263,63 +224,21 @@ def main() -> None:
     # =====================================================
 
     print("5. ESTRUCTURA DE LOS REGISTROS")
-    print("-" * 70)
+    print("-" * 60)
 
-    resultado = collection.get(
-        include=[
-            "documents",
-            "metadatas",
-            "embeddings",
-        ]
-    )
-
-    ids = resultado.get(
-        "ids",
-        [],
-    )
-
-    documents = resultado.get(
-        "documents",
-        [],
-    )
-
-    metadatas = resultado.get(
-        "metadatas",
-        [],
-    )
-
-    embeddings = resultado.get(
-        "embeddings",
-        [],
-    )
-
-
+    resultado = collection.get(include=["documents", "metadatas", "embeddings"])
+    ids = resultado.get("ids", [])
+    documents = resultado.get("documents", [])
+    metadatas = resultado.get("metadatas", [])
+    embeddings = resultado.get("embeddings", [])
     comprobaciones_estructura = [
-        (
-            "Número de IDs",
-            len(ids) == total_embeddings,
-            len(ids),
-        ),
-        (
-            "Número de documentos",
-            len(documents) == total_embeddings,
-            len(documents),
-        ),
-        (
-            "Número de metadatos",
-            len(metadatas) == total_embeddings,
-            len(metadatas),
-        ),
-        (
-            "Número de vectores",
-            len(embeddings) == total_embeddings,
-            len(embeddings),
-        ),
+        ("Número de IDs", len(ids) == total_embeddings, len(ids)),
+        ("Número de documentos", len(documents) == total_embeddings, len(documents)),
+        ("Número de metadatos", len(metadatas) == total_embeddings, len(metadatas)),
+        ("Número de vectores", len(embeddings) == total_embeddings, len(embeddings)),
     ]
 
-
     for nombre, correcto, cantidad in comprobaciones_estructura:
-
         if not mostrar_resultado(
             nombre,
             correcto,
@@ -335,26 +254,20 @@ def main() -> None:
     # =====================================================
 
     print("6. IDENTIFICADORES")
-    print("-" * 70)
+    print("-" * 60)
 
-    ids_unicos = (
-        len(ids) == len(set(ids))
-    )
+    ids_unicos = len(ids) == len(set(ids))
 
     if not mostrar_resultado(
         "Todos los IDs son únicos",
         ids_unicos,
-        (
-            f"IDs totales: {len(ids)} | "
-            f"IDs únicos: {len(set(ids))}"
-        ),
+        f"IDs totales: {len(ids)} | IDs únicos: {len(set(ids))}",
     ):
         errores += 1
 
 
     ids_vacios = sum(
-        1
-        for identificador in ids
+        1 for identificador in ids
         if not isinstance(identificador, str)
         or not identificador.strip()
     )
@@ -374,11 +287,10 @@ def main() -> None:
     # =====================================================
 
     print("7. DOCUMENTOS")
-    print("-" * 70)
+    print("-" * 60)
 
     documentos_vacios = sum(
-        1
-        for documento in documents
+        1 for documento in documents
         if not isinstance(documento, str)
         or not documento.strip()
     )
@@ -398,11 +310,10 @@ def main() -> None:
     # =====================================================
 
     print("8. METADATA")
-    print("-" * 70)
+    print("-" * 60)
 
     metadata_invalidos = sum(
-        1
-        for metadata in metadatas
+        1 for metadata in metadatas
         if not isinstance(metadata, dict)
     )
 
@@ -415,8 +326,7 @@ def main() -> None:
 
 
     fuentes_vacias = sum(
-        1
-        for metadata in metadatas
+        1 for metadata in metadatas
         if not metadata.get("source")
     )
 
@@ -429,8 +339,7 @@ def main() -> None:
 
 
     tipos_vacios = sum(
-        1
-        for metadata in metadatas
+        1 for metadata in metadatas
         if not metadata.get("document_type")
     )
 
@@ -449,7 +358,7 @@ def main() -> None:
     # =====================================================
 
     print("9. VECTORES INDEXADOS")
-    print("-" * 70)
+    print("-" * 60)
 
     dimensiones_incorrectas = 0
     valores_invalidos = 0
@@ -465,17 +374,12 @@ def main() -> None:
 
         for valor in vector:
 
-            if not isinstance(
-                valor,
-                (int, float),
-            ):
+            if not isinstance(valor, (int, float)):
                 valores_invalidos += 1
                 vector_correcto = False
                 break
 
-            if not math.isfinite(
-                float(valor)
-            ):
+            if not math.isfinite(float(valor)):
                 valores_invalidos += 1
                 vector_correcto = False
                 break
@@ -483,12 +387,7 @@ def main() -> None:
         if not vector_correcto:
             continue
 
-        norma = math.sqrt(
-            sum(
-                float(valor) ** 2
-                for valor in vector
-            )
-        )
+        norma = math.sqrt(sum(float(valor) ** 2 for valor in vector))
 
         if norma == 0:
             vectores_cero += 1
@@ -514,12 +413,7 @@ def main() -> None:
 
 
     for nombre, correcto, detalle in comprobaciones_vectores:
-
-        if not mostrar_resultado(
-            nombre,
-            correcto,
-            detalle,
-        ):
+        if not mostrar_resultado(nombre, correcto, detalle):
             errores += 1
 
     print()
@@ -529,21 +423,15 @@ def main() -> None:
     # =====================================================
 
     print("10. CORRESPONDENCIA CON EMBEDDINGS.JSON")
-    print("-" * 70)
+    print("-" * 60)
 
 
     # -----------------------------------------------------
     # DOCUMENTOS
     # -----------------------------------------------------
 
-    documentos_origen = {
-        item["text"]
-        for item in items
-    }
-
-    documentos_chroma = set(
-        documents
-    )
+    documentos_origen = {item["text"] for item in items}
+    documentos_chroma = set(documents)
 
 
     if not mostrar_resultado(
@@ -565,55 +453,29 @@ def main() -> None:
     # el propio documento como clave para comparar directamente
     # la metadata original con la recuperada desde Chroma.
 
-    metadata_origen_por_texto = {
-        item["text"]: item["metadata"]
-        for item in items
-    }
+    metadata_origen_por_texto = {item["text"]: item["metadata"] for item in items}
 
     metadata_chroma_por_texto = {
-        documento: metadata
-        for documento, metadata in zip(
-            documents,
-            metadatas,
-        )
+        documento: metadata for documento, metadata in zip(documents, metadatas)
     }
-
 
     diferencias_metadata = []
 
-
     for texto, metadata_origen in metadata_origen_por_texto.items():
 
-        metadata_chroma = metadata_chroma_por_texto.get(
-            texto
-        )
+        metadata_chroma = metadata_chroma_por_texto.get(texto)
 
-        if not metadata_equivalente(
-            metadata_origen,
-            metadata_chroma,
-        ):
-
+        if not metadata_equivalente(metadata_origen, metadata_chroma):
             diferencias_metadata.append(
-                (
-                    texto,
-                    metadata_origen,
-                    metadata_chroma,
-                )
+                (texto, metadata_origen, metadata_chroma)
             )
 
-
-    metadata_correcta = (
-        len(diferencias_metadata) == 0
-    )
-
+    metadata_correcta = len(diferencias_metadata) == 0
 
     if not mostrar_resultado(
         "Cada documento conserva su metadata correcta",
         metadata_correcta,
-        (
-            f"Documentos con diferencias: "
-            f"{len(diferencias_metadata)}"
-        ),
+        f"Documentos con diferencias: {len(diferencias_metadata)}",
     ):
         errores += 1
 
@@ -626,63 +488,35 @@ def main() -> None:
 
         print()
         print("DIAGNÓSTICO DE METADATA")
-        print("-" * 70)
+        print("-" * 60)
 
         # Mostramos como máximo los primeros 5 casos.
         # No necesitamos imprimir los 712 documentos completos.
-        for indice, (
-            texto,
-            metadata_origen,
-            metadata_chroma,
-        ) in enumerate(
-            diferencias_metadata[:5],
-            start=1,
-        ):
+        for indice, (texto, metadata_origen, metadata_chroma) in enumerate(
+                                                        diferencias_metadata[:5],
+                                                        start=1,
+                                                    ):
 
             print()
             print(f"Diferencia {indice}")
             print()
-
-            print(
-                "Documento:"
-            )
-
-            print(
-                texto[:200].replace(
-                    "\n",
-                    " ",
-                )
-            )
-
+            print("Documento:")
+            print(texto[:200].replace("\n", " "))
             print()
-
 
             # Reunimos todas las claves que aparecen
             # en cualquiera de las dos versiones.
 
-            claves = sorted(
-                set(metadata_origen)
-                |
-                set(metadata_chroma or {})
-            )
-
+            claves = sorted(set(metadata_origen) | set(metadata_chroma or {}))
 
             for clave in claves:
-
-                valor_origen = metadata_origen.get(
-                    clave,
-                    "<NO EXISTE>",
-                )
+                valor_origen = metadata_origen.get(clave, "<NO EXISTE>")
 
                 valor_chroma = (
-                    metadata_chroma.get(
-                        clave,
-                        "<NO EXISTE>",
-                    )
+                    metadata_chroma.get(clave, "<NO EXISTE>")
                     if metadata_chroma is not None
                     else "<NO EXISTE>"
                 )
-
 
                 ambos_numericos = (
                     isinstance(valor_origen, (int, float))
@@ -692,25 +526,17 @@ def main() -> None:
                 )
 
                 if ambos_numericos:
-
                     valores_iguales = math.isclose(
                         float(valor_origen),
                         float(valor_chroma),
                         rel_tol=1e-12,
                         abs_tol=1e-12,
                     )
-
                 else:
-
-                    valores_iguales = (
-                        valor_origen == valor_chroma
-                    )
-
+                    valores_iguales = valor_origen == valor_chroma
 
                 if not valores_iguales:
-
-                    print(
-                        f"Clave: {clave}"
+                    print(f"Clave: {clave}"
                     )
 
                     print(
@@ -732,26 +558,14 @@ def main() -> None:
     # 11. RESUMEN
     # =====================================================
 
-    print("=" * 70)
+    print("=" * 60)
     print("RESUMEN")
-    print("=" * 70)
+    print("=" * 60)
 
-    print(
-        f"Colección:               {CHROMA_COLLECTION_NAME}"
-    )
-
-    print(
-        f"Embeddings de origen:    {total_embeddings}"
-    )
-
-    print(
-        f"Registros en ChromaDB:   {total_chroma}"
-    )
-
-    print(
-        f"Dimensiones por vector:  {EMBEDDING_DIMENSIONS}"
-    )
-
+    print(f"Colección:               {CHROMA_COLLECTION_NAME}")
+    print(f"Embeddings de origen:    {total_embeddings}")
+    print(f"Registros en ChromaDB:   {total_chroma}")
+    print(f"Dimensiones por vector:  {EMBEDDING_DIMENSIONS}")
     print()
 
 
@@ -760,18 +574,9 @@ def main() -> None:
     # =====================================================
 
     if errores == 0:
-
-        print(
-            "RESULTADO: INDEXACIÓN VÁLIDA"
-        )
-
+        print("RESULTADO: INDEXACIÓN VÁLIDA")
     else:
-
-        print(
-            f"RESULTADO: INDEXACIÓN NO VÁLIDA "
-            f"({errores} errores)"
-        )
-
+        print(f"RESULTADO: INDEXACIÓN NO VÁLIDA ({errores} errores)")
 
 if __name__ == "__main__":
     main()

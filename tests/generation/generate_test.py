@@ -20,10 +20,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-from src.generate import (
-    ABSTENTION_MESSAGE,
-    generar_respuesta,
-)
+from src.generate import ABSTENTION_MESSAGE, generar_respuesta
 
 
 # =========================================================
@@ -51,11 +48,7 @@ class FakeModels:
     def __init__(self):
         self.calls = []
 
-    def generate_content(
-        self,
-        model,
-        contents,
-    ):
+    def generate_content(self, model, contents):
         self.calls.append(
             {
                 "model": model,
@@ -99,12 +92,8 @@ En Madrid, los residuos de envases de vidrio deben depositarse
 en el contenedor verde.
 """
 
-    pregunta = (
-        "¿Dónde deben depositarse los envases de vidrio?"
-    )
-
+    pregunta = "¿Dónde deben depositarse los envases de vidrio?"
     client = FakeClient()
-
     respuesta = generar_respuesta(
         pregunta=pregunta,
         contexto=contexto,
@@ -173,9 +162,7 @@ def test_pregunta_vacia():
         pass
 
     else:
-        raise AssertionError(
-            "Se esperaba ValueError para una pregunta vacía."
-        )
+        raise AssertionError("Se esperaba ValueError para una pregunta vacía.")
 
     assert len(client.models.calls) == 0
 
@@ -187,22 +174,13 @@ def test_pregunta_vacia():
 if __name__ == "__main__":
 
     test_generacion_con_contexto()
-    print(
-        "OK - generación con contexto"
-    )
+    print("OK - generación con contexto")
 
     test_abstencion_sin_contexto()
-    print(
-        "OK - abstención sin contexto"
-    )
+    print("OK - abstención sin contexto")
 
     test_pregunta_vacia()
-    print(
-        "OK - validación de pregunta vacía"
-    )
+    print("OK - validación de pregunta vacía")
 
     print()
-    print(
-        "Todos los tests de generación "
-        "han pasado correctamente."
-    )
+    print("Todos los tests de generación han pasado correctamente.")

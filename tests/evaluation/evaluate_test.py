@@ -39,24 +39,19 @@ def cargar_preguntas() -> list[dict]:
     Carga el dataset canónico de evaluación.
     """
 
-    with EVAL_QUERIES_JSON.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
+    with EVAL_QUERIES_JSON.open("r", encoding="utf-8") as archivo:
         payload = json.load(archivo)
 
     queries = payload.get("queries")
 
     if not isinstance(queries, list):
         raise ValueError(
-            "eval_queries.json debe contener una lista "
-            "en la clave 'queries'."
+            "eval_queries.json debe contener una lista en la clave 'queries'."
         )
 
     if payload.get("total_queries") != len(queries):
         raise ValueError(
-            "total_queries no coincide con el número "
-            "real de preguntas."
+            "total_queries no coincide con el número real de preguntas."
         )
 
     return queries
@@ -80,15 +75,10 @@ def fuente_esperada_recuperada(
         return None
 
     fuentes_recuperadas = {
-        fuente.get("source")
-        for fuente in fuentes
-        if fuente.get("source")
+        fuente.get("source") for fuente in fuentes if fuente.get("source")
     }
 
-    return any(
-        fuente in fuentes_recuperadas
-        for fuente in fuentes_esperadas
-    )
+    return any(fuente in fuentes_recuperadas for fuente in fuentes_esperadas)
 
 
 # =========================================================
@@ -109,29 +99,23 @@ def evaluar(
 
     chroma_client = crear_cliente_chroma()
 
-    collection = chroma_client.get_collection(
-        name=CHROMA_COLLECTION_NAME
-    )
+    collection = chroma_client.get_collection(name=CHROMA_COLLECTION_NAME)
 
     resultados = []
 
     try:
 
-        for posicion, query in enumerate(
-            queries,
-            start=1,
-        ):
-
+        for posicion, query in enumerate(queries, start=1):
             query_id = query["id"]
             pregunta = query["pregunta"]
 
             print()
-            print("=" * 70)
+            print("=" * 60)
             print(
                 f"[{posicion}/{len(queries)}] "
                 f"ID {query_id}"
             )
-            print("=" * 70)
+            print("=" * 60)
             print(pregunta)
 
             try:
@@ -141,34 +125,18 @@ def evaluar(
                     k=k,
                     client=client,
                     collection=collection,
-                    query_embedding=embeddings[
-                        query_id
-                    ],
+                    query_embedding=embeddings[query_id]
                 )
 
                 respuesta = resultado["answer"]
                 fuentes = resultado["sources"]
                 chunks = resultado["chunks"]
-
-                abstained = (
-                    respuesta.strip()
-                    == ABSTENTION_MESSAGE
-                )
-
-                abstencion_esperada = (
-                    not query["es_respondible"]
-                )
-
-                abstencion_correcta = (
-                    abstained
-                    == abstencion_esperada
-                )
+                abstained = respuesta.strip() == ABSTENTION_MESSAGE
+                abstencion_esperada = not query["es_respondible"]
+                abstencion_correcta = abstained == abstencion_esperada
 
                 retrieval_hit = (
-                    fuente_esperada_recuperada(
-                        fuentes,
-                        query["fuentes_esperadas"],
-                    )
+                    fuente_esperada_recuperada(fuentes, query["fuentes_esperadas"])
                 )
 
                 print()
@@ -179,9 +147,7 @@ def evaluar(
                 print("FUENTES:")
 
                 for fuente in fuentes:
-                    print(
-                        f"- {fuente.get('source')}"
-                    )
+                    print(f"- {fuente.get('source')}")
 
                 if retrieval_hit is not None:
                     print(
@@ -199,35 +165,26 @@ def evaluar(
                         "id": query_id,
                         "categoria": query["categoria"],
                         "pregunta": pregunta,
-                        "es_respondible": query[
-                            "es_respondible"
-                        ],
-                        "fuentes_esperadas": query[
-                            "fuentes_esperadas"
-                        ],
+                        "es_respondible": query["es_respondible"],
+                        "fuentes_esperadas": query["fuentes_esperadas"],
                         "answer": respuesta,
                         "sources": fuentes,
                         "chunks": chunks,
                         "retrieval_hit": retrieval_hit,
                         "abstained": abstained,
-                        "abstention_correct": (
-                            abstencion_correcta
-                        ),
+                        "abstention_correct": abstencion_correcta
                     }
                 )
 
             except Exception as error:
-
-                print(
-                    f"\nERROR: {error}"
-                )
+                print(f"\nERROR: {error}")
 
                 resultados.append(
                     {
                         "id": query_id,
                         "categoria": query["categoria"],
                         "pregunta": pregunta,
-                        "error": str(error),
+                        "error": str(error)
                     }
                 )
 
@@ -241,118 +198,41 @@ def evaluar(
 # RESUMEN
 # =========================================================
 
-def mostrar_resumen(
-    resultados: list[dict],
-) -> None:
+def mostrar_resumen(resultados: list[dict]) -> None:
 
-    validos = [
-        resultado
-        for resultado in resultados
-        if "error" not in resultado
-    ]
-
-    errores = (
-        len(resultados)
-        - len(validos)
-    )
-
-    respondibles = [
-        resultado
-        for resultado in validos
-        if resultado["es_respondible"]
-    ]
-
-    fuera_dominio = [
-        resultado
-        for resultado in validos
-        if not resultado["es_respondible"]
-    ]
-
-    retrieval_hits = sum(
-        resultado["retrieval_hit"] is True
-        for resultado in respondibles
-    )
-
-    respuestas_correctas = sum(
-        not resultado["abstained"]
-        for resultado in respondibles
-    )
-
-    abstenciones_correctas = sum(
-        resultado["abstention_correct"]
-        for resultado in fuera_dominio
-    )
+    validos = [resultado for resultado in resultados if "error" not in resultado]
+    errores = len(resultados) - len(validos)
+    respondibles = [resultado for resultado in validos if resultado["es_respondible"]]
+    fuera_dominio = [resultado for resultado in validos if not resultado["es_respondible"]]
+    retrieval_hits = sum(resultado["retrieval_hit"] is True for resultado in respondibles)
+    respuestas_correctas = sum(not resultado["abstained"] for resultado in respondibles)
+    abstenciones_correctas = sum(resultado["abstention_correct"] for resultado in fuera_dominio)
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print("RESUMEN")
-    print("=" * 70)
+    print("=" * 60)
 
-    print(
-        f"Preguntas totales:             "
-        f"{len(resultados)}"
-    )
-
-    print(
-        f"Errores de ejecución:           "
-        f"{errores}"
-    )
-
-    print(
-        f"Preguntas respondibles:         "
-        f"{len(respondibles)}"
-    )
-
-    print(
-        f"Fuente esperada recuperada:     "
-        f"{retrieval_hits}/{len(respondibles)}"
-    )
-
-    print(
-        f"Respondidas sin abstención:     "
-        f"{respuestas_correctas}/{len(respondibles)}"
-    )
-
-    print(
-        f"Preguntas fuera de dominio:     "
-        f"{len(fuera_dominio)}"
-    )
-
-    print(
-        f"Abstenciones correctas OOD:     "
-        f"{abstenciones_correctas}/{len(fuera_dominio)}"
-    )
-
+    print(f"Preguntas totales:              {len(resultados)}")
+    print(f"Errores de ejecución:           {errores}")
+    print(f"Preguntas respondibles:         {len(respondibles)}")
+    print(f"Fuente esperada recuperada:     {retrieval_hits}/{len(respondibles)}")
+    print(f"Respondidas sin abstención:     {respuestas_correctas}/{len(respondibles)}")
+    print(f"Preguntas fuera de dominio:     {len(fuera_dominio)}")
+    print(f"Abstenciones correctas OOD:     {abstenciones_correctas}/{len(fuera_dominio)}")
 
 # =========================================================
 # GUARDADO
 # =========================================================
 
-def guardar_resultados(
-    resultados: list[dict],
-    k: int,
-) -> Path:
+def guardar_resultados(resultados: list[dict], k: int) -> Path:
 
-    EVALUATION_RESULTS_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    EVALUATION_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    ruta = (
-        EVALUATION_RESULTS_DIR
-        / f"results_k{k}.json"
-    )
+    ruta = EVALUATION_RESULTS_DIR / f"results_k{k}.json"
 
-    with ruta.open(
-        "w",
-        encoding="utf-8",
-    ) as archivo:
-        json.dump(
-            resultados,
-            archivo,
-            ensure_ascii=False,
-            indent=2,
-        )
+    with ruta.open("w", encoding="utf-8") as archivo:
+        json.dump(resultados, archivo, ensure_ascii=False, indent=2)
 
     return ruta
 
@@ -364,9 +244,7 @@ def guardar_resultados(
 def main() -> None:
 
     parser = argparse.ArgumentParser(
-        description=(
-            "Evaluación end-to-end del sistema RAG."
-        )
+        description="Evaluación end-to-end del sistema RAG."
     )
 
     parser.add_argument(
@@ -379,36 +257,22 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.k <= 0:
-        raise ValueError(
-            "k debe ser mayor que 0."
-        )
+        raise ValueError("k debe ser mayor que 0.")
 
     queries = cargar_preguntas()
     embeddings = cargar_embeddings_queries()
 
-    faltantes = [
-        query["id"]
-        for query in queries
-        if query["id"] not in embeddings
-    ]
+    faltantes = [query["id"] for query in queries if query["id"] not in embeddings]
 
     if faltantes:
-        raise ValueError(
-            "Faltan embeddings para las preguntas: "
-            f"{faltantes}"
-        )
+        raise ValueError("Faltan embeddings para las preguntas: {faltantes}")
 
-    print("=" * 70)
+    print("=" * 60)
     print("EVALUACIÓN END-TO-END DEL RAG")
-    print("=" * 70)
+    print("=" * 60)
 
-    print(
-        f"Preguntas: {len(queries)}"
-    )
-
-    print(
-        f"K: {args.k}"
-    )
+    print(f"Preguntas: {len(queries)}")
+    print(f"K: {args.k}")
 
     resultados = evaluar(
         queries=queries,
@@ -416,9 +280,7 @@ def main() -> None:
         k=args.k,
     )
 
-    mostrar_resumen(
-        resultados
-    )
+    mostrar_resumen(resultados)
 
     ruta = guardar_resultados(
         resultados=resultados,
@@ -426,9 +288,7 @@ def main() -> None:
     )
 
     print()
-    print(
-        f"Resultados guardados en: {ruta}"
-    )
+    print(f"Resultados guardados en: {ruta}")
 
 
 if __name__ == "__main__":

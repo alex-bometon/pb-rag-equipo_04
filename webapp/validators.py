@@ -36,11 +36,7 @@ def normalize_text(value: str) -> str:
     value = unicodedata.normalize("NFD", value)
 
     # Eliminamos los signos diacríticos.
-    value = "".join(
-        char
-        for char in value
-        if unicodedata.category(char) != "Mn"
-    )
+    value = "".join(char for char in value if unicodedata.category(char) != "Mn")
 
     # Restauramos la ñ.
     value = value.replace("__ENYE__", "ñ")
@@ -51,9 +47,7 @@ def normalize_text(value: str) -> str:
 # PATRON Y NORMALIZACION DEL EMAIL
 #===================================================================
 
-EMAIL_PATTERN = re.compile(
-    r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-)
+EMAIL_PATTERN = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
 # función de normalización concreta por si el email tuviera alguna tilde
 def normalize_email(email: str) -> str:

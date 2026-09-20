@@ -24,10 +24,7 @@ from src.retrieve import embeddear_pregunta_original
 
 
 def cargar_queries() -> list[dict]:
-    with EVAL_QUERIES_JSON.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
+    with EVAL_QUERIES_JSON.open("r", encoding="utf-8") as archivo:
         payload = json.load(archivo)
 
     return payload["queries"]
@@ -44,26 +41,16 @@ def cargar_embeddings_queries() -> dict[int, list[float]]:
             "Ejecuta primero: python tests/query_embeddings.py"
         )
 
-    with EVAL_QUERY_EMBEDDINGS_JSON.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
+    with EVAL_QUERY_EMBEDDINGS_JSON.open("r", encoding="utf-8") as archivo:
         payload = json.load(archivo)
 
     if payload["model"] != EMBEDDING_MODEL:
-        raise ValueError(
-            "La caché utiliza otro modelo de embeddings."
-        )
+        raise ValueError("La caché utiliza otro modelo de embeddings.")
 
     if payload["dimensions"] != EMBEDDING_DIMENSIONS:
-        raise ValueError(
-            "La caché utiliza otra dimensionalidad."
-        )
+        raise ValueError("La caché utiliza otra dimensionalidad.")
 
-    return {
-        item["id"]: item["vector"]
-        for item in payload["queries"]
-    }
+    return {item["id"]: item["vector"] for item in payload["queries"]}
 
 
 def generar_embeddings_queries() -> None:
@@ -73,31 +60,20 @@ def generar_embeddings_queries() -> None:
     """
 
     queries = cargar_queries()
-
     client = crear_cliente_gemini()
-
     items = []
 
     try:
-        for posicion, query in enumerate(
-            queries,
-            start=1,
-        ):
-            print(
-                f"[{posicion}/{len(queries)}] "
-                f"{query['pregunta']}"
-            )
+        for posicion, query in enumerate(queries, start=1):
+            print(f"[{posicion}/{len(queries)}] {query['pregunta']}")
 
-            vector = embeddear_pregunta_original(
-                client,
-                query["pregunta"],
-            )
+            vector = embeddear_pregunta_original(client, query["pregunta"])
 
             items.append(
                 {
                     "id": query["id"],
                     "pregunta": query["pregunta"],
-                    "vector": vector,
+                    "vector": vector
                 }
             )
 
@@ -107,32 +83,17 @@ def generar_embeddings_queries() -> None:
     payload = {
         "model": EMBEDDING_MODEL,
         "dimensions": EMBEDDING_DIMENSIONS,
-        "queries": items,
+        "queries": items
     }
 
-    EVAL_QUERY_EMBEDDINGS_JSON.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    EVAL_QUERY_EMBEDDINGS_JSON.parent.mkdir(parents=True, exist_ok=True)
 
-    with EVAL_QUERY_EMBEDDINGS_JSON.open(
-        "w",
-        encoding="utf-8",
-    ) as archivo:
-        json.dump(
-            payload,
-            archivo,
-            ensure_ascii=False,
-            indent=2,
-        )
+    with EVAL_QUERY_EMBEDDINGS_JSON.open("w", encoding="utf-8") as archivo:
+        json.dump(payload, archivo, ensure_ascii=False, indent=2)
 
     print()
-    print(
-        f"Embeddings generados: {len(items)}"
-    )
-    print(
-        f"Guardados en: {EVAL_QUERY_EMBEDDINGS_JSON}"
-    )
+    print(f"Embeddings generados: {len(items)}")
+    print(f"Guardados en: {EVAL_QUERY_EMBEDDINGS_JSON}")
 
 
 if __name__ == "__main__":

@@ -17,9 +17,7 @@ def main():
         )
     )
 
-    acciones = parser.add_mutually_exclusive_group(
-        required=True
-    )
+    acciones = parser.add_mutually_exclusive_group(required=True)
 
     acciones.add_argument(
         "--index",
@@ -61,9 +59,7 @@ def main():
     args = parser.parse_args()
 
     if args.k <= 0:
-        parser.error(
-            "--k debe ser mayor que 0."
-        )
+        parser.error("--k debe ser mayor que 0.")
 
     # =====================================================
     # INDEXACIÓN
@@ -78,20 +74,14 @@ def main():
     # =====================================================
 
     if args.query:
-        ejecutar_retrieval(
-            pregunta=args.query,
-            top_k=args.k,
-        )
+        ejecutar_retrieval(pregunta=args.query, top_k=args.k)
         return
 
     # =====================================================
     # RAG COMPLETO
     # =====================================================
 
-    resultado = responder(
-        pregunta=args.ask,
-        k=args.k,
-    )
+    resultado = responder(pregunta=args.ask, k=args.k)
 
     print()
     print("=" * 70)
@@ -106,13 +96,9 @@ def main():
 
     if resultado["sources"]:
         for fuente in resultado["sources"]:
-            print(
-                f"- {fuente.get('source')}"
-            )
+            print(f"- {fuente.get('source')}")
     else:
-        print(
-            "No se han recuperado fuentes."
-        )
+        print("No se han recuperado fuentes.")
 
     print()
     print("=" * 70)
@@ -120,33 +106,16 @@ def main():
     print("=" * 70)
 
     if resultado["chunks"]:
-        for i, chunk in enumerate(
-            resultado["chunks"],
-            start=1,
-        ):
+        for i, chunk in enumerate(resultado["chunks"], start=1):
             print()
             print(f"[{i}]")
 
-            metadata = chunk.get(
-                "metadata",
-                {},
-            )
+            metadata = chunk.get("metadata", {})
 
-            print(
-                "Fuente:",
-                metadata.get("source"),
-            )
-
-            print(
-                chunk.get(
-                    "text",
-                    "",
-                )
-            )
+            print("Fuente:", metadata.get("source"))
+            print(chunk.get("text", ""))
     else:
-        print(
-            "No se han recuperado chunks."
-        )
+        print("No se han recuperado chunks.")
 
 
 if __name__ == "__main__":

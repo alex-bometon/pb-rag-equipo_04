@@ -24,14 +24,8 @@ En Madrid, los residuos de envases de vidrio deben depositarse
 en el contenedor verde.
 """
 
-pregunta = (
-    "¿Dónde deben depositarse los envases de vidrio?"
-)
-
-respuesta = generar_respuesta(
-    pregunta,
-    contexto,
-)
+pregunta = "¿Dónde deben depositarse los envases de vidrio?"
+respuesta = generar_respuesta(pregunta, contexto)
 
 
 print()

@@ -116,25 +116,16 @@ def _obtener_titulo_html(soup, main, source: str) -> str:
     Obtiene el título principal del documento HTML.
     """
 
-    titulo_elemento = main.find(
-        ["h1", "h2", "h3"]
-    )
+    titulo_elemento = main.find(["h1", "h2", "h3"])
 
     if titulo_elemento is not None:
-        return _limpiar_texto(
-            " ".join(titulo_elemento.stripped_strings)
-        )
+        return _limpiar_texto(" ".join(titulo_elemento.stripped_strings))
 
     if soup.title is not None:
-        titulo = _limpiar_texto(
-            soup.title.get_text()
-        )
+        titulo = _limpiar_texto(soup.title.get_text())
 
         # Eliminamos el sufijo común del portal.
-        titulo = titulo.replace(
-            " - Ayuntamiento de Madrid",
-            "",
-        )
+        titulo = titulo.replace(" - Ayuntamiento de Madrid", "")
 
         return titulo
 
@@ -168,16 +159,7 @@ def _extraer_texto_html(contenedor) -> str:
     ):
         etiqueta.decompose()
 
-    etiquetas_texto = [
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "p",
-        "li",
-    ]
+    etiquetas_texto = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "li"]
 
     lineas = []
 
@@ -195,30 +177,20 @@ def _extraer_texto_html(contenedor) -> str:
             # Si contiene párrafos con texto real,
             # dejamos que esos <p> se procesen por separado.
             parrafos = [
-                parrafo
-                for parrafo in elemento.find_all("p")
-                if _limpiar_texto(
-                    " ".join(parrafo.stripped_strings)
-                )
+                parrafo for parrafo in elemento.find_all("p")
+                if _limpiar_texto(" ".join(parrafo.stripped_strings))
             ]
 
             if parrafos:
                 continue
 
-        texto = _limpiar_texto(
-            " ".join(elemento.stripped_strings)
-        )
+        texto = _limpiar_texto(" ".join(elemento.stripped_strings))
 
         if not texto:
             continue
 
         # Elementos propios de la interfaz del portal.
-        if texto in {
-            "Volver",
-            "Escuchar",
-            "Ver listado",
-            "Mapa",
-        }:
+        if texto in {"Volver", "Escuchar", "Ver listado", "Mapa"}:
             continue
 
         if texto.lower().startswith("total:"):
@@ -248,16 +220,10 @@ def limpiar_html(documento: dict) -> list[dict]:
     que contiene la información específica de la página.
     """
 
-    soup = BeautifulSoup(
-        documento["content"],
-        "html.parser",
-    )
+    soup = BeautifulSoup(documento["content"], "html.parser")
 
     # Contenedor principal común a nuestros HTML.
-    main = soup.find(
-        "main",
-        id="readspeaker",
-    )
+    main = soup.find("main", id="readspeaker")
 
     if main is None:
         raise ValueError(
@@ -265,18 +231,11 @@ def limpiar_html(documento: dict) -> list[dict]:
             f"en '{documento['source']}'."
         )
 
-    titulo = _obtener_titulo_html(
-        soup,
-        main,
-        documento["source"],
-    )
+    titulo = _obtener_titulo_html(soup, main, documento["source"])
 
     # En la mayoría de páginas el contenido útil está
     # dentro del bloque .detalle.
-    detalle = main.find(
-        "div",
-        class_="detalle",
-    )
+    detalle = main.find("div", class_="detalle")
 
     if detalle is not None:
         contenedor = detalle
@@ -287,37 +246,26 @@ def limpiar_html(documento: dict) -> list[dict]:
         #
         # En ese caso seleccionamos el último bloque .nofluid,
         # que contiene el cuerpo de la página.
-        bloques_nofluid = main.find_all(
-            "div",
-            class_="nofluid",
-        )
+        bloques_nofluid = main.find_all("div", class_="nofluid")
 
         if bloques_nofluid:
             contenedor = bloques_nofluid[-1]
         else:
             contenedor = main
 
-    contenido = _extraer_texto_html(
-        contenedor
-    )
+    contenido = _extraer_texto_html(contenedor)
 
     if not contenido:
         raise ValueError(
-            f"No se pudo extraer texto útil de "
-            f"'{documento['source']}'."
+            f"No se pudo extraer texto útil de '{documento['source']}'."
         )
 
     # Algunas páginas incluyen el título dentro del bloque
     # extraído y otras no.
     #
     # Lo añadimos únicamente si todavía no está al comienzo.
-    if not contenido.casefold().startswith(
-        titulo.casefold()
-    ):
-        contenido = (
-            f"{titulo}\n"
-            f"{contenido}"
-        )
+    if not contenido.casefold().startswith(titulo.casefold()):
+        contenido = f"{titulo}\n{contenido}"
 
     return [
         _crear_documento(
@@ -333,9 +281,7 @@ def limpiar_html(documento: dict) -> list[dict]:
 # CSV: TIPOS DE RESIDUOS
 # =========================================================
 
-def limpiar_tipos_residuos(
-    documento: dict,
-) -> list[dict]:
+def limpiar_tipos_residuos(documento: dict) -> list[dict]:
     """
     Transforma tipos_residuos.csv.
 
@@ -354,23 +300,16 @@ def limpiar_tipos_residuos(
 
     for columna in df.columns:
 
-        destino = _limpiar_texto(
-            columna
-        )
+        destino = _limpiar_texto(columna)
 
         for indice, valor in df[columna].items():
 
-            residuo = _limpiar_texto(
-                valor
-            )
+            residuo = _limpiar_texto(valor)
 
             if not residuo:
                 continue
 
-            texto = (
-                f"Residuo: {residuo}\n"
-                f"Lugar de depósito: {destino}"
-            )
+            texto = f"Residuo: {residuo}\nLugar de depósito: {destino}"
 
             documentos.append(
                 _crear_documento(
@@ -393,9 +332,7 @@ def limpiar_tipos_residuos(
 # CSV: CONTENEDORES DE ACEITE
 # =========================================================
 
-def limpiar_contenedores_aceite(
-    documento: dict,
-) -> list[dict]:
+def limpiar_contenedores_aceite(documento: dict) -> list[dict]:
     """
     Convierte cada contenedor de aceite vegetal
     en un documento independiente.
@@ -407,22 +344,14 @@ def limpiar_contenedores_aceite(
 
     for indice, fila in df.iterrows():
 
-        direccion = _limpiar_texto(
-            fila["DIRECCIÓN COMPLETA AMPLIADA"]
-        )
+        direccion = _limpiar_texto(fila["DIRECCIÓN COMPLETA AMPLIADA"])
 
         if not direccion:
-            direccion = _limpiar_texto(
-                fila["DIRECCION COMPLETA"]
-            )
+            direccion = _limpiar_texto(fila["DIRECCION COMPLETA"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        ubicacion = _limpiar_texto(
-            fila["TIPO  SITUADO"]
-        )
+        ubicacion = _limpiar_texto(fila["TIPO  SITUADO"])
 
         partes = [
             "Contenedor de aceite vegetal usado.",
@@ -431,9 +360,7 @@ def limpiar_contenedores_aceite(
         ]
 
         if ubicacion:
-            partes.append(
-                f"Tipo de ubicación: {ubicacion}."
-            )
+            partes.append(f"Tipo de ubicación: {ubicacion}.")
 
         documentos.append(
             _crear_documento(
@@ -441,12 +368,8 @@ def limpiar_contenedores_aceite(
                 documento,
                 "contenedor_aceite",
                 district=distrito,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -458,9 +381,7 @@ def limpiar_contenedores_aceite(
 # CSV: CONTENEDORES ORDINARIOS --> No estará en la versión V1 pero se mantiene para futuro
 # =========================================================
 
-def limpiar_contenedores_ordinarios(
-    documento: dict,
-) -> list[dict]:
+def limpiar_contenedores_ordinarios(documento: dict,) -> list[dict]:
     """
     Convierte los contenedores ordinarios de Madrid
     en documentos independientes.
@@ -481,9 +402,7 @@ def limpiar_contenedores_ordinarios(
 
     for indice, fila in df.iterrows():
 
-        tipo_original = _limpiar_texto(
-            fila["Tipo Contenedor"]
-        )
+        tipo_original = _limpiar_texto(fila["Tipo Contenedor"])
 
         # Existen dos filas sin tipo de contenedor.
         if not tipo_original:
@@ -492,23 +411,15 @@ def limpiar_contenedores_ordinarios(
         # Desarrollamos la abreviatura para mejorar
         # la recuperación semántica.
         if tipo_original == "PMB":
-            tipo_texto = (
-                "Plásticos, metales y briks (PMB)"
-            )
+            tipo_texto = "Plásticos, metales y briks (PMB)"
         else:
             tipo_texto = tipo_original
 
-        direccion = _limpiar_texto(
-            fila["Dirección"]
-        )
+        direccion = _limpiar_texto(fila["Dirección"])
 
-        distrito = _limpiar_texto(
-            fila["Distrito"]
-        )
+        distrito = _limpiar_texto(fila["Distrito"])
 
-        barrio = _limpiar_texto(
-            fila["Barrio"]
-        )
+        barrio = _limpiar_texto(fila["Barrio"])
 
         partes = [
             f"Contenedor de tipo: {tipo_texto}.",
@@ -525,12 +436,8 @@ def limpiar_contenedores_ordinarios(
                 container_type=tipo_original,
                 district=distrito,
                 neighborhood=barrio,
-                latitude=_a_float(
-                    fila["Latitud"]
-                ),
-                longitude=_a_float(
-                    fila["Longitud"]
-                ),
+                latitude=_a_float(fila["Latitud"]),
+                longitude=_a_float(fila["Longitud"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -542,9 +449,7 @@ def limpiar_contenedores_ordinarios(
 # CSV: CONTENEDORES DE PILAS
 # =========================================================
 
-def limpiar_contenedores_pilas(
-    documento: dict,
-) -> list[dict]:
+def limpiar_contenedores_pilas(documento: dict,) -> list[dict]:
     """
     Convierte las marquesinas que disponen de
     contenedor de pilas en documentos independientes.
@@ -556,20 +461,14 @@ def limpiar_contenedores_pilas(
 
     for indice, fila in df.iterrows():
 
-        tiene_pilas = _limpiar_texto(
-            fila["CONT PILAS"]
-        )
+        tiene_pilas = _limpiar_texto(fila["CONT PILAS"])
 
         if tiene_pilas.upper() != "SI":
             continue
 
-        direccion = _limpiar_texto(
-            fila["Direccion_completa"]
-        )
+        direccion = _limpiar_texto(fila["Direccion_completa"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
         texto = (
             "Contenedor de pilas en marquesina de autobús.\n"
@@ -583,12 +482,8 @@ def limpiar_contenedores_pilas(
                 documento,
                 "contenedor_pilas",
                 district=distrito,
-                latitude=_a_float(
-                    fila["Latitud"]
-                ),
-                longitude=_a_float(
-                    fila["Longitud"]
-                ),
+                latitude=_a_float(fila["Latitud"]),
+                longitude=_a_float(fila["Longitud"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -600,9 +495,7 @@ def limpiar_contenedores_pilas(
 # CSV: CONTENEDORES DE ROPA
 # =========================================================
 
-def limpiar_contenedores_ropa(
-    documento: dict,
-) -> list[dict]:
+def limpiar_contenedores_ropa(documento: dict,) -> list[dict]:
     """
     Convierte cada contenedor de ropa y residuos
     textiles en un documento independiente.
@@ -614,22 +507,14 @@ def limpiar_contenedores_ropa(
 
     for indice, fila in df.iterrows():
 
-        direccion = _limpiar_texto(
-            fila["DIRECCIÓN COMPLETA AMPLIADA"]
-        )
+        direccion = _limpiar_texto(fila["DIRECCIÓN COMPLETA AMPLIADA"])
 
         if not direccion:
-            direccion = _limpiar_texto(
-                fila["DIRECCION COMPLETA"]
-            )
+            direccion = _limpiar_texto(fila["DIRECCION COMPLETA"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        barrio = _limpiar_texto(
-            fila["BARRIO"]
-        )
+        barrio = _limpiar_texto(fila["BARRIO"])
 
         texto = (
             "Contenedor de ropa y residuos textiles.\n"
@@ -645,12 +530,8 @@ def limpiar_contenedores_ropa(
                 "contenedor_ropa",
                 district=distrito,
                 neighborhood=barrio,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -662,9 +543,7 @@ def limpiar_contenedores_ropa(
 # CSV: PUNTOS LIMPIOS FIJOS
 # =========================================================
 
-def limpiar_puntos_limpios_fijos(
-    documento: dict,
-) -> list[dict]:
+def limpiar_puntos_limpios_fijos(documento: dict,) -> list[dict]:
     """
     Convierte cada punto limpio fijo en un documento
     independiente.
@@ -676,45 +555,26 @@ def limpiar_puntos_limpios_fijos(
 
     for indice, fila in df.iterrows():
 
-        nombre = _limpiar_texto(
-            fila["NOMBRE"]
-        )
+        nombre = _limpiar_texto(fila["NOMBRE"])
 
         direccion = " ".join(
-            parte
-            for parte in [
-                _limpiar_texto(
-                    fila["CLASE-VIAL"]
-                ),
-                _limpiar_texto(
-                    fila["NOMBRE-VIA"]
-                ),
-                _limpiar_texto(
-                    fila["NUM"]
-                ),
+            parte for parte in [
+                _limpiar_texto(fila["CLASE-VIAL"]),
+                _limpiar_texto(fila["NOMBRE-VIA"]),
+                _limpiar_texto(fila["NUM"]),
             ]
             if parte
         )
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        barrio = _limpiar_texto(
-            fila["BARRIO"]
-        )
+        barrio = _limpiar_texto(fila["BARRIO"])
 
-        horario = _limpiar_texto(
-            fila["HORARIO"]
-        )
+        horario = _limpiar_texto(fila["HORARIO"])
 
-        transporte = _limpiar_texto(
-            fila["TRANSPORTE"]
-        )
+        transporte = _limpiar_texto(fila["TRANSPORTE"])
 
-        descripcion = _limpiar_texto(
-            fila["DESCRIPCION"]
-        )
+        descripcion = _limpiar_texto(fila["DESCRIPCION"])
 
         partes = [
             nombre,
@@ -724,19 +584,13 @@ def limpiar_puntos_limpios_fijos(
         ]
 
         if horario:
-            partes.append(
-                f"Horario: {horario}"
-            )
+            partes.append(f"Horario: {horario}")
 
         if transporte:
-            partes.append(
-                f"Transporte público: {transporte}"
-            )
+            partes.append(f"Transporte público: {transporte}")
 
         if descripcion:
-            partes.append(
-                descripcion
-            )
+            partes.append(descripcion)
 
         documentos.append(
             _crear_documento(
@@ -745,12 +599,8 @@ def limpiar_puntos_limpios_fijos(
                 "punto_limpio_fijo",
                 district=distrito,
                 neighborhood=barrio,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -762,9 +612,7 @@ def limpiar_puntos_limpios_fijos(
 # CSV: PUNTOS LIMPIOS MÓVILES
 # =========================================================
 
-def limpiar_puntos_limpios_moviles(
-    documento: dict,
-) -> list[dict]:
+def limpiar_puntos_limpios_moviles(documento: dict,) -> list[dict]:
     """
     Convierte cada parada y horario de punto limpio
     móvil en un documento independiente.
@@ -776,29 +624,17 @@ def limpiar_puntos_limpios_moviles(
 
     for indice, fila in df.iterrows():
 
-        direccion = _limpiar_texto(
-            fila["DIRECCIÓN_COMPLETA"]
-        )
+        direccion = _limpiar_texto(fila["DIRECCIÓN_COMPLETA"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        dia = _limpiar_texto(
-            fila["DÍA_SEMANA"]
-        )
+        dia = _limpiar_texto(fila["DÍA_SEMANA"])
 
-        turno = _limpiar_texto(
-            fila["TURNO"]
-        )
+        turno = _limpiar_texto(fila["TURNO"])
 
-        hora_inicio = _limpiar_texto(
-            fila["HORA_INICIO"]
-        )
+        hora_inicio = _limpiar_texto(fila["HORA_INICIO"])
 
-        hora_final = _limpiar_texto(
-            fila["HORA_FINAL"]
-        )
+        hora_final = _limpiar_texto(fila["HORA_FINAL"])
 
         partes = [
             "Punto limpio móvil.",
@@ -808,14 +644,10 @@ def limpiar_puntos_limpios_moviles(
         ]
 
         if turno:
-            partes.append(
-                f"Turno: {turno}."
-            )
+            partes.append(f"Turno: {turno}.")
 
         if hora_inicio and hora_final:
-            partes.append(
-                f"Horario: {hora_inicio} - {hora_final}."
-            )
+            partes.append(f"Horario: {hora_inicio} - {hora_final}.")
 
         documentos.append(
             _crear_documento(
@@ -824,12 +656,8 @@ def limpiar_puntos_limpios_moviles(
                 "punto_limpio_movil",
                 district=distrito,
                 day=dia,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -841,9 +669,7 @@ def limpiar_puntos_limpios_moviles(
 # CSV: PUNTOS LIMPIOS MÓVILES 24 HORAS
 # =========================================================
 
-def limpiar_puntos_limpios_moviles_24h(
-    documento: dict,
-) -> list[dict]:
+def limpiar_puntos_limpios_moviles_24h(documento: dict,) -> list[dict]:
     """
     Convierte cada ubicación de punto limpio móvil
     24 horas en un documento independiente.
@@ -855,30 +681,18 @@ def limpiar_puntos_limpios_moviles_24h(
 
     for indice, fila in df.iterrows():
 
-        direccion = _limpiar_texto(
-            fila["DIRECCIÓN COMPLETA AMPLIADA"]
-        )
+        direccion = _limpiar_texto(fila["DIRECCIÓN COMPLETA AMPLIADA"])
 
         if not direccion:
-            direccion = _limpiar_texto(
-                fila["DIRECCIÓN COMPLETA"]
-            )
+            direccion = _limpiar_texto(fila["DIRECCIÓN COMPLETA"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        barrio = _limpiar_texto(
-            fila["BARRIO"]
-        )
+        barrio = _limpiar_texto(fila["BARRIO"])
 
-        dia = _limpiar_texto(
-            fila["DÍA_SEMANA"]
-        )
+        dia = _limpiar_texto(fila["DÍA_SEMANA"])
 
-        ubicacion = _limpiar_texto(
-            fila["UBICACIÓN"]
-        )
+        ubicacion = _limpiar_texto(fila["UBICACIÓN"])
 
         partes = [
             "Punto limpio móvil 24 horas.",
@@ -889,9 +703,7 @@ def limpiar_puntos_limpios_moviles_24h(
         ]
 
         if ubicacion:
-            partes.append(
-                f"Ubicación: {ubicacion}."
-            )
+            partes.append(f"Ubicación: {ubicacion}.")
 
         documentos.append(
             _crear_documento(
@@ -901,12 +713,8 @@ def limpiar_puntos_limpios_moviles_24h(
                 district=distrito,
                 neighborhood=barrio,
                 day=dia,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -918,9 +726,7 @@ def limpiar_puntos_limpios_moviles_24h(
 # CSV: PUNTOS LIMPIOS DE PROXIMIDAD
 # =========================================================
 
-def limpiar_puntos_limpios_proximidad(
-    documento: dict,
-) -> list[dict]:
+def limpiar_puntos_limpios_proximidad(documento: dict,) -> list[dict]:
     """
     Convierte cada punto limpio de proximidad
     en un documento independiente.
@@ -932,26 +738,16 @@ def limpiar_puntos_limpios_proximidad(
 
     for indice, fila in df.iterrows():
 
-        direccion = _limpiar_texto(
-            fila["DIRECCIÓN COMPLETA AMPLIADA"]
-        )
+        direccion = _limpiar_texto(fila["DIRECCIÓN COMPLETA AMPLIADA"])
 
         if not direccion:
-            direccion = _limpiar_texto(
-                fila["DIRECCION_COMPLETA"]
-            )
+            direccion = _limpiar_texto(fila["DIRECCION_COMPLETA"])
 
-        distrito = _limpiar_texto(
-            fila["DISTRITO"]
-        )
+        distrito = _limpiar_texto(fila["DISTRITO"])
 
-        centro = _limpiar_texto(
-            fila["CENTRO"]
-        )
+        centro = _limpiar_texto(fila["CENTRO"])
 
-        horario = _limpiar_texto(
-            fila["HORARIO"]
-        )
+        horario = _limpiar_texto(fila["HORARIO"])
 
         partes = [
             "Punto limpio de proximidad.",
@@ -960,14 +756,10 @@ def limpiar_puntos_limpios_proximidad(
         ]
 
         if centro:
-            partes.append(
-                f"Centro: {centro}."
-            )
+            partes.append(f"Centro: {centro}.")
 
         if horario:
-            partes.append(
-                f"Horario: {horario}"
-            )
+            partes.append(f"Horario: {horario}")
 
         documentos.append(
             _crear_documento(
@@ -975,12 +767,8 @@ def limpiar_puntos_limpios_proximidad(
                 documento,
                 "punto_limpio_proximidad",
                 district=distrito,
-                latitude=_a_float(
-                    fila["LATITUD"]
-                ),
-                longitude=_a_float(
-                    fila["LONGITUD"]
-                ),
+                latitude=_a_float(fila["LATITUD"]),
+                longitude=_a_float(fila["LONGITUD"]),
                 source_row=int(indice) + 2,
             )
         )
@@ -993,39 +781,19 @@ def limpiar_puntos_limpios_proximidad(
 # =========================================================
 
 LIMPIADORES_CSV = {
-    "tipos_residuos.csv":
-        limpiar_tipos_residuos,
-
-    "contenedores_aceitevegetal_usado.csv":
-        limpiar_contenedores_aceite,
-
-    # Se queda comentado ya que se excluye de la V1
-    #"contenedores_papel_carton_todos.csv":
-    #    limpiar_contenedores_ordinarios,
-
-    "contenedores_pilas_marquesinas.csv":
-        limpiar_contenedores_pilas,
-
-    "contenedores_ropa.csv":
-        limpiar_contenedores_ropa,
-
-    "puntos_limpios_fijos.csv":
-        limpiar_puntos_limpios_fijos,
-
-    "puntos_limpios_moviles.csv":
-        limpiar_puntos_limpios_moviles,
-
-    "puntos_limpios_moviles_24h.csv":
-        limpiar_puntos_limpios_moviles_24h,
-
-    "puntos_limpios_proximidad.csv":
-        limpiar_puntos_limpios_proximidad,
+    "tipos_residuos.csv": limpiar_tipos_residuos,
+    "contenedores_aceitevegetal_usado.csv": limpiar_contenedores_aceite,
+    # "contenedores_papel_carton_todos.csv": limpiar_contenedores_ordinarios,
+    "contenedores_pilas_marquesinas.csv": limpiar_contenedores_pilas,
+    "contenedores_ropa.csv": limpiar_contenedores_ropa,
+    "puntos_limpios_fijos.csv": limpiar_puntos_limpios_fijos,
+    "puntos_limpios_moviles.csv": limpiar_puntos_limpios_moviles,
+    "puntos_limpios_moviles_24h.csv": limpiar_puntos_limpios_moviles_24h,
+    "puntos_limpios_proximidad.csv": limpiar_puntos_limpios_proximidad,
 }
 
 
-def limpiar_csv(
-    documento: dict,
-) -> list[dict]:
+def limpiar_csv(documento: dict,) -> list[dict]:
     """
     Selecciona el limpiador correspondiente según
     el nombre del CSV.
@@ -1033,28 +801,19 @@ def limpiar_csv(
 
     source = documento["source"]
 
-    limpiador = LIMPIADORES_CSV.get(
-        source
-    )
+    limpiador = LIMPIADORES_CSV.get(source)
 
     if limpiador is None:
-        raise ValueError(
-            f"No existe un limpiador definido "
-            f"para '{source}'."
-        )
+        raise ValueError(f"No existe un limpiador definido para '{source}'.")
 
-    return limpiador(
-        documento
-    )
+    return limpiador(documento)
 
 
 # =========================================================
 # LIMPIEZA COMPLETA DEL CORPUS
 # =========================================================
 
-def limpiar_corpus(
-    corpus: list[dict],
-) -> list[dict]:
+def limpiar_corpus(corpus: list[dict],) -> list[dict]:
     """
     Normaliza todos los documentos cargados por load.py.
 
@@ -1078,21 +837,10 @@ def limpiar_corpus(
         formato = documento["format"]
 
         if formato == "csv":
-
-            documentos_limpios.extend(
-                limpiar_csv(documento)
-            )
-
+            documentos_limpios.extend(limpiar_csv(documento))
         elif formato == "html":
-
-            documentos_limpios.extend(
-                limpiar_html(documento)
-            )
-
+            documentos_limpios.extend(limpiar_html(documento))
         else:
-
-            raise ValueError(
-                f"Formato no soportado: '{formato}'."
-            )
+            raise ValueError(f"Formato no soportado: '{formato}'.")
 
     return documentos_limpios
