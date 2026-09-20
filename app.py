@@ -65,6 +65,153 @@ def cerrar_sesion():
 
     st.rerun()
 
+def mostrar_detalles_asistente(
+    mensaje: dict,
+):
+    """
+    Muestra fuentes, chunks recuperados y métricas
+    asociadas a una respuesta del asistente.
+    """
+
+    fuentes = mensaje.get(
+        "sources",
+        [],
+    )
+
+    chunks = mensaje.get(
+        "chunks",
+        [],
+    )
+
+    metricas = mensaje.get(
+        "metrics",
+        {},
+    )
+
+    # -------------------------
+    # Métricas
+    # -------------------------
+
+    if metricas:
+
+        k = metricas.get(
+            "k",
+            "-",
+        )
+
+        num_chunks = metricas.get(
+            "num_chunks",
+            "-",
+        )
+
+        tiempo = metricas.get(
+            "time_seconds"
+        )
+
+        modelo = metricas.get(
+            "model",
+            "-",
+        )
+
+        tiempo_texto = (
+            f"{tiempo:.2f} s"
+            if isinstance(
+                tiempo,
+                (int, float),
+            )
+            else "-"
+        )
+
+        st.caption("Métricas de la consulta")
+
+        st.markdown(
+            f"**K:** {k} · "
+            f"**Chunks:** {num_chunks} · "
+            f"**Tiempo:** {tiempo_texto} · "
+            f"**Modelo:** `{modelo}`"
+        )
+
+    # -------------------------
+    # Fuentes
+    # -------------------------
+
+    if fuentes:
+
+        with st.expander(
+            "Fuentes utilizadas"
+        ):
+
+            for fuente in fuentes:
+
+                nombre = fuente.get(
+                    "source"
+                )
+
+                if nombre:
+                    st.write(
+                        f"- `{nombre}`"
+                    )
+
+    # -------------------------
+    # Contexto / chunks
+    # -------------------------
+
+    if chunks:
+
+        with st.expander(
+            "Contexto recuperado"
+        ):
+
+            for indice, chunk in enumerate(
+                chunks,
+                start=1,
+            ):
+
+                metadata = (
+                    chunk.get(
+                        "metadata",
+                        {},
+                    )
+                    or {}
+                )
+
+                source = metadata.get(
+                    "source",
+                    "Fuente desconocida",
+                )
+
+                distancia = chunk.get(
+                    "distance"
+                )
+
+                texto = (
+                    chunk.get(
+                        "text",
+                        "",
+                    )
+                    or ""
+                )
+
+                st.markdown(
+                    f"**Chunk {indice} — {source}**"
+                )
+
+                if isinstance(
+                    distancia,
+                    (int, float),
+                ):
+                    st.caption(
+                        "Distancia vectorial: "
+                        f"{distancia:.4f}"
+                    )
+
+                st.write(
+                    texto
+                )
+
+                if indice < len(chunks):
+                    st.divider()
+
 # -------------------------
 # Cabecera
 # -------------------------
@@ -324,13 +471,37 @@ else:
     # Asistente
     # -------------------------
 
-    st.subheader("Asistente de residuos")
+    st.subheader(
+        "Asistente de residuos"
+    )
 
-    # Mostrar mensajes anteriores
+    st.write(
+        "Pregunta sobre reciclaje, residuos, "
+        "contenedores o puntos de recogida "
+        "de la ciudad de Madrid."
+    )
+
+    # -------------------------
+    # Historial del chat
+    # -------------------------
+
     for mensaje in st.session_state.mensajes:
 
-        with st.chat_message(mensaje["role"]):
-            st.write(mensaje["content"])
+        with st.chat_message(
+            mensaje["role"]
+        ):
+
+            st.write(
+                mensaje["content"]
+            )
+
+            if (
+                mensaje["role"]
+                == "assistant"
+            ):
+                mostrar_detalles_asistente(
+                    mensaje
+                )
 
     # -------------------------
     # Entrada del usuario
@@ -342,7 +513,7 @@ else:
 
     if consulta:
 
-        # Guardamos el mensaje del usuario.
+        # Guardamos la pregunta.
         st.session_state.mensajes.append(
             {
                 "role": "user",
@@ -350,29 +521,55 @@ else:
             }
         )
 
-        # Llamamos al asistente.
-        resultado = ask_assistant(
-            consulta=consulta,
-        )
+        # Ejecutamos el RAG.
+        with st.spinner(
+            "Buscando información..."
+        ):
+            resultado = ask_assistant(
+                consulta=consulta,
+            )
+
+        # -------------------------
+        # Respuesta correcta
+        # -------------------------
 
         if resultado["success"]:
 
-            respuesta = resultado["answer"]
+            st.session_state.mensajes.append(
+                {
+                    "role": "assistant",
+                    "content": resultado[
+                        "answer"
+                    ],
+                    "sources": resultado[
+                        "sources"
+                    ],
+                    "chunks": resultado[
+                        "chunks"
+                    ],
+                    "metrics": resultado[
+                        "metrics"
+                    ],
+                }
+            )
+
+        # -------------------------
+        # Error
+        # -------------------------
 
         else:
 
-            respuesta = (
-                "No se ha podido procesar la consulta."
+            st.session_state.mensajes.append(
+                {
+                    "role": "assistant",
+                    "content": (
+                        "No se ha podido procesar "
+                        "la consulta."
+                    ),
+                    "sources": [],
+                    "chunks": [],
+                    "metrics": {},
+                }
             )
-
-            st.error(resultado["error"])
-
-        # Guardamos la respuesta.
-        st.session_state.mensajes.append(
-            {
-                "role": "assistant",
-                "content": respuesta,
-            }
-        )
 
         st.rerun()
