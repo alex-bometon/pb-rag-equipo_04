@@ -24,9 +24,7 @@ def ask_assistant(
         }
 
     try:
-        resultado = responder(
-            pregunta=consulta,
-        )
+        resultado = responder(pregunta=consulta,)
 
     except Exception as error:
         return {

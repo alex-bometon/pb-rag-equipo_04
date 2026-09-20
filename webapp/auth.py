@@ -28,11 +28,7 @@ def hash_password(password: str) -> str:
     """
 
     password_bytes = password.encode("utf-8")
-
-    password_hash = bcrypt.hashpw(
-        password_bytes,
-        bcrypt.gensalt(),
-    )
+    password_hash = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
 
     return password_hash.decode("utf-8")
 
@@ -45,10 +41,7 @@ def verify_password(
     Comprueba si una contraseña coincide con el hash almacenado.
     """
 
-    return bcrypt.checkpw(
-        password.encode("utf-8"),
-        password_hash.encode("utf-8"),
-    )
+    return bcrypt.checkpw(password.encode("utf-8"), password_hash.encode("utf-8"))
 
 
 #===================================================================
@@ -95,9 +88,7 @@ def register_user(
 
     for nombre_campo, valor in campos_obligatorios.items():
         if not validate_required_text(valor):
-            errors.append(
-                f"El campo '{nombre_campo}' es obligatorio."
-            )
+            errors.append(f"El campo '{nombre_campo}' es obligatorio.")
 
     # -------------------------
     # Email
@@ -106,18 +97,14 @@ def register_user(
     email = normalize_email(email)
 
     if email and not validate_email(email):
-        errors.append(
-            "El email introducido no tiene un formato válido."
-        )
+        errors.append("El email introducido no tiene un formato válido.")
 
     # -------------------------
     # Código postal
     # -------------------------
 
     if cp and not validate_postal_code(cp):
-        errors.append(
-            "El código postal debe contener exactamente 5 dígitos."
-        )
+        errors.append("El código postal debe contener exactamente 5 dígitos.")
 
     # -------------------------
     # Contraseña
@@ -126,9 +113,7 @@ def register_user(
     errors.extend(validate_password(password))
 
     if not passwords_match(password, repetir_password):
-        errors.append(
-            "Las contraseñas no coinciden."
-        )
+        errors.append("Las contraseñas no coinciden.")
 
     # -------------------------
     # Email duplicado
@@ -138,9 +123,7 @@ def register_user(
         usuario_existente = get_user_by_email(email)
 
         if usuario_existente is not None:
-            errors.append(
-                "Ya existe una cuenta registrada con este email."
-            )
+            errors.append("Ya existe una cuenta registrada con este email.")
 
     # -------------------------
     # Si hay errores, detenemos
@@ -159,24 +142,11 @@ def register_user(
 
     nombre = normalize_text(nombre)
     apellido1 = normalize_text(apellido1)
-
-    apellido2 = (
-        normalize_text(apellido2)
-        if apellido2.strip()
-        else None
-    )
-
+    apellido2 = normalize_text(apellido2) if apellido2.strip() else None
     direccion = normalize_text(direccion)
-
-    direccion2 = (
-        normalize_text(direccion2)
-        if direccion2.strip()
-        else None
-    )
-
+    direccion2 = normalize_text(direccion2) if direccion2.strip() else None
     provincia = normalize_text(provincia)
     ciudad = normalize_text(ciudad)
-
     cp = cp.strip()
 
     # -------------------------
@@ -199,7 +169,7 @@ def register_user(
         ciudad=ciudad,
         cp=cp,
         email=email,
-        password_hash=password_hash,
+        password_hash=password_hash
     )
 
     # -------------------------
@@ -282,10 +252,7 @@ def authenticate_user(
     # Verificar contraseña
     # -------------------------
 
-    if not verify_password(
-        password,
-        user["password_hash"],
-    ):
+    if not verify_password(password, user["password_hash"]):
         return {
             "success": False,
             "error": "Email o contraseña incorrectos.",
@@ -305,5 +272,5 @@ def authenticate_user(
             "nombre": user["nombre"],
             "apellido1": user["apellido1"],
             "apellido2": user["apellido2"],
-        },
+        }
     }
