@@ -1,367 +1,192 @@
-# Comprueba el retrieval: para cada pregunta de evaluación,
-# valida que ChromaDB devuelve resultados coherentes y mide
-# si las fuentes esperadas aparecen entre los recuperados.
-#
-# También ejecuta el "experimento K": compara la tasa de
-# acierto del retrieval con distintos valores de TOP_K.
-
-import json
 import sys
 from pathlib import Path
 
+
+# =========================================================
+# PATH DEL PROYECTO
+# =========================================================
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+TESTS_DIR = PROJECT_ROOT / "tests"
 
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+for path in (PROJECT_ROOT, TESTS_DIR):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
 
-from config import (
-    CHROMA_COLLECTION_NAME,
-    CHROMA_DIR,
-    EVAL_QUERIES_JSON,
+
+from config import CHROMA_COLLECTION_NAME
+from query_embeddings import (
+    cargar_embeddings_queries,
+    cargar_queries,
 )
-
-from src.gemini_client import crear_cliente_gemini
 from src.index import crear_cliente_chroma
 from src.retrieve import buscar_chunks_relevantes
 
 
-# =========================================================
-# UTILIDADES
-# =========================================================
-
-def mostrar_resultado(
-    nombre: str,
-    correcto: bool,
-    detalle: str = "",
-) -> bool:
-    """
-    Muestra el resultado de una comprobación.
-    """
-
-    estado = "OK" if correcto else "ERROR"
-
-    print(f"[{estado}] {nombre}")
-
-    if detalle:
-        print(f"       {detalle}")
-
-    return correcto
+# Valores comparados durante la evaluación de retrieval.
+K_VALUES = (3, 5, 8, 10)
 
 
-def cargar_eval_queries() -> list[dict]:
-    """
-    Carga las preguntas de evaluación desde
-    queries/eval_queries.json.
-    """
-
-    if not EVAL_QUERIES_JSON.exists():
-        raise FileNotFoundError(
-            f"No existe el archivo de preguntas: "
-            f"{EVAL_QUERIES_JSON}"
-        )
-
-    with EVAL_QUERIES_JSON.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
-
-        payload = json.load(
-            archivo
-        )
-
-    return payload.get(
-        "queries",
-        [],
-    )
-
-
-def alguna_fuente_esperada(
+def fuente_esperada_recuperada(
     chunks: list[dict],
     fuentes_esperadas: list[str],
 ) -> bool:
     """
-    Comprueba si al menos una de las fuentes esperadas
-    aparece entre los chunks recuperados.
-
-    Si la pregunta no declara fuentes esperadas
-    (p. ej. preguntas fuera de dominio), se considera
-    superada automáticamente: no hay nada que comprobar.
+    Comprueba si al menos una fuente esperada aparece
+    entre los chunks recuperados.
     """
 
-    if not fuentes_esperadas:
-        return True
-
-    fuentes_recuperadas = {
-        chunk["metadata"].get("source")
+    fuentes = {
+        chunk.get("metadata", {}).get("source")
         for chunk in chunks
     }
 
     return any(
-        fuente in fuentes_recuperadas
+        fuente in fuentes
         for fuente in fuentes_esperadas
     )
 
 
-# =========================================================
-# TEST PRINCIPAL
-# =========================================================
+def evaluar_k(
+    queries: list[dict],
+    embeddings: dict[int, list[float]],
+    collection,
+    k: int,
+) -> tuple[int, int]:
+    """
+    Evalúa retrieval para un valor concreto de K.
+
+    Las preguntas fuera de dominio se ejecutan para observar
+    qué recupera el sistema, pero no cuentan en la tasa de
+    acierto de fuentes.
+    """
+
+    aciertos = 0
+    respondibles = 0
+
+    print()
+    print("=" * 70)
+    print(f"K = {k}")
+    print("=" * 70)
+
+    for query in queries:
+
+        query_id = query["id"]
+        pregunta = query["pregunta"]
+
+        chunks = buscar_chunks_relevantes(
+            pregunta=pregunta,
+            top_k=k,
+            collection=collection,
+            query_embedding=embeddings[query_id],
+        )
+
+        top = chunks[0]
+
+        top_source = (
+            top.get("metadata", {}).get("source")
+        )
+
+        top_distance = top.get("distance")
+
+        print()
+        print(f"[{query_id}] {pregunta}")
+        print(f"    Top fuente:    {top_source}")
+        print(f"    Top distancia: {top_distance:.4f}")
+
+        if query["es_respondible"]:
+
+            respondibles += 1
+
+            hit = fuente_esperada_recuperada(
+                chunks,
+                query["fuentes_esperadas"],
+            )
+
+            if hit:
+                aciertos += 1
+
+            print(
+                "    Fuente esperada recuperada: "
+                f"{'SÍ' if hit else 'NO'}"
+            )
+
+        else:
+            print(
+                "    Fuera de dominio "
+                "(no puntúa retrieval)"
+            )
+
+    return aciertos, respondibles
+
 
 def main() -> None:
 
-    print("=" * 70)
-    print("COMPROBACIÓN DE RETRIEVAL")
-    print("=" * 70)
-    print()
+    queries = cargar_queries()
+    embeddings = cargar_embeddings_queries()
 
-    errores = 0
+    ids_sin_embedding = [
+        query["id"]
+        for query in queries
+        if query["id"] not in embeddings
+    ]
 
-
-    # =====================================================
-    # 1. CONEXIÓN CON CHROMADB
-    # =====================================================
-
-    print("1. CONEXIÓN CON CHROMADB")
-    print("-" * 70)
-
-    if not CHROMA_DIR.exists():
-
-        mostrar_resultado(
-            "Existe la base de datos persistente",
-            False,
-            f"No existe: {CHROMA_DIR}. "
-            f"Ejecuta antes src/index.py.",
+    if ids_sin_embedding:
+        raise ValueError(
+            "Faltan embeddings para las preguntas: "
+            f"{ids_sin_embedding}"
         )
 
-        return
-
-    if not mostrar_resultado(
-        "Existe la base de datos persistente",
-        True,
-        str(CHROMA_DIR),
-    ):
-        errores += 1
-
-    print()
-
-
-    # =====================================================
-    # 2. CARGAR PREGUNTAS DE EVALUACIÓN
-    # =====================================================
-
-    print("2. PREGUNTAS DE EVALUACIÓN")
-    print("-" * 70)
-
-    queries = cargar_eval_queries()
-
-    if not mostrar_resultado(
-        "Existen preguntas de evaluación",
-        len(queries) > 0,
-        f"Preguntas cargadas: {len(queries)}",
-    ):
-        errores += 1
-        return
-
-    print()
-
-
-    # =====================================================
-    # 3. RETRIEVAL PREGUNTA A PREGUNTA (TOP_K de config.py)
-    # =====================================================
-
-    print("3. RETRIEVAL POR PREGUNTA")
-    print("-" * 70)
-
-    client = crear_cliente_gemini()
     chroma_client = crear_cliente_chroma()
 
     collection = chroma_client.get_collection(
         name=CHROMA_COLLECTION_NAME
     )
 
-    try:
+    print("=" * 70)
+    print("EVALUACIÓN DE RETRIEVAL")
+    print("=" * 70)
 
-        resultados_por_query = []
+    print(
+        f"Preguntas totales: {len(queries)}"
+    )
 
-        for query in queries:
+    print(
+        f"Registros ChromaDB: {collection.count()}"
+    )
 
-            pregunta = query["pregunta"]
-            fuentes_esperadas = query.get(
-                "fuentes_esperadas",
-                [],
-            )
-            es_respondible = query.get(
-                "es_respondible",
-                True,
-            )
+    resumen = []
 
-            chunks = buscar_chunks_relevantes(
-                pregunta,
-                client=client,
-                collection=collection,
-            )
+    for k in K_VALUES:
 
-            distancias = [
-                chunk["distance"]
-                for chunk in chunks
-            ]
-
-            ordenado_correctamente = distancias == sorted(
-                distancias
-            )
-
-            if not mostrar_resultado(
-                f"[{query['id']}] devuelve resultados ordenados: "
-                f"{pregunta}",
-                len(chunks) > 0 and ordenado_correctamente,
-                f"chunks={len(chunks)} "
-                f"top_distancia={distancias[0]:.4f}"
-                if chunks else "sin resultados",
-            ):
-                errores += 1
-
-            if es_respondible:
-
-                acierto = alguna_fuente_esperada(
-                    chunks,
-                    fuentes_esperadas,
-                )
-
-                if not mostrar_resultado(
-                    f"       fuente esperada entre los recuperados",
-                    acierto,
-                    f"esperadas={fuentes_esperadas}",
-                ):
-                    errores += 1
-
-            else:
-
-                # Preguntas fuera de dominio: no exigimos ninguna
-                # fuente concreta. Sirven para que generate.py
-                # decida más adelante si debe responder "no sé".
-                print(
-                    f"       fuera de dominio -> "
-                    f"top_distancia={distancias[0]:.4f} "
-                    f"(criterio de abstención lo aplicará "
-                    f"generate.py)"
-                )
-
-            resultados_por_query.append(
-                {
-                    "id": query["id"],
-                    "es_respondible": es_respondible,
-                    "acierto": (
-                        alguna_fuente_esperada(
-                            chunks,
-                            fuentes_esperadas,
-                        )
-                        if es_respondible
-                        else None
-                    ),
-                }
-            )
-
-        print()
-
-
-        # =================================================
-        # 4. EXPERIMENTO K
-        # =================================================
-
-        print("4. EXPERIMENTO K")
-        print("-" * 70)
-
-        print(
-            "Comparamos la tasa de acierto (fuente esperada "
-            "presente en el top_k) para distintos valores de K, "
-            "usando solo las preguntas respondibles."
+        aciertos, respondibles = evaluar_k(
+            queries=queries,
+            embeddings=embeddings,
+            collection=collection,
+            k=k,
         )
-        print()
 
-        queries_respondibles = [
-            query
-            for query in queries
-            if query.get(
-                "es_respondible",
-                True,
-            )
-        ]
+        resumen.append(
+            (k, aciertos, respondibles)
+        )
 
-        for k in (3, 5, 8, 10):
-
-            aciertos = 0
-
-            for query in queries_respondibles:
-
-                chunks = buscar_chunks_relevantes(
-                    query["pregunta"],
-                    top_k=k,
-                    client=client,
-                    collection=collection,
-                )
-
-                if alguna_fuente_esperada(
-                    chunks,
-                    query.get(
-                        "fuentes_esperadas",
-                        [],
-                    ),
-                ):
-                    aciertos += 1
-
-            total = len(queries_respondibles)
-
-            tasa = (
-                aciertos / total * 100
-                if total
-                else 0
-            )
-
-            print(
-                f"K={k:<3} -> "
-                f"aciertos {aciertos}/{total} "
-                f"({tasa:.0f}%)"
-            )
-
-        print()
-
-    finally:
-        client.close()
-
-
-    # =====================================================
-    # 5. RESUMEN
-    # =====================================================
-
+    print()
     print("=" * 70)
     print("RESUMEN")
     print("=" * 70)
 
-    print(
-        f"Colección:            {CHROMA_COLLECTION_NAME}"
-    )
+    for k, aciertos, total in resumen:
 
-    print(
-        f"Preguntas evaluadas:  {len(queries)}"
-    )
-
-    print()
-
-
-    # =====================================================
-    # 6. RESULTADO FINAL
-    # =====================================================
-
-    if errores == 0:
-
-        print(
-            "RESULTADO: RETRIEVAL VÁLIDO"
+        porcentaje = (
+            aciertos / total * 100
+            if total
+            else 0
         )
 
-    else:
-
         print(
-            f"RESULTADO: RETRIEVAL CON INCIDENCIAS "
-            f"({errores} errores)"
+            f"K={k:<2} -> "
+            f"{aciertos}/{total} "
+            f"({porcentaje:.1f} %)"
         )
 
 

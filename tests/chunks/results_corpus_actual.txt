@@ -1,0 +1,64 @@
+==============================
+EXPERIMENTO A
+==============================
+
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 100
+
+Documentos limpios: 691
+Chunks totales: 722
+
+Chunks estructurados: 681
+Chunks HTML: 41
+
+
+==============================
+EXPERIMENTO B
+==============================
+
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 100
+
+Documentos limpios: 691
+Chunks totales: 712
+
+Chunks estructurados: 681
+Chunks HTML: 31
+
+
+==============================
+EXPERIMENTO C
+==============================
+
+CHUNK_SIZE = 1500
+CHUNK_OVERLAP = 150
+
+Documentos limpios: 691
+Chunks totales: 704
+
+Chunks estructurados: 681
+Chunks HTML: 23
+
+
+CONCLUSIÓN
+
+Se selecciona la configuración del experimento B:
+
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 100
+
+La configuración A (800/100) genera una mayor fragmentación de la
+documentación HTML, produciendo 41 chunks y varios fragmentos finales
+de pequeño tamaño.
+
+La configuración B (1000/100) reduce los documentos HTML a 31 chunks
+y permite mantener juntas listas, explicaciones y bloques temáticos,
+sin generar fragmentos excesivamente grandes.
+
+La configuración C (1500/150) reduce todavía más la fragmentación,
+hasta 23 chunks HTML, pero genera bloques cercanos a los 1500
+caracteres que pueden contener más de una unidad temática y reducir
+la precisión de la recuperación semántica.
+
+Por tanto, 1000/100 se considera el mejor equilibrio entre
+conservación del contexto y granularidad para retrieval.

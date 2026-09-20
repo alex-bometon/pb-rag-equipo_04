@@ -16,3 +16,6 @@ __pycache__/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# indices chroma_db
+output/chroma_db/

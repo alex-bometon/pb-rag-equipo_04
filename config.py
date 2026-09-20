@@ -31,7 +31,7 @@ CHUNKS_JSON = OUTPUT_DIR / "chunks.json"
 # =========================================================
 
 # Valores iniciales para la primera versión.
-# Se podrán modificar posteriormente durante la evaluación.
+# Seleccionados tras comparar distintas estrategias.
 CHUNK_SIZE = 1_000
 CHUNK_OVERLAP = 100
 
@@ -89,15 +89,92 @@ INDEX_BATCH_SIZE = 100
 # RETRIEVAL
 # =========================================================
 
-# Número de chunks más relevantes que se recuperan de
-# ChromaDB para cada pregunta.
+# Número final de chunks que se entregan al RAG.
 #
-# Se ajusta durante el "experimento K" para comparar la
-# calidad del retrieval con distintos valores (ver
-# tests/retrieval/retrieve_test.py).
+# Este valor fue seleccionado durante la evaluación inicial
+# del retrieval comparando distintos valores de K.
 TOP_K = 5
 
-# Preguntas de evaluación utilizadas para probar el
-# retrieval de forma repetible.
+
+# ---------------------------------------------------------
+# RECUPERACIÓN DE CANDIDATOS
+# ---------------------------------------------------------
+
+# Los siguientes parámetros se conservan para reproducir
+# los experimentos de reranking híbrido.
+#
+# El flujo RAG final utiliza como baseline el retrieval
+# semántico original, definido en src/rag.py.
+RETRIEVAL_MIN_CANDIDATES = 50
+
+
+# ---------------------------------------------------------
+# RERANKING HÍBRIDO
+# ---------------------------------------------------------
+
+# Peso de la similitud semántica en el score final.
+RETRIEVAL_SEMANTIC_WEIGHT = 0.70
+
+# Peso de la coincidencia léxica en el score final.
+RETRIEVAL_LEXICAL_WEIGHT = 0.30
+
+
+# ---------------------------------------------------------
+# EVALUACIÓN
+# ---------------------------------------------------------
+
+# Dataset canónico utilizado para evaluar tanto retrieval
+# como el flujo RAG completo.
 QUERIES_DIR = BASE_DIR / "queries"
+
 EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
+
+
+# ---------------------------------------------------------
+# CACHÉ DE EVALUACIÓN
+# ---------------------------------------------------------
+
+# Artefactos temporales/reutilizables generados durante
+# las evaluaciones.
+#
+# Se mantienen fuera de queries/ porque no forman parte
+# del dataset de evaluación.
+CACHE_DIR = OUTPUT_DIR / "cache"
+
+# Caché persistente de embeddings de las preguntas.
+#
+# Evita volver a llamar a la API de embeddings cada vez
+# que se repiten experimentos de retrieval o distintos K.
+EVAL_QUERY_EMBEDDINGS_JSON = CACHE_DIR / "eval_query_embeddings.json"
+
+
+# ---------------------------------------------------------
+# RESULTADOS DE EVALUACIÓN
+# ---------------------------------------------------------
+
+# Resultados producidos por las evaluaciones end-to-end.
+#
+# Se mantienen separados tanto del dataset de entrada
+# como de los artefactos principales del pipeline.
+EVALUATION_RESULTS_DIR = BASE_DIR / "tests" / "evaluation"
+
+# =========================================================
+# GENERACIÓN
+# =========================================================
+
+# Modelo utilizado para generar la respuesta final del RAG.
+GENERATION_MODEL = "gemini-3.1-flash-lite"
+
+
+# Número máximo de intentos ante errores temporales de la API.
+GENERATION_MAX_RETRIES = 3
+
+
+# Espera inicial entre reintentos.
+#
+# Se aplica backoff exponencial:
+#
+#   intento 1 -> 2 segundos
+#   intento 2 -> 4 segundos
+#   intento 3 -> error definitivo
+GENERATION_RETRY_SECONDS = 2
