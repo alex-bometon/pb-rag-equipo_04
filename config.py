@@ -31,7 +31,7 @@ CHUNKS_JSON = OUTPUT_DIR / "chunks.json"
 # =========================================================
 
 # Valores iniciales para la primera versión.
-# Se podrán modificar posteriormente durante la evaluación.
+# Seleccionados tras comparar distintas estrategias.
 CHUNK_SIZE = 1_000
 CHUNK_OVERLAP = 100
 
@@ -100,13 +100,11 @@ TOP_K = 5
 # RECUPERACIÓN DE CANDIDATOS
 # ---------------------------------------------------------
 
-# Número mínimo de candidatos que recuperamos inicialmente
-# mediante similitud semántica antes de aplicar el reranking.
+# Los siguientes parámetros se conservan para reproducir
+# los experimentos de reranking híbrido.
 #
-# Recuperar más candidatos que TOP_K permite que el
-# reranking híbrido pueda rescatar documentos relevantes
-# que no aparezcan inicialmente entre los primeros
-# resultados del ranking puramente vectorial.
+# El flujo RAG final utiliza como baseline el retrieval
+# semántico original, definido en src/rag.py.
 RETRIEVAL_MIN_CANDIDATES = 50
 
 
@@ -125,37 +123,40 @@ RETRIEVAL_LEXICAL_WEIGHT = 0.30
 # EVALUACIÓN
 # ---------------------------------------------------------
 
-# Preguntas de evaluación utilizadas para probar el
-# retrieval de forma repetible.
+# Dataset canónico utilizado para evaluar tanto retrieval
+# como el flujo RAG completo.
 QUERIES_DIR = BASE_DIR / "queries"
 
 EVAL_QUERIES_JSON = QUERIES_DIR / "eval_queries.json"
 
 
+# ---------------------------------------------------------
+# CACHÉ DE EVALUACIÓN
+# ---------------------------------------------------------
 
-# Caché persistente de los embeddings de las preguntas de
-# evaluación.
+# Artefactos temporales/reutilizables generados durante
+# las evaluaciones.
 #
-# Permite generar cada embedding una sola vez y reutilizarlo
-# posteriormente en:
-#
-#   - retrieval semántico;
-#   - retrieval híbrido;
-#   - experimentos con distintos valores de K.
-#
-# De esta forma las evaluaciones repetidas no consumen
-# llamadas innecesarias a la API de embeddings.
-EVAL_QUERY_EMBEDDINGS_JSON = QUERIES_DIR / "eval_query_embeddings.json"
+# Se mantienen fuera de queries/ porque no forman parte
+# del dataset de evaluación.
+CACHE_DIR = OUTPUT_DIR / "cache"
 
-# Dataset utilizado para evaluar el flujo RAG completo.
+# Caché persistente de embeddings de las preguntas.
 #
-# Corresponde al conjunto de preguntas desarrollado para
-# evaluar retrieval + generación de forma conjunta.
-EVAL_RAG_JSON = QUERIES_DIR / "eval_rag.json"
+# Evita volver a llamar a la API de embeddings cada vez
+# que se repiten experimentos de retrieval o distintos K.
+EVAL_QUERY_EMBEDDINGS_JSON = CACHE_DIR / "eval_query_embeddings.json"
 
 
-# Dataset adicional de preguntas de estrés.
-EVAL_STRESS_JSON = QUERIES_DIR / "eval_stress.json"
+# ---------------------------------------------------------
+# RESULTADOS DE EVALUACIÓN
+# ---------------------------------------------------------
+
+# Resultados producidos por las evaluaciones end-to-end.
+#
+# Se mantienen separados tanto del dataset de entrada
+# como de los artefactos principales del pipeline.
+EVALUATION_RESULTS_DIR = OUTPUT_DIR / "evaluation"
 
 # =========================================================
 # GENERACIÓN
