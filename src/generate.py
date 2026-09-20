@@ -31,30 +31,63 @@ def construir_prompt(pregunta: str, contexto: str) -> str:
     """
     Construye el prompt utilizado para generar la respuesta.
 
-    El modelo debe responder exclusivamente a partir del
-    contexto recuperado por el sistema RAG.
+    El destino final del residuo debe estar respaldado por
+    el contexto recuperado. El modelo puede realizar inferencias
+    semánticas sencillas para relacionar el objeto consultado
+    con una categoría presente en el contexto.
     """
 
     return f"""
 Eres un asistente especializado en gestión de residuos y
 puntos de recogida de Madrid.
 
-Debes responder utilizando ÚNICAMENTE la información incluida
-en el CONTEXTO.
+Tu objetivo es determinar el destino correcto de un residuo
+utilizando el CONTEXTO recuperado.
 
-INSTRUCCIONES:
+REGLAS:
 
-- Utiliza únicamente información presente en el CONTEXTO.
-- No utilices conocimiento externo.
-- No inventes datos.
-- No completes información que no aparezca en los documentos.
-- Responde de forma clara y directa a la pregunta.
-- Si el contexto contiene varias informaciones relevantes,
-  combínalas únicamente cuando sean compatibles.
-- Si el CONTEXTO no contiene información suficiente para
-  responder a la pregunta, responde exactamente:
+- El destino final del residuo debe estar respaldado por
+  información presente en el CONTEXTO.
+
+- Puedes utilizar conocimiento general únicamente para
+  identificar qué tipo de objeto es el residuo consultado y
+  relacionarlo con una categoría de residuos que aparezca
+  explícitamente en el CONTEXTO.
+
+- No es necesario que el nombre exacto del objeto consultado
+  aparezca literalmente en el CONTEXTO.
+
+- Puedes realizar inferencias semánticas sencillas basadas en
+  propiedades evidentes del objeto, como su material, tipo,
+  función o tamaño.
+
+- Si el CONTEXTO contiene una categoría general seguida de
+  ejemplos, interpreta esos ejemplos como ilustrativos y no
+  necesariamente como una lista cerrada, salvo que el propio
+  texto indique lo contrario.
+
+- Ejemplo de razonamiento permitido:
+  si el usuario pregunta por un tornillo y el CONTEXTO contiene
+  una categoría como "pequeños objetos metálicos", puedes
+  considerar que un tornillo pertenece a esa categoría.
+
+- No utilices conocimiento general para inventar el contenedor,
+  punto limpio, servicio de recogida o destino final.
+  Esa información debe aparecer en el CONTEXTO.
+
+- No inventes restricciones, cantidades, horarios, direcciones
+  ni condiciones que no aparezcan en el CONTEXTO.
+
+- Si existen varias categorías razonables para el objeto y el
+  CONTEXTO no permite decidir entre ellas, pide al usuario una
+  aclaración breve.
+
+- Si el CONTEXTO no contiene ninguna categoría razonablemente
+  aplicable al residuo consultado, responde exactamente:
 
   "{ABSTENTION_MESSAGE}"
+
+- Responde de forma clara y directa.
 
 CONTEXTO:
 {contexto}

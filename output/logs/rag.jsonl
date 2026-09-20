@@ -13,3 +13,7 @@
 {"timestamp": "2026-09-20T19:29:29.848777+00:00", "question": "Dónde hay que tirar el sobre con la cuerda de una infusión?", "k": 5, "num_chunks": 5, "time_seconds": 2.255, "model": "gemini-3.1-flash-lite"}
 {"timestamp": "2026-09-20T19:29:41.420733+00:00", "question": "Restos de una infusión", "k": 5, "num_chunks": 5, "time_seconds": 2.138, "model": "gemini-3.1-flash-lite"}
 {"timestamp": "2026-09-20T19:29:53.810818+00:00", "question": "bolsita de una infusión", "k": 5, "num_chunks": 5, "time_seconds": 3.317, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:37:54.388842+00:00", "question": "a qué contenedor hay que llevar una hamaca?", "k": 5, "num_chunks": 5, "time_seconds": 1.978, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:39:10.399767+00:00", "question": "cuál es el contenedor idóneo de una fregona? Pero únicamente la parte del mocho", "k": 5, "num_chunks": 5, "time_seconds": 1.309, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:40:21.713496+00:00", "question": "donde se tiran las capsulas de café tipo nespresso?", "k": 5, "num_chunks": 5, "time_seconds": 2.675, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:57:09.101383+00:00", "question": "donde tiro un tornillo?", "k": 5, "num_chunks": 5, "time_seconds": 3.883, "model": "gemini-3.1-flash-lite"}
