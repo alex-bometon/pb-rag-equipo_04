@@ -3,7 +3,7 @@
 
 import time
 
-from google.genai import errors
+from google.genai import errors, types
 
 from config import (
     GENERATION_MODEL,
@@ -99,6 +99,13 @@ def _generar_con_reintentos(
             respuesta = client.models.generate_content(
                 model=GENERATION_MODEL,
                 contents=prompt,
+                config=types.GenerateContentConfig(
+                    automatic_function_calling=(
+                        types.AutomaticFunctionCallingConfig(
+                            disable=True
+                        )
+                    ),
+                ),
             )
 
             texto = respuesta.text
