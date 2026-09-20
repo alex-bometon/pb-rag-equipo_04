@@ -1,0 +1,1451 @@
+[
+  {
+    "id": 1,
+    "categoria": "separacion_residuos",
+    "pregunta": "¿En qué contenedor tiro un envase de plástico?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "fraccion_plasticos_metales_briks.html"
+    ],
+    "answer": "Debes tirarlo en el CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO).",
+    "sources": [
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      },
+      {
+        "source": "fraccion_plasticos_metales_briks.html",
+        "path": "data/raw/html/fraccion_plasticos_metales_briks.html"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Residuo: Envases de plástico para alimentación: botellas de bebidas, aceite, salsas, envases de plástico de productos lácteos y sus tapas: yogures, mantequillas... bandejas, cajas y embalajes de \"corcho blanco\" o \"poliespán\" usado en alimentación y como protector de productos frágiles, hueveras de plástico, vasos y platos de plástico desechables, tapones y tapas de plástico, mallas de frutas y verduras…\nLugar de depósito: CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+        "distance": 0.23341113328933716,
+        "metadata": {
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "format": "csv",
+          "chunk_count": 1,
+          "document_type": "residuo_destino",
+          "source": "tipos_residuos.csv",
+          "source_row": 3,
+          "chunk_index": 0,
+          "chunk_size": 473,
+          "destino": "CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)"
+        }
+      },
+      {
+        "text": "Residuo: Envases de plástico de productos de aseo y limpieza: botes de productos de aseo no aerosoles, botes de limpieza vacíos: jabones de baño, detergentes...\nLugar de depósito: CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+        "distance": 0.2581411600112915,
+        "metadata": {
+          "source_row": 4,
+          "destino": "CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+          "chunk_size": 227,
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "document_type": "residuo_destino",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "format": "csv",
+          "source": "tipos_residuos.csv"
+        }
+      },
+      {
+        "text": "Residuo: Bolsas y envoltorios de plástico y aluminio: bolsas de plástico para alimentos, bolsas y recipientes de aluminio para alimentos, papel de aluminio, bolsas de supermercado, envases al vacío, envoltorios de plástico, film de polietileno...\nLugar de depósito: CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+        "distance": 0.2667630910873413,
+        "metadata": {
+          "chunk_count": 1,
+          "document_type": "residuo_destino",
+          "source_row": 8,
+          "destino": "CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 313,
+          "chunk_index": 0,
+          "source": "tipos_residuos.csv",
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Componen esta fracción los siguientes elementos:\n- Plásticos: bolsas de plástico, botellas de plástico de bebidas, aceite, salsas, envases de productos lácteos y sus tapas, como yogures o mantequilla, hueveras de plástico, vasos y platos desechables, tapas y tapones, mallas de fruta y verduras, film transparente, botes de productos de aseo y limpieza vacíos, como jabones de baño o detergentes, así como el plástico de los envases tipo blíster, donde vienen por ejemplo las pilas o las cuchillas de afeitar. También los plásticos que no sean envases ni envoltorios (muñecos, maquinillas de afeitar...),\n- Metales: latas de bebidas y conservas, platos y bandejas de aluminio para alimentación, chapas y tapas, aerosoles vacíos como desodorante o limpiadores domésticos y papel de aluminio para la cocina.\n- Briks: ya sean de leche, zumos, caldos…\n- Bandejas y embalajes usados en alimientación o como protectores de productos frágiles: “corcho blanco” o “poliespán”, papel de burbujas .",
+        "distance": 0.2699890732765198,
+        "metadata": {
+          "path": "data/raw/html/fraccion_plasticos_metales_briks.html",
+          "chunk_size": 987,
+          "document_type": "documentacion_municipal",
+          "source": "fraccion_plasticos_metales_briks.html",
+          "title": "Recogida de la fracción de plásticos, metales y briks.",
+          "chunk_index": 1,
+          "chunk_count": 3,
+          "format": "html"
+        }
+      },
+      {
+        "text": "Residuo: Plástico de los envases tipo blíster: donde vienen las pilas, las cuchillas de afeitar…\nLugar de depósito: CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+        "distance": 0.2764984965324402,
+        "metadata": {
+          "destino": "CONTENEDOR PLÁSTICOS, METALES Y BRIK (AMARILLO)",
+          "source_row": 9,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source": "tipos_residuos.csv",
+          "document_type": "residuo_destino",
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "format": "csv",
+          "chunk_size": 163
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 2,
+    "categoria": "separacion_residuos",
+    "pregunta": "¿Dónde tiro los restos de comida y las cáscaras de fruta?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "fraccion_organica.html"
+    ],
+    "answer": "Debes depositarlos en el contenedor de orgánica (tapa marrón).",
+    "sources": [
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      },
+      {
+        "source": "fraccion_organica.html",
+        "path": "data/raw/html/fraccion_organica.html"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Residuo: Restos de frutas y verduras\nLugar de depósito: CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+        "distance": 0.26661306619644165,
+        "metadata": {
+          "document_type": "residuo_destino",
+          "source": "tipos_residuos.csv",
+          "destino": "CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+          "chunk_index": 0,
+          "source_row": 4,
+          "format": "csv",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 89,
+          "chunk_count": 1
+        }
+      },
+      {
+        "text": "Residuo: Restos de comidas\nLugar de depósito: CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+        "distance": 0.2848079204559326,
+        "metadata": {
+          "source": "tipos_residuos.csv",
+          "format": "csv",
+          "chunk_size": 79,
+          "destino": "CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+          "chunk_index": 0,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source_row": 6,
+          "chunk_count": 1,
+          "document_type": "residuo_destino"
+        }
+      },
+      {
+        "text": "Recogida de residuos orgánicos\nFrecuencia de recogida\nTODOS LOS DÍAS, incluso domingos y festivos (en la documentación asociada se pueden consultar los turnos de recogida de la fracción orgánica en los diferentes distritos y barrios de la ciudad) .\nDepósito de los residuos\nLos residuos orgánicos o biorresiduos, recogidos en bolsas compostables, se depositaránen el contenedor de la fracción orgánica (tapa marrón) .\nTipología de residuos orgánicos\nSe consideran residuos orgánicos los siguientes:\nRestos de fruta y verdura\nRestos de carne y pescado\nCáscaras de huevo, de marisco y de frutos secos\nOtros restos de comida\nRestos de infusiones y posos de café\nServilletas de papel usadas, papel de cocina sucio y papel y cartón sucios de aceite o de restos de comida\nPequeños restos de jardinería: plantas, hojarasca, ramos de flores...\nResiduos no admitidos",
+        "distance": 0.3007895350456238,
+        "metadata": {
+          "source": "fraccion_organica.html",
+          "chunk_count": 2,
+          "path": "data/raw/html/fraccion_organica.html",
+          "title": "Recogida de residuos orgánicos",
+          "chunk_index": 0,
+          "format": "html",
+          "document_type": "documentacion_municipal",
+          "chunk_size": 857
+        }
+      },
+      {
+        "text": "Residuo: Cáscaras de huevo, de marisco y frutos secos\nLugar de depósito: CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+        "distance": 0.3028671145439148,
+        "metadata": {
+          "source": "tipos_residuos.csv",
+          "source_row": 9,
+          "document_type": "residuo_destino",
+          "format": "csv",
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "destino": "CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+          "chunk_size": 106,
+          "path": "data/raw/csv/tipos_residuos.csv"
+        }
+      },
+      {
+        "text": "Residuo: Restos de carnes o pescados\nLugar de depósito: CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+        "distance": 0.31500542163848877,
+        "metadata": {
+          "format": "csv",
+          "chunk_size": 89,
+          "document_type": "residuo_destino",
+          "destino": "CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+          "source_row": 7,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source": "tipos_residuos.csv",
+          "chunk_count": 1,
+          "chunk_index": 0
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 3,
+    "categoria": "separacion_residuos",
+    "pregunta": "¿Qué puedo depositar en el contenedor verde de vidrio?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "fraccion_vidrio.html"
+    ],
+    "answer": "En el contenedor verde de vidrio puedes depositar los siguientes residuos:\n\n*   Botellas de vidrio (de zumos, refrescos, cervezas, mostos, sidras, vinos, licores, etc., de cualquier color).\n*   Tarros de conservas, mermeladas o salsas.\n*   Frascos de artículos de cosmética y perfumería, incluyendo frascos de vidrio con roll-on o atomizador.\n\nRecuerda que los envases deben depositarse sin bolsas y que es conveniente retirar antes la chapa, tapa o tapón. Solo se pueden desechar envases de vidrio; no debe confundirse con el cristal, la porcelana o la cerámica.",
+    "sources": [
+      {
+        "source": "fraccion_vidrio.html",
+        "path": "data/raw/html/fraccion_vidrio.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Recogida de vidrio\n¿Qué incluye la fracción vidrio?\nbotellas de vidrio,\ntarros de conservas, mermeladas o salsas\nfrascos de artículos de cosmética y perfumería\nAntes de su reciclaje, es conveniente retirar la chapa, tapa o tapón , pues dependiendo del material de que estén hechos, irán a contenedores de otras fracciones de recogida.\nAdemás, se deben depositar sin bolsas .\nEn el contenedor verde solo se pueden desechar los envases de vidrio.\nMás abajo te explicamos porqué es tan importante no confundirlo con el cristal.\n¿Por qué es tan importante no confundir cristal con vidrio?\nEl tratamiento de estos residuos es totalmente diferente:\nMientras que los residuos del vidrio permiten producir nuevas botellas y frascos reciclados, que se puede reciclar infinitas veces sin perder sus propiedades\nEn el caso de botellas de vidrio, antes de su reciclaje, es conviene prestar atención a la chapa, tapa o tapón, pues dependiendo del material de que estén hechos, irán a un contenedor u otro.",
+        "distance": 0.2148391604423523,
+        "metadata": {
+          "chunk_count": 3,
+          "source": "fraccion_vidrio.html",
+          "format": "html",
+          "path": "data/raw/html/fraccion_vidrio.html",
+          "chunk_size": 992,
+          "chunk_index": 0,
+          "title": "Recogida de vidrio",
+          "document_type": "documentacion_municipal"
+        }
+      },
+      {
+        "text": "El cristal debe ser llevado al punto limpio , pues contiene elementos como el plomo, que no se pueden fundir en los mismos hornos donde se producen los envases de vidrio.\nEjemplos de cristal son vasos, copas, vitrocerámicas, espejos o en el cristal plano de ventanas o cuadros.\nOtros residuos que no se debe depositar en esta fracción son la porcelana y la cerámica, que por sus características deben depositarse en el contenedor de resto .\nContenedores de recogida de la fracción vidrio\nLos contenedores de vidrio en la ciudad de Madrid son de gran capacidad, presentan el color distintivo verde y se encuentran situados de manera permanente en la vía pública.\nSegún ordenanza vigente , queda prohibido el depósito de envases de vidrio en los contenedores ubicados en el espacio público, entre las 22:30 horas y las 08:00 horas , todos los días de la semana.",
+        "distance": 0.2468479871749878,
+        "metadata": {
+          "chunk_index": 1,
+          "chunk_size": 859,
+          "title": "Recogida de vidrio",
+          "format": "html",
+          "chunk_count": 3,
+          "path": "data/raw/html/fraccion_vidrio.html",
+          "document_type": "documentacion_municipal",
+          "source": "fraccion_vidrio.html"
+        }
+      },
+      {
+        "text": "Residuo: Botellas de vidrio, de zumos, refrescos, cervezas, mostos, sidras, vinos, licores… de cualquier color\nLugar de depósito: CONTENEDOR VIDRIO (VERDE)",
+        "distance": 0.26870906352996826,
+        "metadata": {
+          "source_row": 2,
+          "document_type": "residuo_destino",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source": "tipos_residuos.csv",
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "destino": "CONTENEDOR VIDRIO (VERDE)",
+          "format": "csv",
+          "chunk_size": 155
+        }
+      },
+      {
+        "text": "Residuo: Tarros de vidrio de conservas, mermeladas o salsas\nLugar de depósito: CONTENEDOR VIDRIO (VERDE)",
+        "distance": 0.2743936777114868,
+        "metadata": {
+          "chunk_size": 104,
+          "source_row": 3,
+          "document_type": "residuo_destino",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_index": 0,
+          "chunk_count": 1,
+          "source": "tipos_residuos.csv",
+          "format": "csv",
+          "destino": "CONTENEDOR VIDRIO (VERDE)"
+        }
+      },
+      {
+        "text": "Residuo: Frascos de vidrio con roll-on o atomizador\nLugar de depósito: CONTENEDOR VIDRIO (VERDE)",
+        "distance": 0.28162825107574463,
+        "metadata": {
+          "destino": "CONTENEDOR VIDRIO (VERDE)",
+          "source_row": 4,
+          "chunk_size": 96,
+          "document_type": "residuo_destino",
+          "chunk_index": 0,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "format": "csv",
+          "source": "tipos_residuos.csv",
+          "chunk_count": 1
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 4,
+    "categoria": "separacion_residuos",
+    "pregunta": "¿Qué se debe tirar en el contenedor azul de papel y cartón?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "fraccion_papel.html"
+    ],
+    "answer": "En el contenedor azul de papel y cartón se debe depositar todo tipo de papel y cartón que no se encuentre manchado de grasa o pintura, tales como:\n\n*   Hojas de papel, cuadernos y sobres (incluyendo los que tienen sellos pegados).\n*   Revistas, periódicos viejos y propaganda del buzón.\n*   Cajas y envases de cartón (ejemplos: cajas de zapatos, cajas de cereales).\n*   Hueveras de cartón, tubos, canutos y papel de envolver.\n\nRecuerde que antes de introducirlos, debe plegar el cartón para que ocupe menos espacio y depositarlos siempre dentro del contenedor.",
+    "sources": [
+      {
+        "source": "fraccion_papel.html",
+        "path": "data/raw/html/fraccion_papel.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Recogida de la fracción papel y cartón\nLa recogida selectiva de la fracción de papel y cartón se efectúa a través de contenedores ubicados en la vía pública .\n¿Que comprende la fracción de papel y cartón?\nhojas de papel,\nsobres o cuadernos,\nrevistas y periódicos viejos,\npropaganda del buzón,\nhueveras de cartón,\ncajas y envases de cartón,\ntubos y canutos de este mismo material\ny papel de envolver.\nEl papel o cartón manchado de aceite, de pintura, de pizza, etc . no debe ir al contenedor azul: deposítalo en el de tapa marrón si está manchado de restos de comida, si no, en el de tapa naranja.\nLos libros puedes llevarlos a librerías y organizaciones sociales para su reutilización . También puedes llevarlos a los puntos limpios fijos para intercambiarlos por libros u otros productos en ReMAD . Infórmate en el Ayuntamiento sobre esta y otras iniciativas de intercambio. En los puntos limpios de proximidad también puedes depositar los libros o revistas.",
+        "distance": 0.24300599098205566,
+        "metadata": {
+          "chunk_size": 959,
+          "format": "html",
+          "path": "data/raw/html/fraccion_papel.html",
+          "chunk_index": 0,
+          "document_type": "documentacion_municipal",
+          "chunk_count": 4,
+          "title": "Recogida de la fracción papel y cartón",
+          "source": "fraccion_papel.html"
+        }
+      },
+      {
+        "text": "El papel y el cartón reciclados se transforma nuevamente en papel, cajas y embalajes.\nNo olvides, plegar el cartón antes de introducirlo en el contenedor. Al plegarlo, ocupa menos espacio y deja más espacio en el contenedor.\nLas cajas y los cartones deben introducirse siempre dentro del contenedor para que puedan ser recogidos y reciclados adecuadamente.\nEn el caso de que dispongas de un gran volumen de estos residuos, como en el caso de una mudanza, se deben llevar a un punto limpio fijo y evitar la saturación en los contenedores.\nContenedores de recogida de la fracción papel-cartón\nLos contenedores de papel y cartón en la ciudad de Madrid son de gran capacidad, presentan el color distintivo azul en su cubierta y se encuentran situados de manera permanente en la vía pública , permitiendo a los ciudadanos depositar los residuos en cualquier momento.\nRecueda doblar los cartones antes de introducirlos en el contenedor para que ocupen menos espacio.",
+        "distance": 0.25066453218460083,
+        "metadata": {
+          "chunk_size": 960,
+          "title": "Recogida de la fracción papel y cartón",
+          "source": "fraccion_papel.html",
+          "chunk_count": 4,
+          "chunk_index": 1,
+          "format": "html",
+          "path": "data/raw/html/fraccion_papel.html",
+          "document_type": "documentacion_municipal"
+        }
+      },
+      {
+        "text": "Residuo: Papel: todo tipo de papel y cartón que no se encuentren manchados de grasa o pintura\nLugar de depósito: CONTENEDOR PAPEL-CARTÓN (AZUL)",
+        "distance": 0.28374433517456055,
+        "metadata": {
+          "document_type": "residuo_destino",
+          "chunk_index": 0,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "destino": "CONTENEDOR PAPEL-CARTÓN (AZUL)",
+          "format": "csv",
+          "source_row": 2,
+          "chunk_size": 143,
+          "source": "tipos_residuos.csv",
+          "chunk_count": 1
+        }
+      },
+      {
+        "text": "Residuo: Todo tipo de envases de cartón o papel, como cajas de zapatos, cereales…\nLugar de depósito: CONTENEDOR PAPEL-CARTÓN (AZUL)",
+        "distance": 0.28548091650009155,
+        "metadata": {
+          "destino": "CONTENEDOR PAPEL-CARTÓN (AZUL)",
+          "document_type": "residuo_destino",
+          "chunk_size": 131,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_index": 0,
+          "source": "tipos_residuos.csv",
+          "source_row": 3,
+          "chunk_count": 1,
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Residuo: Hojas, cuadernos, sobres (con sellos pegados inclusive), periódicos, revistas, y demás productos de papel y cartón\nLugar de depósito: CONTENEDOR PAPEL-CARTÓN (AZUL)",
+        "distance": 0.29106390476226807,
+        "metadata": {
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 173,
+          "destino": "CONTENEDOR PAPEL-CARTÓN (AZUL)",
+          "chunk_index": 0,
+          "chunk_count": 1,
+          "source": "tipos_residuos.csv",
+          "document_type": "residuo_destino",
+          "source_row": 4,
+          "format": "csv"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 5,
+    "categoria": "separacion_residuos",
+    "pregunta": "¿Qué va en el contenedor gris de restos?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "fraccion_resto.html"
+    ],
+    "answer": "No puedo responder con la información disponible en los documentos.",
+    "sources": [
+      {
+        "source": "fraccion_resto.html",
+        "path": "data/raw/html/fraccion_resto.html"
+      },
+      {
+        "source": "fraccion_organica.html",
+        "path": "data/raw/html/fraccion_organica.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "- residuos de limpieza doméstica (polvo de barrer, pelo, bolsas de aspiradora…),\n- papel y cartón sucios de pintura o de otros líquidos que no sean de uso alimentario,\n- vasos, copas u otros objetos de cristal y espejos,\n- bombillas convencionales.\n- En definitiva, todos aquellos residuos no reciclables que no se deben depositar en otros contenedores ni en los puntos limpios.\nSi separamos correctamente los residuos orgánicos del resto de la basura podemos reducir entre un 40% y un 50% el volumen de residuos que se generan en el hogar . Al hacerlo, se disminuye significativamente la cantidad de residuos que acaban en el vertedero, lo que contribuye a una gestión más sostenible y responsable de los desechos.",
+        "distance": 0.28320032358169556,
+        "metadata": {
+          "chunk_count": 2,
+          "source": "fraccion_resto.html",
+          "format": "html",
+          "path": "data/raw/html/fraccion_resto.html",
+          "title": "Recogida de la fracción \"resto no reciclable\"",
+          "chunk_index": 1,
+          "chunk_size": 715,
+          "document_type": "documentacion_municipal"
+        }
+      },
+      {
+        "text": "Recogida de la fracción \"resto no reciclable\"\nFrecuencia de recogida de la fracción resto: LUNES A SÁBADO (excepto festivos), según los turnos establecidos.\nLos turnos de recogida se pueden consultar en el visualizador de datos abiertos en el apartado de recogida de residuos , en la pestaña de \"Mapas de zonificación, turnos y calendarios de recogida de residuos\" y seleccionando el tipo de fracción a consultar.\nLos contenedores para la recogida selectiva de resto no reciclable están identificados en color naranja.\n¿Qué residuos se pueden depositar en el contenedor de la fracción de resto?\nLa fracción resto (no reciclable) comprende los siguientes residuos:\n- residuos textiles sanitarios (pañales, compresas, toallitas húmedas…),\n- residuos de pequeñas curas (tiritas, esparadrapo, gasas, vendas, algodón),\n- colillas,\n- arena de gato o similar,\n- excrementos de animales domésticos,\n- cerámica y porcelana,\n- residuos de limpieza doméstica (polvo de barrer, pelo, bolsas de aspiradora…),",
+        "distance": 0.2866894602775574,
+        "metadata": {
+          "document_type": "documentacion_municipal",
+          "title": "Recogida de la fracción \"resto no reciclable\"",
+          "source": "fraccion_resto.html",
+          "format": "html",
+          "chunk_size": 995,
+          "path": "data/raw/html/fraccion_resto.html",
+          "chunk_index": 0,
+          "chunk_count": 2
+        }
+      },
+      {
+        "text": "Pequeños restos de jardinería: plantas, hojarasca, ramos de flores...\nResiduos no admitidos\nNO van al contenedor marrón : aceite de cocina, residuos de barrer, pelo, colillas, pañales, compresas, toallitas húmedas y productos de higiene personal, excrementos de animales y arena de gato, por ejemplo . Estos residuos deben depositarse en el contenedor de tapa naranja , junto con el resto de los residuos no reciclables. Para poder obtener abono de calidad, es muy importante que no se deposite en el contenedor marrón residuos no orgánicos.\nAnte la duda sobre el material que compone un residuo, es mejor tirarlo al contenedor de resto no reciclable (color naranja) para no estropear las fracciones reciclables o reutilizables.\nEsta separación en origen, realizada en nuestras casas y establecimientos, nos permite mejorar el aprovechamiento de los residuos, obteniendo fertilizante y energía, y nos sitúa al nivel de otras ciudades europeas que ya lo están realizando.",
+        "distance": 0.3120669722557068,
+        "metadata": {
+          "path": "data/raw/html/fraccion_organica.html",
+          "chunk_index": 1,
+          "title": "Recogida de residuos orgánicos",
+          "source": "fraccion_organica.html",
+          "format": "html",
+          "document_type": "documentacion_municipal",
+          "chunk_count": 2,
+          "chunk_size": 970
+        }
+      },
+      {
+        "text": "Residuo: Restos de comidas\nLugar de depósito: CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+        "distance": 0.33077871799468994,
+        "metadata": {
+          "chunk_index": 0,
+          "chunk_size": 79,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_count": 1,
+          "format": "csv",
+          "destino": "CONTENEDOR ORGÁNICA (TAPA MARRÓN)",
+          "document_type": "residuo_destino",
+          "source_row": 6,
+          "source": "tipos_residuos.csv"
+        }
+      },
+      {
+        "text": "Recogida de residuos orgánicos\nFrecuencia de recogida\nTODOS LOS DÍAS, incluso domingos y festivos (en la documentación asociada se pueden consultar los turnos de recogida de la fracción orgánica en los diferentes distritos y barrios de la ciudad) .\nDepósito de los residuos\nLos residuos orgánicos o biorresiduos, recogidos en bolsas compostables, se depositaránen el contenedor de la fracción orgánica (tapa marrón) .\nTipología de residuos orgánicos\nSe consideran residuos orgánicos los siguientes:\nRestos de fruta y verdura\nRestos de carne y pescado\nCáscaras de huevo, de marisco y de frutos secos\nOtros restos de comida\nRestos de infusiones y posos de café\nServilletas de papel usadas, papel de cocina sucio y papel y cartón sucios de aceite o de restos de comida\nPequeños restos de jardinería: plantas, hojarasca, ramos de flores...\nResiduos no admitidos",
+        "distance": 0.3326486349105835,
+        "metadata": {
+          "path": "data/raw/html/fraccion_organica.html",
+          "document_type": "documentacion_municipal",
+          "chunk_count": 2,
+          "format": "html",
+          "chunk_index": 0,
+          "chunk_size": 857,
+          "source": "fraccion_organica.html",
+          "title": "Recogida de residuos orgánicos"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": true,
+    "abstention_correct": false
+  },
+  {
+    "id": 6,
+    "categoria": "residuos_domesticos_especiales",
+    "pregunta": "¿Dónde puedo tirar el aceite vegetal usado de la cocina?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "recogida_aceite_vegetal.html"
+    ],
+    "answer": "Puedes depositar el aceite vegetal usado de cocina en los siguientes lugares:\n\n*   Contenedores específicos de la red de puntos limpios de la ciudad de Madrid (fijos, móviles y de proximidad).\n*   Contenedores situados en colegios, dependencias municipales y diversos puntos de la vía pública.\n*   En el caso de cantidades de 5 litros, también puedes utilizar los puntos limpios móviles y de proximidad.\n*   Si tu comunidad o mancomunidad cuenta con un contenedor propio, puedes depositarlo allí.",
+    "sources": [
+      {
+        "source": "recogida_aceite_vegetal.html",
+        "path": "data/raw/html/recogida_aceite_vegetal.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Recogida de aceite vegetal usado\nEl aceite vegetal usado (aceite de cocina) es un residuo doméstico que NO debe verterse en el fregadero o el WC , ya que la película de grasa que forma cubre las aguas dificultando su oxigenación y la depuración posterior. Por ello, es importante que este tipo de residuo se recicle , depositándolo en diversos puntos dotados de los correspondientes contenedores de la red de puntos limpios de la ciudad de Madrid (fijos, móviles y de proximidad), colegios, dependencias municipales, y diversos puntos de la vía pública.\nSe puede consultar la ubicación de los contenedores de aceite vegetal usado en el Portal de Datos Abiertos , en formato reutilizable (pinchar aquí ), así como su ubicación exacta en un mapa interactivo (pinchar aquí ).",
+        "distance": 0.2497914433479309,
+        "metadata": {
+          "path": "data/raw/html/recogida_aceite_vegetal.html",
+          "chunk_count": 2,
+          "chunk_index": 0,
+          "title": "Recogida de aceite vegetal usado",
+          "source": "recogida_aceite_vegetal.html",
+          "chunk_size": 772,
+          "document_type": "documentacion_municipal",
+          "format": "html"
+        }
+      },
+      {
+        "text": "Asimismo, se puede solicitar la colocación de contenedores de recogida de aceite vegetal usado en las comunidades y mancomunidades de propietarios de más de 200 vecinos o 100 viviendas que así lo soliciten a través del portal de sugerencias y reclamaciones o mediante correo a sgresiduos@madrid.es , efectuándose la recogida en la propia comunidad solicitante. En el caso de disponer de un contenedor de aceite en su comunidad de vecinos, para solicitar su vaciado, debe llamar al teléfono 628102389.\nCuando se separa el aceite usado y éste se recicla, se pueden elaborar biocombustibles.\nLos aceites minerales o sintéticos provenientes de vehículos a motor son considerados residuos peligrosos , por tanto, deben presentarse solo en los Puntos Limpios fijos o móviles , donde se pueden depositar hasta 10 y 5 litros respectivamente. No es posible su depósito en los puntos limpios de proximidad.",
+        "distance": 0.28408753871917725,
+        "metadata": {
+          "chunk_count": 2,
+          "source": "recogida_aceite_vegetal.html",
+          "format": "html",
+          "chunk_index": 1,
+          "chunk_size": 896,
+          "path": "data/raw/html/recogida_aceite_vegetal.html",
+          "title": "Recogida de aceite vegetal usado",
+          "document_type": "documentacion_municipal"
+        }
+      },
+      {
+        "text": "Residuo: Aceite vegetal de cocina\nLugar de depósito: CONTENEDOR DE RECOGIDA DE ACEITE VEGETAL USADO",
+        "distance": 0.3096234202384949,
+        "metadata": {
+          "source": "tipos_residuos.csv",
+          "chunk_index": 0,
+          "chunk_count": 1,
+          "source_row": 2,
+          "document_type": "residuo_destino",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 99,
+          "destino": "CONTENEDOR DE RECOGIDA DE ACEITE VEGETAL USADO",
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Residuo: Aceite vegetal de cocina (5 Litros)\nLugar de depósito: PUNTO LIMPIO MÓVIL",
+        "distance": 0.31430602073669434,
+        "metadata": {
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "format": "csv",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source": "tipos_residuos.csv",
+          "source_row": 2,
+          "chunk_size": 82,
+          "document_type": "residuo_destino",
+          "destino": "PUNTO LIMPIO MÓVIL"
+        }
+      },
+      {
+        "text": "Residuo: Aceite vegetal de cocina (5 Litros)\nLugar de depósito: PUNTO LIMPIO DE PROXIMIDAD",
+        "distance": 0.31445229053497314,
+        "metadata": {
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source": "tipos_residuos.csv",
+          "format": "csv",
+          "source_row": 2,
+          "chunk_count": 1,
+          "destino": "PUNTO LIMPIO DE PROXIMIDAD",
+          "chunk_index": 0,
+          "chunk_size": 90,
+          "document_type": "residuo_destino"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 7,
+    "categoria": "servicios_recogida",
+    "pregunta": "¿Cómo puedo deshacerme de un colchón o un mueble viejo?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "recogida_muebles_enseres.html"
+    ],
+    "answer": "Para deshacerte de muebles y enseres, existen las siguientes opciones según el contexto:\n\n*   **Retirada gratuita (010):** Puedes solicitar la recogida de muebles y enseres a través del servicio de recogida gratuita llamando al 010 o mediante Avisos Madrid.\n*   **Puntos Limpios Fijos:** Puedes depositar residuos voluminosos y enseres (como muebles, colchones, somieres, marcos, puertas, cajas o cristal plano) hasta un máximo de 5 unidades. En estos puntos, los objetos pueden destinarse a su eliminación definitiva o al sistema ReMAD (www.remad.es) para fomentar su reutilización.\n*   **Caso especial (Colchón con chinches):** Debes depositarlo en el SELUR.\n\nRecuerda que el abandono de estos objetos en la vía pública no está permitido y es sancionable.",
+    "sources": [
+      {
+        "source": "recogida_muebles_enseres.html",
+        "path": "data/raw/html/recogida_muebles_enseres.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Recogida de muebles, electrodomésticos y enseres\nEn la ciudad de Madrid, el abandono de muebles y enseres en la vía pública no está permitido y es sancionable, según los artículos 61 y 95 de la Ordenanza de Limpieza de Espacios Públicos, Gestión de Residuos y Economía Circular .\nEl ayuntamiento dispone de diferentes servicios de recogida gratuitos según las necesidades de la ciudadanía para evitar que este tipo de residuos quede abandonado en la vía pública, incidiendo en la limpieza e higiene de nuestras calles.\nAdemás, en los Puntos Limpios Fijos de la ciudad se pueden depositar estos residuos de dos maneras, como residuo para su eliminación definitiva o se les puede dar una segunda vida fomentando la economía madrileña a través de ReMAD , sistema de reutilización de objetos mediante iniciativas de intercambio entre particulares a través de una plataforma, www.remad.es , que permite a través de un registro previo publicar y reservar objetos en su catálogo.",
+        "distance": 0.2714599370956421,
+        "metadata": {
+          "document_type": "documentacion_municipal",
+          "path": "data/raw/html/recogida_muebles_enseres.html",
+          "chunk_index": 0,
+          "source": "recogida_muebles_enseres.html",
+          "chunk_count": 2,
+          "format": "html",
+          "chunk_size": 972,
+          "title": "Recogida de muebles, electrodomésticos y enseres"
+        }
+      },
+      {
+        "text": "Recogida programada por distrito de muebles, electrodomésticos y enseres\nOtros sistemas de recogida de muebles, electrodomésticos y enseres (010 y Avisos Madrid)\nSegunda vida para muebles, electrodomésticos y enseres",
+        "distance": 0.27868831157684326,
+        "metadata": {
+          "chunk_size": 216,
+          "format": "html",
+          "chunk_index": 1,
+          "source": "recogida_muebles_enseres.html",
+          "path": "data/raw/html/recogida_muebles_enseres.html",
+          "document_type": "documentacion_municipal",
+          "chunk_count": 2,
+          "title": "Recogida de muebles, electrodomésticos y enseres"
+        }
+      },
+      {
+        "text": "Residuo: Colchón con chinches\nLugar de depósito: SELUR",
+        "distance": 0.2972568869590759,
+        "metadata": {
+          "source_row": 4,
+          "source": "tipos_residuos.csv",
+          "chunk_index": 0,
+          "chunk_size": 54,
+          "chunk_count": 1,
+          "format": "csv",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "document_type": "residuo_destino",
+          "destino": "SELUR"
+        }
+      },
+      {
+        "text": "Residuo: Muebles y enseres\nLugar de depósito: RETIRADA GRATUITA 010: RECOGIDA DE MUEBLES Y ENSERES",
+        "distance": 0.30675727128982544,
+        "metadata": {
+          "chunk_index": 0,
+          "source": "tipos_residuos.csv",
+          "destino": "RETIRADA GRATUITA 010: RECOGIDA DE MUEBLES Y ENSERES",
+          "document_type": "residuo_destino",
+          "chunk_count": 1,
+          "format": "csv",
+          "source_row": 3,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 98
+        }
+      },
+      {
+        "text": "Residuo: Residuos voluminosos y enseres: muebles, colchones, somieres, marcos y puertas, cajas, cristal plano, etc. (5 unidades)\nLugar de depósito: PUNTO LIMPIO FIJO",
+        "distance": 0.3189041018486023,
+        "metadata": {
+          "chunk_size": 165,
+          "destino": "PUNTO LIMPIO FIJO",
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "document_type": "residuo_destino",
+          "source_row": 28,
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "format": "csv",
+          "source": "tipos_residuos.csv"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 8,
+    "categoria": "puntos_recogida",
+    "pregunta": "¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "puntos_limpios_fijos.csv",
+      "residuos_punto_limpio_fijo.html"
+    ],
+    "answer": "En el distrito de Arganzuela, los puntos limpios de proximidad (fijos) se encuentran en:\n\n*   Calle Canarias, 17 (Centro Dotacional Integrado Arganzuela Ángel del Río).\n*   Paseo Imperial, 20 (Centro Deportivo Municipal Marqués de Samaranch).\n*   Paseo de la Esperanza, s/n (frente al número 21, c/v Paseo Juan Antonio Vallejo Nájera).",
+    "sources": [
+      {
+        "source": "puntos_limpios_proximidad.csv",
+        "path": "data/raw/csv/puntos_limpios_proximidad.csv"
+      },
+      {
+        "source": "puntos_limpios_moviles.csv",
+        "path": "data/raw/csv/puntos_limpios_moviles.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Canarias, 17. Centro Dotacional Integrado Arganzuela Ángel del Río.\nDistrito: Arganzuela.\nCentro: Centro Dotacional Integrado Arganzuela Ángel del Río.\nHorario: Lunes a sábado de 9:00 a 21:00. Agosto cerrado.",
+        "distance": 0.19660240411758423,
+        "metadata": {
+          "source": "puntos_limpios_proximidad.csv",
+          "longitude": -3.695619,
+          "chunk_index": 0,
+          "chunk_size": 253,
+          "latitude": 40.402921,
+          "district": "Arganzuela",
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "source_row": 2,
+          "format": "csv",
+          "chunk_count": 1,
+          "document_type": "punto_limpio_proximidad"
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: PLAZA LEGAZPI, 5.\nDistrito: ARGANZUELA.\nDía: SABADO.\nTurno: MAÑANA.\nHorario: 07:45 - 09:45.",
+        "distance": 0.21019887924194336,
+        "metadata": {
+          "chunk_index": 0,
+          "format": "csv",
+          "district": "ARGANZUELA",
+          "chunk_size": 122,
+          "longitude": -3.694808258,
+          "latitude": 40.3907741,
+          "chunk_count": 1,
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "day": "SABADO",
+          "source_row": 40,
+          "document_type": "punto_limpio_movil",
+          "source": "puntos_limpios_moviles.csv"
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Paseo Imperial, 20. Centro Deportivo Municipal Marqués de Samaranch.\nDistrito: Arganzuela.\nCentro: Centro Deportivo Municipal Marqués de Samaranch.\nHorario: Todos los días 24 horas. Situado en vía pública.",
+        "distance": 0.21072876453399658,
+        "metadata": {
+          "format": "csv",
+          "longitude": -3.71734797159274,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "latitude": 40.4076275279002,
+          "chunk_size": 244,
+          "source_row": 4,
+          "chunk_count": 1,
+          "document_type": "punto_limpio_proximidad",
+          "chunk_index": 0,
+          "source": "puntos_limpios_proximidad.csv",
+          "district": "Arganzuela"
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: CALLE ARGANDA, 2.\nDistrito: ARGANZUELA.\nDía: MIERCOLES.\nTurno: TARDE.\nHorario: 19:00 - 21:00.",
+        "distance": 0.21331751346588135,
+        "metadata": {
+          "longitude": -3.709351,
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "chunk_index": 0,
+          "format": "csv",
+          "source": "puntos_limpios_moviles.csv",
+          "document_type": "punto_limpio_movil",
+          "latitude": 40.399104,
+          "day": "MIERCOLES",
+          "district": "ARGANZUELA",
+          "chunk_count": 1,
+          "source_row": 23,
+          "chunk_size": 124
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Paseo de la Esperanza, s/n frente n.º 21 c/v Pº Juan Antonio Vallejo Nájera. Situado en vía pública.\nDistrito: Arganzuela.\nCentro: Paseo de la Esperanza, s/n. Situado en vía pública.\nHorario: Todos los días 24 horas. Situado en vía pública",
+        "distance": 0.2150154709815979,
+        "metadata": {
+          "longitude": -3.70481,
+          "chunk_size": 278,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "source": "puntos_limpios_proximidad.csv",
+          "format": "csv",
+          "source_row": 89,
+          "latitude": 40.40121,
+          "chunk_count": 1,
+          "district": "Arganzuela",
+          "chunk_index": 0,
+          "document_type": "punto_limpio_proximidad"
+        }
+      }
+    ],
+    "retrieval_hit": false,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 9,
+    "categoria": "puntos_recogida",
+    "pregunta": "¿Qué horario tiene el punto limpio móvil?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "puntos_limpios_moviles.csv",
+      "residuos_punto_limpio_movil.html"
+    ],
+    "answer": "El horario del punto limpio móvil depende de su ubicación:\n\n*   **Calle Tampico, 79:** 07:45 - 09:45 (sábado).\n*   **Calle Valdebernardo, 45:** 07:45 - 09:45 (viernes).\n*   **Calle Hermanos García Noblejas, 1:** 07:45 - 09:45 (miércoles).\n*   **Avenida Gran Vía del Sureste, 11:** 10:00 - 12:00 (jueves).",
+    "sources": [
+      {
+        "source": "puntos_limpios_moviles.csv",
+        "path": "data/raw/csv/puntos_limpios_moviles.csv"
+      },
+      {
+        "source": "residuos_punto_limpio_movil.html",
+        "path": "data/raw/html/residuos_punto_limpio_movil.html"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Punto limpio móvil.\nDirección: CALLE TAMPICO, 79.\nDistrito: SAN BLAS-CANILLEJAS.\nDía: SABADO.\nTurno: MAÑANA.\nHorario: 07:45 - 09:45.",
+        "distance": 0.2683035135269165,
+        "metadata": {
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "document_type": "punto_limpio_movil",
+          "longitude": -3.635651261,
+          "chunk_index": 0,
+          "district": "SAN BLAS-CANILLEJAS",
+          "source_row": 342,
+          "chunk_size": 132,
+          "source": "puntos_limpios_moviles.csv",
+          "day": "SABADO",
+          "latitude": 40.44475344,
+          "format": "csv",
+          "chunk_count": 1
+        }
+      },
+      {
+        "text": "Puedes consultar la ubicación de las diferentes paradas, días y horarios en la información asociada. Además, también puedes localizar su ubicación en la información disponible en el Geoportal y en el Portal de Datos Abiertos , con detalles sobre ubicación, coordenadas, datos, horarios, entre otros.\nTipo de residuos y cantidades admisibles\nLos tipos de residuos y las cantidades admisibles en los puntos limpios móviles son los siguientes:\nAceite vegetal: 5 litros ( se recomienda el depósito de dichos residuos en una botella de plástico) .\nRopa y calzado usado: producción doméstica ( se recomienda el depósito de dichos residuos dentro de una bolsa cerrada ).\nAceite mineral: 5 litros .\nAerosoles: 5 unidades .\nEnvases metálicos contaminados: 3 unidades .\nEnvases plásticos contaminados: 3 unidades .\nPilas alcalinas, salinas y de botón, batería teléfono móvil: producción doméstica .\nBaterias: 1 batería de motor .\nTóner y cartuchos de tinta para impresoras: 4 unidades .",
+        "distance": 0.2719385623931885,
+        "metadata": {
+          "chunk_index": 1,
+          "title": "Puntos Limpios Móviles. Descripción y cantidades admisibles para particulares",
+          "path": "data/raw/html/residuos_punto_limpio_movil.html",
+          "source": "residuos_punto_limpio_movil.html",
+          "format": "html",
+          "document_type": "documentacion_municipal",
+          "chunk_size": 976,
+          "chunk_count": 5
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: CALLE VALDEBERNARDO, 45.\nDistrito: MORATALAZ.\nDía: VIERNES.\nTurno: MAÑANA.\nHorario: 07:45 - 09:45.",
+        "distance": 0.2727939486503601,
+        "metadata": {
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "day": "VIERNES",
+          "chunk_index": 0,
+          "chunk_size": 129,
+          "latitude": 40.40353147,
+          "source_row": 268,
+          "format": "csv",
+          "chunk_count": 1,
+          "longitude": -3.631848368,
+          "source": "puntos_limpios_moviles.csv",
+          "district": "MORATALAZ",
+          "document_type": "punto_limpio_movil"
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: CALLE HERMANOS GARCIA NOBLEJAS, 1.\nDistrito: SAN BLAS-CANILLEJAS.\nDía: MIERCOLES.\nTurno: MAÑANA.\nHorario: 07:45 - 09:45.",
+        "distance": 0.27361661195755005,
+        "metadata": {
+          "source_row": 339,
+          "document_type": "punto_limpio_movil",
+          "chunk_index": 0,
+          "day": "MIERCOLES",
+          "format": "csv",
+          "latitude": 40.43772165,
+          "chunk_count": 1,
+          "chunk_size": 151,
+          "source": "puntos_limpios_moviles.csv",
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "district": "SAN BLAS-CANILLEJAS",
+          "longitude": -3.637609719
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: AVENIDA GRAN VIA DEL SUERESTE, 11.\nDistrito: VILLA DE VALLECAS.\nDía: JUEVES.\nTurno: MAÑANA.\nHorario: 10:00 - 12:00.",
+        "distance": 0.27434730529785156,
+        "metadata": {
+          "chunk_size": 146,
+          "chunk_count": 1,
+          "source": "puntos_limpios_moviles.csv",
+          "longitude": -3.587633913,
+          "day": "JUEVES",
+          "latitude": 40.36404321,
+          "document_type": "punto_limpio_movil",
+          "format": "csv",
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "chunk_index": 0,
+          "source_row": 315,
+          "district": "VILLA DE VALLECAS"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 10,
+    "categoria": "destino_residuo",
+    "pregunta": "¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "tipos_residuos.csv"
+    ],
+    "answer": "No puedo responder con la información disponible en los documentos.",
+    "sources": [
+      {
+        "source": "residuos_punto_limpio_fijo.html",
+        "path": "data/raw/html/residuos_punto_limpio_fijo.html"
+      },
+      {
+        "source": "residuos_punto_limpio_movil.html",
+        "path": "data/raw/html/residuos_punto_limpio_movil.html"
+      },
+      {
+        "source": "recogida_muebles_enseres.html",
+        "path": "data/raw/html/recogida_muebles_enseres.html"
+      },
+      {
+        "source": "fraccion_plasticos_metales_briks.html",
+        "path": "data/raw/html/fraccion_plasticos_metales_briks.html"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Puntos Limpios Fijos. Descripción y cantidades admisibles para particulares\nA continuación se detallan los residuos admisibles en los puntos fijos del Ayuntamiento de Madrid así como el límite de cantidades por cada tipología .\nLos residuos admisibles refieren exclusivamente a la producción doméstica* de la ciudadanía madrileña y que por sus características no pueden ser depositados en los cubos y/o contenedores de las fracciones habituales.\n* El concepto de \"producción doméstica\" hace referencia a la cantidad de residuos generados de manera ordinaria en un domicilio.\nEn el caso de residuos generados por pequeñas empresas , para poder acceder a un punto limpio fijo, deberán disponer de una autorización municipal. Esta autorización se tiene que solicitar previamente a través de la Sede Electrónica de Ayuntamiento de Madrid, a la que se puede acceder desde aquí .",
+        "distance": 0.2273990511894226,
+        "metadata": {
+          "source": "residuos_punto_limpio_fijo.html",
+          "chunk_count": 6,
+          "format": "html",
+          "path": "data/raw/html/residuos_punto_limpio_fijo.html",
+          "chunk_size": 873,
+          "chunk_index": 0,
+          "document_type": "documentacion_municipal",
+          "title": "Puntos Limpios Fijos. Descripción y cantidades admisibles para particulares"
+        }
+      },
+      {
+        "text": "Puntos Limpios Móviles. Descripción y cantidades admisibles para particulares\nA continuación se detallan los residuos admisibles en los puntos móviles del Ayuntamiento de Madrid así como el límite de cantidades por cada tipología.\nEste servicio prestado a través de camiones itinerantes compartimentados está limitado en la recogida de residuos, que por sus características no pueden ser depositados en los cubos y/o contenedores de las fracciones habituales, y por tanto sólo se recogen exclusivamente los generados en la producción doméstica* de la ciudadanía madrileña.\n* El concepto de \"producción doméstica\" hace referencia a la cantidad de residuos generados de manera ordinaria en un domicilio.",
+        "distance": 0.23764771223068237,
+        "metadata": {
+          "path": "data/raw/html/residuos_punto_limpio_movil.html",
+          "format": "html",
+          "title": "Puntos Limpios Móviles. Descripción y cantidades admisibles para particulares",
+          "source": "residuos_punto_limpio_movil.html",
+          "chunk_index": 0,
+          "chunk_size": 701,
+          "document_type": "documentacion_municipal",
+          "chunk_count": 5
+        }
+      },
+      {
+        "text": "Recogida de muebles, electrodomésticos y enseres\nEn la ciudad de Madrid, el abandono de muebles y enseres en la vía pública no está permitido y es sancionable, según los artículos 61 y 95 de la Ordenanza de Limpieza de Espacios Públicos, Gestión de Residuos y Economía Circular .\nEl ayuntamiento dispone de diferentes servicios de recogida gratuitos según las necesidades de la ciudadanía para evitar que este tipo de residuos quede abandonado en la vía pública, incidiendo en la limpieza e higiene de nuestras calles.\nAdemás, en los Puntos Limpios Fijos de la ciudad se pueden depositar estos residuos de dos maneras, como residuo para su eliminación definitiva o se les puede dar una segunda vida fomentando la economía madrileña a través de ReMAD , sistema de reutilización de objetos mediante iniciativas de intercambio entre particulares a través de una plataforma, www.remad.es , que permite a través de un registro previo publicar y reservar objetos en su catálogo.",
+        "distance": 0.27005523443222046,
+        "metadata": {
+          "chunk_index": 0,
+          "chunk_count": 2,
+          "path": "data/raw/html/recogida_muebles_enseres.html",
+          "format": "html",
+          "document_type": "documentacion_municipal",
+          "chunk_size": 972,
+          "title": "Recogida de muebles, electrodomésticos y enseres",
+          "source": "recogida_muebles_enseres.html"
+        }
+      },
+      {
+        "text": "Muebles y enseres: 5 unidades .\nRAEES : sólo pequeños aparatos domésticos (batidoras, teléfonos móviles, aspiradoras, pequeñas televisiones…).\nLos objetos susceptibles de reutilización serán revisados por personal municipal para determinar su idoneidad.\nMás información en la página ReMAD .\nResiduos no admitidos\nLos residuos no admitidos en los puntos limpios fijos son los siguientes:\nResiduos urbanos orgánicos o biorresiduos.\nMateriales radioactivos.\nMateriales explosivos o inflamables.\nResiduos infecciosos.\nNeumáticos.\nRecipientes voluminosos que hayan contenido materiales tóxicos o peligrosos.\nResiduos sin segregar.\nResiduos sin identificar.\nResiduos peligrosos que no sean los específicamente señalados en el punto anterior y cualquier otro que sea añadido al mismo por la autoridad medioambiental.\nResiduos que pudieran estar infectados por plagas o vectores de cualquier tipo.",
+        "distance": 0.27985209226608276,
+        "metadata": {
+          "format": "html",
+          "title": "Puntos Limpios Fijos. Descripción y cantidades admisibles para particulares",
+          "path": "data/raw/html/residuos_punto_limpio_fijo.html",
+          "document_type": "documentacion_municipal",
+          "source": "residuos_punto_limpio_fijo.html",
+          "chunk_index": 4,
+          "chunk_size": 889,
+          "chunk_count": 6
+        }
+      },
+      {
+        "text": "Recogida de la fracción de plásticos, metales y briks.\nFrecuencia de recogida de la fracción de plásticos, métales y briks:\nZonas de cubos domiciliarios de dos ruedas : TODOS LOS DÍAS, domingos y festivos incluidos.\nZona de contenedores permanentes en vía pública : 4 días a la semana, dependiendo del distrito.\nLos turnos de recogida se pueden consultar en el visualizador de datos abiertos en el apartado de recogida de residuos , en la pestaña de \"Mapas de zonificación, turnos y calendarios de recogida de residuos\" y seleccionando el tipo de fracción a consultar.\nLos contenedores correspondientes a la recogida selectiva de plásticos, metales y briks se identifican por su color amarillo .\nLas Comunidades de propietarios que dispongan de cubos domiciliarios pueden solicitar cubos de recogida selectiva de plásticos, metales y briks llamando al 010.\nComponen esta fracción los siguientes elementos:",
+        "distance": 0.29289883375167847,
+        "metadata": {
+          "chunk_size": 905,
+          "title": "Recogida de la fracción de plásticos, metales y briks.",
+          "format": "html",
+          "document_type": "documentacion_municipal",
+          "chunk_count": 3,
+          "path": "data/raw/html/fraccion_plasticos_metales_briks.html",
+          "source": "fraccion_plasticos_metales_briks.html",
+          "chunk_index": 0
+        }
+      }
+    ],
+    "retrieval_hit": false,
+    "abstained": true,
+    "abstention_correct": false
+  },
+  {
+    "id": 11,
+    "categoria": "puntos_recogida",
+    "pregunta": "¿Cuál es la dirección del punto limpio fijo de Hortaleza?",
+    "es_respondible": true,
+    "fuentes_esperadas": [
+      "puntos_limpios_fijos.csv"
+    ],
+    "answer": "La dirección del punto limpio fijo de Hortaleza es Calle Tomas Redondo 8.",
+    "sources": [
+      {
+        "source": "puntos_limpios_proximidad.csv",
+        "path": "data/raw/csv/puntos_limpios_proximidad.csv"
+      },
+      {
+        "source": "puntos_limpios_fijos.csv",
+        "path": "data/raw/csv/puntos_limpios_fijos.csv"
+      },
+      {
+        "source": "puntos_limpios_moviles.csv",
+        "path": "data/raw/csv/puntos_limpios_moviles.csv"
+      },
+      {
+        "source": "puntos_limpios_moviles_24h.csv",
+        "path": "data/raw/csv/puntos_limpios_moviles_24h.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Mar de las Antillas, 2. Parque Huerta de la Salud.\nDistrito: Hortaleza.\nCentro: Parque Huerta de la Salud.\nHorario: Todos los días 24 horas. Situado en vía pública.",
+        "distance": 0.19687020778656006,
+        "metadata": {
+          "chunk_index": 0,
+          "source": "puntos_limpios_proximidad.csv",
+          "chunk_count": 1,
+          "district": "Hortaleza",
+          "format": "csv",
+          "document_type": "punto_limpio_proximidad",
+          "source_row": 31,
+          "latitude": 40.4737602876232,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "chunk_size": 209,
+          "longitude": -3.64517140023869
+        }
+      },
+      {
+        "text": "Punto Limpio Fijo del Ayuntamiento de Madrid. Distrito de Hortaleza\nDirección: CALLE TOMAS REDONDO 8.\nDistrito: HORTALEZA.\nBarrio: VALDEFUENTES.\nHorario: De lunes a sábados de 8 a 20 horas. Domingos y festivos de 9 a 14 horas. Los días 24 y 31 de diciembre de 9 a 14 horas. Cerrado días 25 de diciembre y 1 y 6 de enero.\nTransporte público: Bus: 104\nEl traslado de residuos correrá a cuenta de la persona interesada que solo podrá acceder con un vehículo particular. No se permitirá el acceso a furgonetas rotuladas o con publicidad, ya que éstas se consideran vehículos industriales, salvo previa autorización municipal (Información relacionada).",
+        "distance": 0.20435702800750732,
+        "metadata": {
+          "chunk_count": 1,
+          "source_row": 8,
+          "format": "csv",
+          "longitude": -3.62779145773124,
+          "latitude": 40.47006424276577,
+          "document_type": "punto_limpio_fijo",
+          "neighborhood": "VALDEFUENTES",
+          "district": "HORTALEZA",
+          "chunk_size": 647,
+          "path": "data/raw/csv/puntos_limpios_fijos.csv",
+          "chunk_index": 0,
+          "source": "puntos_limpios_fijos.csv"
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: AVENIDA FRANCISCO PI Y MARGALL, 72.\nDistrito: HORTALEZA.\nDía: JUEVES.\nTurno: MAÑANA.\nHorario: 07:45 - 09:45.",
+        "distance": 0.20548319816589355,
+        "metadata": {
+          "source_row": 287,
+          "chunk_index": 0,
+          "source": "puntos_limpios_moviles.csv",
+          "document_type": "punto_limpio_movil",
+          "format": "csv",
+          "chunk_count": 1,
+          "latitude": 40.49074059,
+          "day": "JUEVES",
+          "chunk_size": 139,
+          "longitude": -3.659086913,
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "district": "HORTALEZA"
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: AVENIDA NICETO ALCALA ZAMORA, 78.\nDistrito: HORTALEZA.\nDía: SABADO.\nTurno: MAÑANA.\nHorario: 10:00 - 12:00.",
+        "distance": 0.2073996663093567,
+        "metadata": {
+          "district": "HORTALEZA",
+          "latitude": 40.4965535,
+          "day": "SABADO",
+          "source": "puntos_limpios_moviles.csv",
+          "document_type": "punto_limpio_movil",
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "chunk_size": 137,
+          "chunk_count": 1,
+          "format": "csv",
+          "longitude": -3.652395738,
+          "chunk_index": 0,
+          "source_row": 289
+        }
+      },
+      {
+        "text": "Punto limpio móvil 24 horas.\nDirección: Calle Santa Adela c/v Ctra. Estación de Hortaleza.(aparcamiento frente mercadillo).\nDistrito: Hortaleza.\nBarrio: Pinar del Rey.\nDía de ubicación: Domingo.\nUbicación: Mercadillo UVA Hortaleza.",
+        "distance": 0.2075304388999939,
+        "metadata": {
+          "source": "puntos_limpios_moviles_24h.csv",
+          "path": "data/raw/csv/puntos_limpios_moviles_24h.csv",
+          "day": "Domingo",
+          "longitude": -3.651541766,
+          "chunk_size": 231,
+          "document_type": "punto_limpio_movil_24h",
+          "district": "Hortaleza",
+          "latitude": 40.47893116,
+          "format": "csv",
+          "chunk_index": 0,
+          "source_row": 43,
+          "chunk_count": 1,
+          "neighborhood": "Pinar del Rey"
+        }
+      }
+    ],
+    "retrieval_hit": true,
+    "abstained": false,
+    "abstention_correct": true
+  },
+  {
+    "id": 12,
+    "categoria": "fuera_de_dominio",
+    "pregunta": "¿Cuál es el horario de las piscinas municipales de Madrid?",
+    "es_respondible": false,
+    "fuentes_esperadas": [],
+    "answer": "No puedo responder con la información disponible en los documentos.",
+    "sources": [
+      {
+        "source": "puntos_limpios_proximidad.csv",
+        "path": "data/raw/csv/puntos_limpios_proximidad.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Fuentidueña, 6. Centro Deportivo Municipal Miguel Guillén Prim.\nDistrito: Villa de Vallecas.\nCentro: Centro Deportivo Municipal Miguel Guillén Prim.\nHorario: Lunes a viernes de 9:00 a 21:00. Cerrado sábados, domingos y festivos. Cerrado agosto y durante los días 24, 25 y 31 de diciembre, 1 de enero y 1 de mayo.",
+        "distance": 0.3383396863937378,
+        "metadata": {
+          "source": "puntos_limpios_proximidad.csv",
+          "chunk_count": 1,
+          "chunk_size": 357,
+          "latitude": 40.3738263288667,
+          "document_type": "punto_limpio_proximidad",
+          "source_row": 64,
+          "chunk_index": 0,
+          "district": "Villa de Vallecas",
+          "longitude": -3.62313999431679,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Ladera de los Almendros, 2. Centro Deportivo Municipal Faustina Valladolid (antiguo Valdebernardo).\nDistrito: Vicálvaro.\nCentro: Centro Deportivo Municipal Faustina Valladolid (antiguo Valdebernardo).\nHorario: Lunes a domingo de 9:00 a 20:30. Cerrado festivos y fines de semana del mes agosto. Cerrado días 24, 25 y 31 de diciembre, 1 de enero y 1 de mayo.",
+        "distance": 0.34219324588775635,
+        "metadata": {
+          "latitude": 40.4041933336059,
+          "document_type": "punto_limpio_proximidad",
+          "source_row": 63,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "format": "csv",
+          "longitude": -3.62288903886577,
+          "chunk_size": 401,
+          "chunk_count": 1,
+          "source": "puntos_limpios_proximidad.csv",
+          "district": "Vicálvaro",
+          "chunk_index": 0
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Avenida Niza, 8. Centro Deportivo Pepu Hernández.\nDistrito: San Blas - Canillejas.\nCentro: Centro Deportivo Pepu Hernández.\nHorario: Lunes a viernes de 8:00 a 23:00. Sábados de 9:00 a 22:00. Domingos y festivos de 9:00 a 15.",
+        "distance": 0.3423716425895691,
+        "metadata": {
+          "format": "csv",
+          "source": "puntos_limpios_proximidad.csv",
+          "district": "San Blas - Canillejas",
+          "chunk_index": 0,
+          "document_type": "punto_limpio_proximidad",
+          "longitude": -3.60631072242836,
+          "chunk_count": 1,
+          "source_row": 50,
+          "latitude": 40.4276395457054,
+          "chunk_size": 263,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv"
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Moreja, 11. Centro Deportivo Municipal Orcasur, en del recinto vallado.\nDistrito: Usera.\nCentro: Centro Deportivo Municipal Orcasur, en del recinto vallado.\nHorario: Lunes a viernes de 8:45 a 20:30. Sábados, domingos y festivos de 8:45 a 14:30. Cerrado agosto y los días 24, 25 y 31 de diciembre, 1 de enero y 1 de mayo.",
+        "distance": 0.3431795835494995,
+        "metadata": {
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "latitude": 40.3681291154569,
+          "source": "puntos_limpios_proximidad.csv",
+          "source_row": 58,
+          "document_type": "punto_limpio_proximidad",
+          "chunk_size": 365,
+          "chunk_index": 0,
+          "chunk_count": 1,
+          "district": "Usera",
+          "format": "csv",
+          "longitude": -3.69813374616173
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Hierbabuena, 2. Centro Deportivo Municipal Playa Victoria.\nDistrito: Tetuán.\nCentro: Centro Deportivo Municipal \"Playa Victoria\".\nHorario: Lunes a viernes de 8:30 a 21:00. Sábados y festivos de 9:00 a 14:00. Cerrado domingos, días 24, 25 y 31 de diciembre, 1 de enero y 1 de mayo.",
+        "distance": 0.34511297941207886,
+        "metadata": {
+          "district": "Tetuán",
+          "source_row": 57,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "longitude": -3.70209883742551,
+          "chunk_size": 325,
+          "latitude": 40.4592878454263,
+          "document_type": "punto_limpio_proximidad",
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "format": "csv",
+          "source": "puntos_limpios_proximidad.csv"
+        }
+      }
+    ],
+    "retrieval_hit": null,
+    "abstained": true,
+    "abstention_correct": true
+  },
+  {
+    "id": 13,
+    "categoria": "fuera_de_dominio",
+    "pregunta": "¿Dónde reciclo el vidrio en Barcelona?",
+    "es_respondible": false,
+    "fuentes_esperadas": [],
+    "answer": "No puedo responder con la información disponible en los documentos.",
+    "sources": [
+      {
+        "source": "fraccion_vidrio.html",
+        "path": "data/raw/html/fraccion_vidrio.html"
+      },
+      {
+        "source": "tipos_residuos.csv",
+        "path": "data/raw/csv/tipos_residuos.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "El cristal debe ser llevado al punto limpio , pues contiene elementos como el plomo, que no se pueden fundir en los mismos hornos donde se producen los envases de vidrio.\nEjemplos de cristal son vasos, copas, vitrocerámicas, espejos o en el cristal plano de ventanas o cuadros.\nOtros residuos que no se debe depositar en esta fracción son la porcelana y la cerámica, que por sus características deben depositarse en el contenedor de resto .\nContenedores de recogida de la fracción vidrio\nLos contenedores de vidrio en la ciudad de Madrid son de gran capacidad, presentan el color distintivo verde y se encuentran situados de manera permanente en la vía pública.\nSegún ordenanza vigente , queda prohibido el depósito de envases de vidrio en los contenedores ubicados en el espacio público, entre las 22:30 horas y las 08:00 horas , todos los días de la semana.",
+        "distance": 0.2852756977081299,
+        "metadata": {
+          "chunk_size": 859,
+          "title": "Recogida de vidrio",
+          "document_type": "documentacion_municipal",
+          "format": "html",
+          "path": "data/raw/html/fraccion_vidrio.html",
+          "source": "fraccion_vidrio.html",
+          "chunk_count": 3,
+          "chunk_index": 1
+        }
+      },
+      {
+        "text": "Si quieres saber dónde se encuentran los contenedores más cercanos a tu ubicación puedes consultarlo en la localización de contenedores que tienes disponible en Visualiza Madrid con Datos Abiertos .\nFrecuencia de recogida de los contenedores\nLa frecuencia de su recogida está adaptada y condicionada por su grado de llenado.\nEn Visualiza Madrid con Datos Abiertos , en el especial de Recogida de residuos dispones en el apartado de Mapas de zonificación, turnos y calendarios de recogida de residuos información sobre la recogida de la fracción vidrio .\nRecogida de vidrio en zonas de alta densidad hostelera\nEn determinadas zonas de alta densidad hostelera la recogida del vidrio de sus establecimientos se realiza exclusivamente bajo el servicio puerta a puerta que tiene unas características específicas y que se detallan en la información sobre el Servicio de recogida de vidrio comercial puerta a puerta .",
+        "distance": 0.28664273023605347,
+        "metadata": {
+          "format": "html",
+          "source": "fraccion_vidrio.html",
+          "title": "Recogida de vidrio",
+          "chunk_count": 3,
+          "document_type": "documentacion_municipal",
+          "chunk_size": 910,
+          "chunk_index": 2,
+          "path": "data/raw/html/fraccion_vidrio.html"
+        }
+      },
+      {
+        "text": "Recogida de vidrio\n¿Qué incluye la fracción vidrio?\nbotellas de vidrio,\ntarros de conservas, mermeladas o salsas\nfrascos de artículos de cosmética y perfumería\nAntes de su reciclaje, es conveniente retirar la chapa, tapa o tapón , pues dependiendo del material de que estén hechos, irán a contenedores de otras fracciones de recogida.\nAdemás, se deben depositar sin bolsas .\nEn el contenedor verde solo se pueden desechar los envases de vidrio.\nMás abajo te explicamos porqué es tan importante no confundirlo con el cristal.\n¿Por qué es tan importante no confundir cristal con vidrio?\nEl tratamiento de estos residuos es totalmente diferente:\nMientras que los residuos del vidrio permiten producir nuevas botellas y frascos reciclados, que se puede reciclar infinitas veces sin perder sus propiedades\nEn el caso de botellas de vidrio, antes de su reciclaje, es conviene prestar atención a la chapa, tapa o tapón, pues dependiendo del material de que estén hechos, irán a un contenedor u otro.",
+        "distance": 0.2978441119194031,
+        "metadata": {
+          "document_type": "documentacion_municipal",
+          "title": "Recogida de vidrio",
+          "format": "html",
+          "path": "data/raw/html/fraccion_vidrio.html",
+          "chunk_index": 0,
+          "chunk_count": 3,
+          "source": "fraccion_vidrio.html",
+          "chunk_size": 992
+        }
+      },
+      {
+        "text": "Residuo: Vidrio (producción doméstica)\nLugar de depósito: PUNTO LIMPIO FIJO",
+        "distance": 0.3068311810493469,
+        "metadata": {
+          "chunk_count": 1,
+          "document_type": "residuo_destino",
+          "destino": "PUNTO LIMPIO FIJO",
+          "source": "tipos_residuos.csv",
+          "source_row": 22,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "chunk_size": 75,
+          "chunk_index": 0,
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Residuo: Botellas de vidrio, de zumos, refrescos, cervezas, mostos, sidras, vinos, licores… de cualquier color\nLugar de depósito: CONTENEDOR VIDRIO (VERDE)",
+        "distance": 0.31550127267837524,
+        "metadata": {
+          "destino": "CONTENEDOR VIDRIO (VERDE)",
+          "chunk_index": 0,
+          "chunk_count": 1,
+          "path": "data/raw/csv/tipos_residuos.csv",
+          "source_row": 2,
+          "source": "tipos_residuos.csv",
+          "format": "csv",
+          "chunk_size": 155,
+          "document_type": "residuo_destino"
+        }
+      }
+    ],
+    "retrieval_hit": null,
+    "abstained": true,
+    "abstention_correct": true
+  },
+  {
+    "id": 14,
+    "categoria": "fuera_de_dominio",
+    "pregunta": "¿Qué servicios de reparación de móviles hay cerca de Gran Vía?",
+    "es_respondible": false,
+    "fuentes_esperadas": [],
+    "answer": "No puedo responder con la información disponible en los documentos.",
+    "sources": [
+      {
+        "source": "puntos_limpios_proximidad.csv",
+        "path": "data/raw/csv/puntos_limpios_proximidad.csv"
+      },
+      {
+        "source": "puntos_limpios_moviles.csv",
+        "path": "data/raw/csv/puntos_limpios_moviles.csv"
+      }
+    ],
+    "chunks": [
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Avenida Gran Vía de San Francisco, frente 21 (enfrente del Parque Dalieda Jardines de San Francisco el Grande). Situado en vía pública.\nDistrito: Centro.\nCentro: Parque Dalieda Jardines de San Francisco el Grande.\nHorario: Todos los días 24 horas. Situado en vía pública",
+        "distance": 0.34118425846099854,
+        "metadata": {
+          "document_type": "punto_limpio_proximidad",
+          "format": "csv",
+          "chunk_size": 309,
+          "district": "Centro",
+          "chunk_count": 1,
+          "chunk_index": 0,
+          "source": "puntos_limpios_proximidad.csv",
+          "source_row": 14,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "latitude": 40.41,
+          "longitude": -3.71391444371133
+        }
+      },
+      {
+        "text": "Punto limpio móvil.\nDirección: CALLE SERRANO JOVER, 4.\nDistrito: CENTRO.\nDía: VIERNES.\nTurno: TARDE.\nHorario: 19:00 - 21:00.",
+        "distance": 0.35867470502853394,
+        "metadata": {
+          "longitude": -3.714233640401364,
+          "source_row": 13,
+          "chunk_size": 124,
+          "district": "CENTRO",
+          "day": "VIERNES",
+          "path": "data/raw/csv/puntos_limpios_moviles.csv",
+          "source": "puntos_limpios_moviles.csv",
+          "chunk_count": 1,
+          "document_type": "punto_limpio_movil",
+          "latitude": 40.42933064733891,
+          "chunk_index": 0,
+          "format": "csv"
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Plaza de Isabel II, 7. Metro Opera. Vía pública.\nDistrito: Centro.\nCentro: Plaza de Isabel II, 7. Situado en vía pública.\nHorario: Todos los días 24 horas. Situado en vía pública",
+        "distance": 0.36967021226882935,
+        "metadata": {
+          "longitude": -3.70935921004402,
+          "format": "csv",
+          "source": "puntos_limpios_proximidad.csv",
+          "chunk_count": 1,
+          "latitude": 40.4182368887603,
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "source_row": 75,
+          "chunk_size": 217,
+          "district": "Centro",
+          "chunk_index": 0,
+          "document_type": "punto_limpio_proximidad"
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Calle Alameda, 12 esquina Calle Gobernador. Situado en vía pública.\nDistrito: Centro.\nCentro: Calle Alameda, 12. Situado en vía pública..\nHorario: Todos los días 24 horas. Situado en vía pública.",
+        "distance": 0.3696940541267395,
+        "metadata": {
+          "format": "csv",
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "district": "Centro",
+          "source_row": 11,
+          "latitude": 40.4115569473566,
+          "chunk_size": 234,
+          "source": "puntos_limpios_proximidad.csv",
+          "longitude": -3.69394606551453,
+          "chunk_index": 0,
+          "document_type": "punto_limpio_proximidad",
+          "chunk_count": 1
+        }
+      },
+      {
+        "text": "Punto limpio de proximidad.\nDirección: Plaza del Rey, 3. Situado en vía pública.\nDistrito: Centro.\nCentro: Plaza del Rey, 3. Situado en vía pública.\nHorario: Todos los días 24 horas. Situado en vía pública",
+        "distance": 0.36985713243484497,
+        "metadata": {
+          "district": "Centro",
+          "source_row": 79,
+          "document_type": "punto_limpio_proximidad",
+          "source": "puntos_limpios_proximidad.csv",
+          "path": "data/raw/csv/puntos_limpios_proximidad.csv",
+          "latitude": 40.4203102784443,
+          "chunk_size": 205,
+          "longitude": -3.6960777331741,
+          "chunk_index": 0,
+          "format": "csv",
+          "chunk_count": 1
+        }
+      }
+    ],
+    "retrieval_hit": null,
+    "abstained": true,
+    "abstention_correct": true
+  }
+]

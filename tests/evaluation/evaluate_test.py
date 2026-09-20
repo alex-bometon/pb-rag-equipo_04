@@ -9,12 +9,11 @@ from pathlib import Path
 # =========================================================
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+TESTS_DIR = PROJECT_ROOT / "tests"
 
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(
-        0,
-        str(PROJECT_ROOT),
-    )
+for path in (PROJECT_ROOT, TESTS_DIR):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
 
 
 from config import (
@@ -24,383 +23,216 @@ from config import (
     TOP_K,
 )
 
+from query_embeddings import cargar_embeddings_queries
 from src.gemini_client import crear_cliente_gemini
-from src.index import crear_cliente_chroma
 from src.generate import ABSTENTION_MESSAGE
+from src.index import crear_cliente_chroma
 from src.rag import responder
 
 
 # =========================================================
-# CARGA DEL DATASET
+# DATASET
 # =========================================================
 
-def cargar_preguntas(
-    ruta_archivo: Path = EVAL_QUERIES_JSON,
-) -> list[dict]:
+def cargar_preguntas() -> list[dict]:
     """
-    Carga y valida el dataset canónico de evaluación.
-
-    El archivo contiene preguntas utilizadas tanto para
-    evaluar retrieval como el flujo RAG completo.
+    Carga el dataset canónico de evaluación.
     """
 
-    if not ruta_archivo.exists():
-        raise FileNotFoundError(
-            "No existe el archivo de evaluación: "
-            f"{ruta_archivo}"
-        )
-
-    with ruta_archivo.open(
+    with EVAL_QUERIES_JSON.open(
         "r",
         encoding="utf-8",
     ) as archivo:
-        payload = json.load(
-            archivo
-        )
+        payload = json.load(archivo)
 
-    if not isinstance(payload, dict):
+    queries = payload.get("queries")
+
+    if not isinstance(queries, list):
         raise ValueError(
-            "El dataset de evaluación debe ser "
-            "un objeto JSON."
-        )
-
-    preguntas = payload.get(
-        "queries"
-    )
-
-    if not isinstance(preguntas, list):
-        raise ValueError(
-            "El dataset debe contener una lista "
+            "eval_queries.json debe contener una lista "
             "en la clave 'queries'."
         )
 
-    total_declarado = payload.get(
-        "total_queries"
-    )
-
-    if (
-        total_declarado is not None
-        and total_declarado != len(preguntas)
-    ):
+    if payload.get("total_queries") != len(queries):
         raise ValueError(
-            "total_queries no coincide con el "
-            "número real de preguntas."
+            "total_queries no coincide con el número "
+            "real de preguntas."
         )
 
-    ids_vistos = set()
-
-    for posicion, item in enumerate(
-        preguntas,
-        start=1,
-    ):
-
-        if not isinstance(item, dict):
-            raise ValueError(
-                "Cada consulta debe ser un objeto JSON. "
-                f"Error en posición {posicion}."
-            )
-
-        query_id = item.get(
-            "id"
-        )
-
-        if query_id is None:
-            raise ValueError(
-                f"Falta 'id' en la posición {posicion}."
-            )
-
-        if query_id in ids_vistos:
-            raise ValueError(
-                f"ID duplicado: {query_id}"
-            )
-
-        ids_vistos.add(
-            query_id
-        )
-
-        pregunta = item.get(
-            "pregunta"
-        )
-
-        if (
-            not isinstance(pregunta, str)
-            or not pregunta.strip()
-        ):
-            raise ValueError(
-                f"La consulta {query_id} no contiene "
-                "una 'pregunta' válida."
-            )
-
-        if not isinstance(
-            item.get("es_respondible"),
-            bool,
-        ):
-            raise ValueError(
-                f"La consulta {query_id} no contiene "
-                "'es_respondible' válido."
-            )
-
-        fuentes = item.get(
-            "fuentes_esperadas"
-        )
-
-        if not isinstance(fuentes, list):
-            raise ValueError(
-                f"La consulta {query_id} no contiene "
-                "'fuentes_esperadas' válido."
-            )
-
-    return preguntas
+    return queries
 
 
 # =========================================================
-# RUTA DE RESULTADOS
+# EVALUACIÓN DE FUENTES
 # =========================================================
 
-def crear_ruta_salida(
-    k: int,
-) -> Path:
-    """
-    Devuelve la ruta estándar para los resultados
-    de evaluación.
-    """
-
-    return (
-        EVALUATION_RESULTS_DIR
-        / f"results_k{k}.json"
-    )
-
-
-# =========================================================
-# COMPROBACIÓN DE EVIDENCIA
-# =========================================================
-
-def comprobar_fuentes(
-    fuentes_recuperadas: list[dict],
+def fuente_esperada_recuperada(
+    fuentes: list[dict],
     fuentes_esperadas: list[str],
 ) -> bool | None:
     """
-    Comprueba si al menos una de las fuentes esperadas
-    aparece entre las fuentes recuperadas.
+    Comprueba si aparece al menos una fuente esperada.
 
-    Para preguntas fuera de dominio no aplica.
+    Para preguntas fuera de dominio devuelve None.
     """
 
     if not fuentes_esperadas:
         return None
 
-    nombres_recuperados = {
+    fuentes_recuperadas = {
         fuente.get("source")
-        for fuente in fuentes_recuperadas
+        for fuente in fuentes
         if fuente.get("source")
     }
 
     return any(
-        fuente in nombres_recuperados
+        fuente in fuentes_recuperadas
         for fuente in fuentes_esperadas
     )
-
-
-# =========================================================
-# PRESENTACIÓN
-# =========================================================
-
-def mostrar_resultado(
-    posicion: int,
-    total: int,
-    item: dict,
-    resultado: dict,
-    retrieval_hit: bool | None,
-    abstencion_correcta: bool,
-) -> None:
-
-    print()
-    print("=" * 80)
-    print(
-        f"PREGUNTA {posicion}/{total} "
-        f"[ID {item['id']}]"
-    )
-    print("=" * 80)
-
-    print(
-        item["pregunta"]
-    )
-
-    print()
-    print(
-        f"Respondible esperada: "
-        f"{item['es_respondible']}"
-    )
-
-    print()
-    print("RESPUESTA:")
-    print(
-        resultado["answer"]
-    )
-
-    print()
-    print("FUENTES:")
-
-    fuentes = resultado.get(
-        "sources",
-        [],
-    )
-
-    if fuentes:
-        for fuente in fuentes:
-            print(
-                f"- {fuente.get('source')}"
-            )
-    else:
-        print("- Ninguna")
-
-    print()
-    print(
-        "Comportamiento de abstención correcto: "
-        f"{abstencion_correcta}"
-    )
-
-    if retrieval_hit is not None:
-        print(
-            "Fuente esperada recuperada: "
-            f"{retrieval_hit}"
-        )
 
 
 # =========================================================
 # EVALUACIÓN
 # =========================================================
 
-def evaluar_preguntas(
-    preguntas: list[dict],
+def evaluar(
+    queries: list[dict],
+    embeddings: dict[int, list[float]],
     k: int,
-    client,
-    collection,
 ) -> list[dict]:
     """
-    Ejecuta el RAG completo sobre todas las preguntas
-    del dataset canónico.
+    Ejecuta el flujo RAG completo sobre las preguntas
+    de evaluación reutilizando los embeddings persistidos.
     """
+
+    client = crear_cliente_gemini()
+
+    chroma_client = crear_cliente_chroma()
+
+    collection = chroma_client.get_collection(
+        name=CHROMA_COLLECTION_NAME
+    )
 
     resultados = []
 
-    total = len(
-        preguntas
-    )
+    try:
 
-    for posicion, item in enumerate(
-        preguntas,
-        start=1,
-    ):
+        for posicion, query in enumerate(
+            queries,
+            start=1,
+        ):
 
-        pregunta = item[
-            "pregunta"
-        ].strip()
-
-        try:
-
-            resultado = responder(
-                pregunta=pregunta,
-                k=k,
-                client=client,
-                collection=collection,
-            )
-
-            respuesta = resultado[
-                "answer"
-            ]
-
-            abstained = (
-                respuesta.strip()
-                == ABSTENTION_MESSAGE
-            )
-
-            abstencion_esperada = (
-                not item["es_respondible"]
-            )
-
-            abstencion_correcta = (
-                abstained
-                == abstencion_esperada
-            )
-
-            retrieval_hit = comprobar_fuentes(
-                resultado.get(
-                    "sources",
-                    [],
-                ),
-                item[
-                    "fuentes_esperadas"
-                ],
-            )
-
-            mostrar_resultado(
-                posicion=posicion,
-                total=total,
-                item=item,
-                resultado=resultado,
-                retrieval_hit=retrieval_hit,
-                abstencion_correcta=abstencion_correcta,
-            )
-
-            resultados.append(
-                {
-                    "id": item["id"],
-                    "categoria": item["categoria"],
-                    "pregunta": pregunta,
-                    "es_respondible": item[
-                        "es_respondible"
-                    ],
-                    "fuentes_esperadas": item[
-                        "fuentes_esperadas"
-                    ],
-                    "answer": respuesta,
-                    "abstained": abstained,
-                    "abstention_expected": (
-                        abstencion_esperada
-                    ),
-                    "abstention_correct": (
-                        abstencion_correcta
-                    ),
-                    "retrieval_hit": (
-                        retrieval_hit
-                    ),
-                    "sources": resultado[
-                        "sources"
-                    ],
-                    "chunks": resultado[
-                        "chunks"
-                    ],
-                }
-            )
-
-        except Exception as error:
+            query_id = query["id"]
+            pregunta = query["pregunta"]
 
             print()
-            print("=" * 80)
+            print("=" * 70)
             print(
-                f"PREGUNTA {posicion}/{total} "
-                f"[ID {item['id']}]"
+                f"[{posicion}/{len(queries)}] "
+                f"ID {query_id}"
             )
-            print("=" * 80)
+            print("=" * 70)
+            print(pregunta)
 
-            print(
-                pregunta
-            )
+            try:
 
-            print()
-            print(
-                f"ERROR: {error}"
-            )
+                resultado = responder(
+                    pregunta=pregunta,
+                    k=k,
+                    client=client,
+                    collection=collection,
+                    query_embedding=embeddings[
+                        query_id
+                    ],
+                )
 
-            resultados.append(
-                {
-                    "id": item["id"],
-                    "categoria": item["categoria"],
-                    "pregunta": pregunta,
-                    "error": str(error),
-                }
-            )
+                respuesta = resultado["answer"]
+                fuentes = resultado["sources"]
+                chunks = resultado["chunks"]
+
+                abstained = (
+                    respuesta.strip()
+                    == ABSTENTION_MESSAGE
+                )
+
+                abstencion_esperada = (
+                    not query["es_respondible"]
+                )
+
+                abstencion_correcta = (
+                    abstained
+                    == abstencion_esperada
+                )
+
+                retrieval_hit = (
+                    fuente_esperada_recuperada(
+                        fuentes,
+                        query["fuentes_esperadas"],
+                    )
+                )
+
+                print()
+                print("RESPUESTA:")
+                print(respuesta)
+
+                print()
+                print("FUENTES:")
+
+                for fuente in fuentes:
+                    print(
+                        f"- {fuente.get('source')}"
+                    )
+
+                if retrieval_hit is not None:
+                    print(
+                        "\nFuente esperada recuperada: "
+                        f"{'SÍ' if retrieval_hit else 'NO'}"
+                    )
+
+                print(
+                    "Comportamiento de abstención: "
+                    f"{'CORRECTO' if abstencion_correcta else 'INCORRECTO'}"
+                )
+
+                resultados.append(
+                    {
+                        "id": query_id,
+                        "categoria": query["categoria"],
+                        "pregunta": pregunta,
+                        "es_respondible": query[
+                            "es_respondible"
+                        ],
+                        "fuentes_esperadas": query[
+                            "fuentes_esperadas"
+                        ],
+                        "answer": respuesta,
+                        "sources": fuentes,
+                        "chunks": chunks,
+                        "retrieval_hit": retrieval_hit,
+                        "abstained": abstained,
+                        "abstention_correct": (
+                            abstencion_correcta
+                        ),
+                    }
+                )
+
+            except Exception as error:
+
+                print(
+                    f"\nERROR: {error}"
+                )
+
+                resultados.append(
+                    {
+                        "id": query_id,
+                        "categoria": query["categoria"],
+                        "pregunta": pregunta,
+                        "error": str(error),
+                    }
+                )
+
+    finally:
+        client.close()
 
     return resultados
 
@@ -413,90 +245,82 @@ def mostrar_resumen(
     resultados: list[dict],
 ) -> None:
 
-    total = len(
-        resultados
-    )
-
-    errores = sum(
-        "error" in resultado
+    validos = [
+        resultado
         for resultado in resultados
-    )
+        if "error" not in resultado
+    ]
 
-    completadas = (
-        total - errores
+    errores = (
+        len(resultados)
+        - len(validos)
     )
 
     respondibles = [
         resultado
-        for resultado in resultados
-        if (
-            "error" not in resultado
-            and resultado.get(
-                "es_respondible"
-            )
-        )
+        for resultado in validos
+        if resultado["es_respondible"]
     ]
 
     fuera_dominio = [
         resultado
-        for resultado in resultados
-        if (
-            "error" not in resultado
-            and not resultado.get(
-                "es_respondible"
-            )
-        )
+        for resultado in validos
+        if not resultado["es_respondible"]
     ]
 
     retrieval_hits = sum(
-        resultado.get(
-            "retrieval_hit"
-        ) is True
+        resultado["retrieval_hit"] is True
+        for resultado in respondibles
+    )
+
+    respuestas_correctas = sum(
+        not resultado["abstained"]
         for resultado in respondibles
     )
 
     abstenciones_correctas = sum(
-        resultado.get(
-            "abstention_correct"
-        ) is True
+        resultado["abstention_correct"]
         for resultado in fuera_dominio
     )
 
     print()
-    print("=" * 80)
+    print("=" * 70)
     print("RESUMEN")
-    print("=" * 80)
+    print("=" * 70)
 
     print(
-        f"Preguntas totales:       {total}"
+        f"Preguntas totales:             "
+        f"{len(resultados)}"
     )
 
     print(
-        f"Ejecuciones completadas: {completadas}"
+        f"Errores de ejecución:           "
+        f"{errores}"
     )
 
     print(
-        f"Errores:                 {errores}"
+        f"Preguntas respondibles:         "
+        f"{len(respondibles)}"
     )
 
     print(
-        f"Preguntas respondibles:  {len(respondibles)}"
-    )
-
-    print(
-        f"Fuentes recuperadas:     "
+        f"Fuente esperada recuperada:     "
         f"{retrieval_hits}/{len(respondibles)}"
     )
 
     print(
-        f"Fuera de dominio:        "
+        f"Respondidas sin abstención:     "
+        f"{respuestas_correctas}/{len(respondibles)}"
+    )
+
+    print(
+        f"Preguntas fuera de dominio:     "
         f"{len(fuera_dominio)}"
     )
 
     print(
-        f"Abstenciones correctas:  "
-        f"{abstenciones_correctas}/"
-        f"{len(fuera_dominio)}"
+        f"Abstenciones correctas OOD:     "
+        f"{abstenciones_correctas}/{len(fuera_dominio)}"
     )
 
 
@@ -506,19 +330,23 @@ def mostrar_resumen(
 
 def guardar_resultados(
     resultados: list[dict],
-    ruta_salida: Path,
-) -> None:
+    k: int,
+) -> Path:
 
-    ruta_salida.parent.mkdir(
+    EVALUATION_RESULTS_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
-    with ruta_salida.open(
+    ruta = (
+        EVALUATION_RESULTS_DIR
+        / f"results_k{k}.json"
+    )
+
+    with ruta.open(
         "w",
         encoding="utf-8",
     ) as archivo:
-
         json.dump(
             resultados,
             archivo,
@@ -526,11 +354,7 @@ def guardar_resultados(
             indent=2,
         )
 
-    print()
-    print(
-        f"Resultados guardados en: "
-        f"{ruta_salida}"
-    )
+    return ruta
 
 
 # =========================================================
@@ -546,32 +370,10 @@ def main() -> None:
     )
 
     parser.add_argument(
-        "--file",
-        type=str,
-        default=str(
-            EVAL_QUERIES_JSON
-        ),
-        help=(
-            "Dataset JSON de evaluación."
-        ),
-    )
-
-    parser.add_argument(
         "--k",
         type=int,
         default=TOP_K,
-        help=(
-            "Número de chunks recuperados."
-        ),
-    )
-
-    parser.add_argument(
-        "--output",
-        type=str,
-        default=None,
-        help=(
-            "Ruta opcional para los resultados."
-        ),
+        help="Número de chunks recuperados.",
     )
 
     args = parser.parse_args()
@@ -581,72 +383,51 @@ def main() -> None:
             "k debe ser mayor que 0."
         )
 
-    ruta_entrada = Path(
-        args.file
-    ).resolve()
+    queries = cargar_preguntas()
+    embeddings = cargar_embeddings_queries()
 
-    if args.output:
-        ruta_salida = Path(
-            args.output
-        ).resolve()
-    else:
-        ruta_salida = crear_ruta_salida(
-            args.k
+    faltantes = [
+        query["id"]
+        for query in queries
+        if query["id"] not in embeddings
+    ]
+
+    if faltantes:
+        raise ValueError(
+            "Faltan embeddings para las preguntas: "
+            f"{faltantes}"
         )
 
-    preguntas = cargar_preguntas(
-        ruta_entrada
-    )
-
-    print("=" * 80)
-    print(
-        "EVALUACIÓN END-TO-END DEL SISTEMA RAG"
-    )
-    print("=" * 80)
+    print("=" * 70)
+    print("EVALUACIÓN END-TO-END DEL RAG")
+    print("=" * 70)
 
     print(
-        f"Dataset: {ruta_entrada}"
-    )
-
-    print(
-        f"Preguntas: {len(preguntas)}"
+        f"Preguntas: {len(queries)}"
     )
 
     print(
         f"K: {args.k}"
     )
 
-    client = crear_cliente_gemini()
-
-    chroma_client = (
-        crear_cliente_chroma()
+    resultados = evaluar(
+        queries=queries,
+        embeddings=embeddings,
+        k=args.k,
     )
-
-    collection = (
-        chroma_client.get_collection(
-            name=CHROMA_COLLECTION_NAME
-        )
-    )
-
-    try:
-
-        resultados = evaluar_preguntas(
-            preguntas=preguntas,
-            k=args.k,
-            client=client,
-            collection=collection,
-        )
-
-    finally:
-        client.close()
 
     mostrar_resumen(
         resultados
     )
 
-    guardar_resultados(
+    ruta = guardar_resultados(
         resultados=resultados,
-        ruta_salida=ruta_salida,
+        k=args.k,
+    )
+
+    print()
+    print(
+        f"Resultados guardados en: {ruta}"
     )
 
 
