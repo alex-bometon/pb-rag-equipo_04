@@ -6,3 +6,10 @@
 {"timestamp": "2026-09-20T11:03:38.218277+00:00", "question": "Qué contenedores tengo disponibles en Madrid?", "k": 5, "num_chunks": 5, "time_seconds": 5.035, "model": "gemini-3.1-flash-lite"}
 {"timestamp": "2026-09-20T11:11:54.079859+00:00", "question": "dónde se tira una bombilla?", "k": 5, "num_chunks": 5, "time_seconds": 3.99, "model": "gemini-3.1-flash-lite"}
 {"timestamp": "2026-09-20T11:16:31.071530+00:00", "question": "donde tiro el envoltorio de plástico de un queso?", "k": 5, "num_chunks": 5, "time_seconds": 4.82, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:27:06.608371+00:00", "question": "donde tengo que tirar un clavo?", "k": 5, "num_chunks": 5, "time_seconds": 3.434, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:27:42.222834+00:00", "question": "A qué contenedor se deben tirar tornillos, clavos, tuercas...", "k": 5, "num_chunks": 5, "time_seconds": 2.295, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:28:00.860083+00:00", "question": "Material de ferretería", "k": 5, "num_chunks": 5, "time_seconds": 1.704, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:28:40.491612+00:00", "question": "Cómo reciclo un colchón?", "k": 5, "num_chunks": 5, "time_seconds": 3.073, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:29:29.848777+00:00", "question": "Dónde hay que tirar el sobre con la cuerda de una infusión?", "k": 5, "num_chunks": 5, "time_seconds": 2.255, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:29:41.420733+00:00", "question": "Restos de una infusión", "k": 5, "num_chunks": 5, "time_seconds": 2.138, "model": "gemini-3.1-flash-lite"}
+{"timestamp": "2026-09-20T19:29:53.810818+00:00", "question": "bolsita de una infusión", "k": 5, "num_chunks": 5, "time_seconds": 3.317, "model": "gemini-3.1-flash-lite"}

@@ -124,7 +124,7 @@ def mostrar_detalles_asistente(
                 st.markdown(f"**Chunk {indice} — {source}**")
 
                 if isinstance(distancia, (int, float)):
-                    st.caption("Distancia vectorial: {distancia:.4f}")
+                    st.caption(f"Distancia vectorial: {distancia:.4f}")
 
                 st.write(texto)
 
