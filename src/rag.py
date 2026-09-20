@@ -1,6 +1,10 @@
 # Orquestación del flujo completo del sistema RAG.
 
-from config import TOP_K
+import time
+
+from config import GENERATION_MODEL, TOP_K
+
+from src.logging_utils import registrar_consulta
 
 from src.gemini_client import crear_cliente_gemini
 
@@ -202,6 +206,8 @@ def responder(
 
     pregunta = pregunta.strip()
 
+    inicio = time.perf_counter()
+
     cliente_propio = (
         client is None
     )
@@ -272,13 +278,41 @@ def responder(
         )
 
         # -------------------------------------------------
-        # 6. RESULTADO
+        # 6. MÉTRICAS Y LOGGING
+        # -------------------------------------------------
+
+        tiempo_segundos = (
+            time.perf_counter()
+            - inicio
+        )
+
+        metricas = {
+            "k": k,
+            "num_chunks": len(chunks),
+            "time_seconds": round(
+                tiempo_segundos,
+                3,
+            ),
+            "model": GENERATION_MODEL,
+        }
+
+        registrar_consulta(
+            pregunta=pregunta,
+            k=k,
+            num_chunks=len(chunks),
+            tiempo_segundos=tiempo_segundos,
+            modelo=GENERATION_MODEL,
+        )
+
+        # -------------------------------------------------
+        # 7. RESULTADO
         # -------------------------------------------------
 
         return {
             "answer": respuesta,
             "sources": fuentes,
             "chunks": chunks,
+            "metrics": metricas,
         }
 
     finally:
