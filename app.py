@@ -10,7 +10,6 @@ from webapp.database import init_database
 from webapp.config_app import (
     APP_DESCRIPTION,
     APP_NAME,
-    QUERY_MODES,
 )
 
 
@@ -334,16 +333,6 @@ else:
             st.write(mensaje["content"])
 
     # -------------------------
-    # Opciones de consulta
-    # -------------------------
-
-    modo = st.selectbox(
-        "Tipo de consulta",
-        options=list(QUERY_MODES.keys()),
-        format_func=lambda valor: QUERY_MODES[valor],
-    )
-
-    # -------------------------
     # Entrada del usuario
     # -------------------------
 
@@ -364,7 +353,6 @@ else:
         # Llamamos al asistente.
         resultado = ask_assistant(
             consulta=consulta,
-            modo=modo,
         )
 
         if resultado["success"]:
@@ -376,6 +364,8 @@ else:
             respuesta = (
                 "No se ha podido procesar la consulta."
             )
+
+            st.error(resultado["error"])
 
         # Guardamos la respuesta.
         st.session_state.mensajes.append(

@@ -28,18 +28,6 @@ APP_NAME = "ReciclaTIA"
 
 APP_DESCRIPTION = (
     "Consulta cómo gestionar correctamente tus residuos "
-    "y obtén información sobre reciclaje y puntos de recogida."
+    "y obtén información sobre reciclaje y puntos de recogida "
+    "en la ciudad de Madrid."
 )
-
-
-# -------------------------
-# Modos de consulta
-# -------------------------
-
-QUERY_MODES = {
-    "auto": "Automático",
-    "clasificar": "Clasificar residuo",
-    "reciclaje": "Cómo reciclarlo",
-    "contenedores": "Información sobre contenedores",
-    "puntos_limpios": "Información sobre puntos limpios",
-}
