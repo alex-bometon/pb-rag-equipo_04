@@ -23,11 +23,7 @@ def _leer_texto_con_fallback(path: Path) -> tuple[str, str]:
         - codificación utilizada
     """
 
-    codificaciones = (
-        "utf-8-sig",
-        "utf-8",
-        "latin-1",
-    )
+    codificaciones = ("utf-8-sig", "utf-8", "latin-1")
 
     ultimo_error = None
 
@@ -60,10 +56,7 @@ def cargar_csv(path: Path) -> dict:
     valores como códigos con ceros iniciales.
     """
 
-    codificaciones = (
-        "utf-8-sig",
-        "latin-1",
-    )
+    codificaciones = ("utf-8-sig", "latin-1")
 
     ultimo_error = None
 
@@ -82,7 +75,7 @@ def cargar_csv(path: Path) -> dict:
                 "path": str(path.relative_to(BASE_DIR)),
                 "format": "csv",
                 "encoding": encoding,
-                "content": df,
+                "content": df
             }
 
         except UnicodeDecodeError as error:
@@ -116,7 +109,7 @@ def cargar_html(path: Path) -> dict:
         "path": str(path.relative_to(BASE_DIR)),
         "format": "html",
         "encoding": encoding,
-        "content": contenido,
+        "content": contenido
     }
 
 

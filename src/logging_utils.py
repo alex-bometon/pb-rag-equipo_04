@@ -18,33 +18,16 @@ def registrar_consulta(
     Registra una ejecución del RAG en formato JSONL.
     """
 
-    LOG_FILE.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     registro = {
-        "timestamp": datetime.now(
-            timezone.utc
-        ).isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "question": pregunta,
         "k": k,
         "num_chunks": num_chunks,
-        "time_seconds": round(
-            tiempo_segundos,
-            3,
-        ),
+        "time_seconds": round(tiempo_segundos, 3),
         "model": modelo,
     }
 
-    with LOG_FILE.open(
-        "a",
-        encoding="utf-8",
-    ) as archivo:
-        archivo.write(
-            json.dumps(
-                registro,
-                ensure_ascii=False,
-            )
-            + "\n"
-        )
+    with LOG_FILE.open("a", encoding="utf-8") as archivo:
+        archivo.write(json.dumps(registro, ensure_ascii=False) + "\n")

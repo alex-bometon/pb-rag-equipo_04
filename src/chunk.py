@@ -29,13 +29,7 @@ def crear_text_splitter() -> RecursiveCharacterTextSplitter:
     return RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
-        separators=[
-            "\n\n",
-            "\n",
-            ". ",
-            " ",
-            "",
-        ],
+        separators=["\n\n", "\n", ". ", " ", ""],
         length_function=len,
     )
 
@@ -44,9 +38,7 @@ def crear_text_splitter() -> RecursiveCharacterTextSplitter:
 # CHUNK DE DOCUMENTO ESTRUCTURADO
 # =========================================================
 
-def _chunk_documento_estructurado(
-    documento: dict,
-) -> list[dict]:
+def _chunk_documento_estructurado(documento: dict) -> list[dict]:
     """
     Convierte un documento estructurado procedente de CSV
     en un único chunk.
@@ -154,28 +146,19 @@ def crear_chunks_documento(
         se mantienen completos como un único chunk.
     """
 
-    tipo = documento["metadata"].get(
-        "document_type"
-    )
+    tipo = documento["metadata"].get("document_type")
 
     if tipo == "documentacion_municipal":
-        return _chunk_documentacion(
-            documento,
-            splitter,
-        )
+        return _chunk_documentacion(documento, splitter)
 
-    return _chunk_documento_estructurado(
-        documento
-    )
+    return _chunk_documento_estructurado(documento)
 
 
 # =========================================================
 # CHUNKING DEL CORPUS COMPLETO
 # =========================================================
 
-def crear_chunks(
-    documentos: list[dict],
-) -> list[dict]:
+def crear_chunks(documentos: list[dict]) -> list[dict]:
     """
     Genera los chunks de todo el corpus limpio.
 
@@ -197,13 +180,8 @@ def crear_chunks(
 
     for documento in documentos:
 
-        chunks_documento = crear_chunks_documento(
-            documento,
-            splitter,
-        )
+        chunks_documento = crear_chunks_documento(documento, splitter)
 
-        chunks.extend(
-            chunks_documento
-        )
+        chunks.extend(chunks_documento)
 
     return chunks

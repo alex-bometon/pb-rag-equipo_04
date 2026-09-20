@@ -19,33 +19,19 @@ def ejecutar_ingesta() -> list[dict]:
 
     corpus = cargar_corpus()
 
-    documentos = limpiar_corpus(
-        corpus
-    )
+    documentos = limpiar_corpus(corpus)
 
-    chunks = crear_chunks(
-        documentos
-    )
+    chunks = crear_chunks(documentos)
 
-    ruta = guardar_chunks_json(
-        chunks
-    )
+    ruta = guardar_chunks_json(chunks)
 
-    print(
-        f"Archivos originales: {len(corpus)}"
-    )
+    print(f"Archivos originales: {len(corpus)}")
 
-    print(
-        f"Documentos limpios: {len(documentos)}"
-    )
+    print(f"Documentos limpios: {len(documentos)}")
 
-    print(
-        f"Chunks generados: {len(chunks)}"
-    )
+    print(f"Chunks generados: {len(chunks)}")
 
-    print(
-        f"Chunks guardados en: {ruta}"
-    )
+    print(f"Chunks guardados en: {ruta}")
 
     return chunks
 

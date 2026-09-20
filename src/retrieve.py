@@ -34,9 +34,7 @@ from src.index import crear_cliente_chroma
 # PREPARACIÓN DE LA CONSULTA
 # =========================================================
 
-def preparar_query(
-    pregunta: str,
-) -> str:
+def preparar_query(pregunta: str) -> str:
     """
     Prepara una pregunta para generar su embedding.
 
@@ -53,20 +51,14 @@ def preparar_query(
 
     pregunta = pregunta.strip()
 
-    return (
-        "task: question answering | "
-        f"query: {pregunta}"
-    )
+    return f"task: question answering | query: {pregunta}"
 
 
 # =========================================================
 # EMBEDDING DE LA PREGUNTA
 # =========================================================
 
-def embeddear_pregunta_original(
-    client,
-    pregunta: str,
-) -> list[float]:
+def embeddear_pregunta_original(client, pregunta: str) -> list[float]:
     """
     Genera el embedding de una pregunta utilizando exactamente
     el procedimiento empleado en la primera versión del
@@ -81,44 +73,31 @@ def embeddear_pregunta_original(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
     resultado = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=pregunta.strip(),
-        config=types.EmbedContentConfig(
-            output_dimensionality=EMBEDDING_DIMENSIONS
-        ),
+        config=types.EmbedContentConfig(output_dimensionality=EMBEDDING_DIMENSIONS),
     )
 
     if not resultado.embeddings:
-        raise ValueError(
-            "Gemini no ha devuelto ningún embedding "
-            "para la pregunta."
-        )
+        raise ValueError("Gemini no ha devuelto ningún embedding para la pregunta.")
 
     vector = resultado.embeddings[0].values
 
     if vector is None:
-        raise ValueError(
-            "El embedding de la pregunta no contiene valores."
-        )
+        raise ValueError("El embedding de la pregunta no contiene valores.")
 
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError(
-            "Dimensión inesperada del embedding: "
-            f"{len(vector)}. "
+            f"Dimensión inesperada del embedding: {len(vector)}. "
             f"Se esperaban {EMBEDDING_DIMENSIONS}."
         )
 
     return vector
 
-def embeddear_pregunta(
-    client,
-    pregunta: str,
-) -> list[float]:
+def embeddear_pregunta(client, pregunta: str) -> list[float]:
     """
     Genera el embedding de una pregunta.
 
@@ -131,39 +110,27 @@ def embeddear_pregunta(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
-    contenido = preparar_query(
-        pregunta
-    )
+    contenido = preparar_query(pregunta)
 
     resultado = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=contenido,
-        config=types.EmbedContentConfig(
-            output_dimensionality=EMBEDDING_DIMENSIONS
-        ),
+        config=types.EmbedContentConfig(output_dimensionality=EMBEDDING_DIMENSIONS),
     )
 
     if not resultado.embeddings:
-        raise ValueError(
-            "Gemini no ha devuelto ningún embedding "
-            "para la pregunta."
-        )
+        raise ValueError("Gemini no ha devuelto ningún embedding para la pregunta.")
 
     vector = resultado.embeddings[0].values
 
     if vector is None:
-        raise ValueError(
-            "El embedding de la pregunta no contiene valores."
-        )
+        raise ValueError("El embedding de la pregunta no contiene valores.")
 
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError(
-            "Dimensión inesperada del embedding: "
-            f"{len(vector)}. "
+            f"Dimensión inesperada del embedding: {len(vector)}. "
             f"Se esperaban {EMBEDDING_DIMENSIONS}."
         )
 
@@ -174,9 +141,7 @@ def embeddear_pregunta(
 # COMPATIBILIDAD CON LA IMPLEMENTACIÓN DE GENERACIÓN/EVAL
 # =========================================================
 
-def generar_embedding_query(
-    pregunta: str,
-) -> list[float]:
+def generar_embedding_query(pregunta: str) -> list[float]:
     """
     Genera el embedding de una consulta creando internamente
     el cliente Gemini.
@@ -189,10 +154,7 @@ def generar_embedding_query(
     client = crear_cliente_gemini()
 
     try:
-        return embeddear_pregunta(
-            client,
-            pregunta,
-        )
+        return embeddear_pregunta(client, pregunta)
 
     finally:
         client.close()
@@ -246,104 +208,62 @@ def buscar_chunks_relevantes(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
     if top_k <= 0:
-        raise ValueError(
-            "top_k debe ser mayor que 0."
-        )
+        raise ValueError("top_k debe ser mayor que 0.")
 
     # Si ya tenemos el embedding de la pregunta, no necesitamos
     # crear ningún cliente Gemini.
     necesita_embedding = query_embedding is None
 
-    cliente_propio = (
-        necesita_embedding
-        and client is None
-    )
+    cliente_propio = necesita_embedding and client is None
 
     if cliente_propio:
         client = crear_cliente_gemini()
 
     if collection is None:
         chroma_client = crear_cliente_chroma()
-
-        collection = chroma_client.get_collection(
-            name=CHROMA_COLLECTION_NAME
-        )
+        collection = chroma_client.get_collection(name=CHROMA_COLLECTION_NAME)
 
     try:
         total_documentos = collection.count()
 
         if total_documentos == 0:
-            raise ValueError(
-                "La colección de ChromaDB está vacía."
-            )
+            raise ValueError("La colección de ChromaDB está vacía.")
 
-        numero_resultados = min(
-            top_k,
-            total_documentos,
-        )
+        numero_resultados = min(top_k, total_documentos)
 
         if query_embedding is None:
-
-            vector_pregunta = embeddear_pregunta(
-                client,
-                pregunta,
-            )
+            vector_pregunta = embeddear_pregunta(client, pregunta)
 
         else:
 
             if len(query_embedding) != EMBEDDING_DIMENSIONS:
                 raise ValueError(
                     "Dimensión inesperada del embedding "
-                    "de la pregunta: "
-                    f"{len(query_embedding)}. "
+                    f"de la pregunta: {len(query_embedding)}. "
                     f"Se esperaban {EMBEDDING_DIMENSIONS}."
                 )
 
             vector_pregunta = query_embedding
 
         resultado = collection.query(
-            query_embeddings=[
-                vector_pregunta
-            ],
+            query_embeddings=[vector_pregunta],
             n_results=numero_resultados,
-            include=[
-                "documents",
-                "metadatas",
-                "distances",
-            ],
+            include=["documents", "metadatas", "distances"]
         )
 
     finally:
         if cliente_propio:
             client.close()
 
-    documentos = resultado.get(
-        "documents",
-        [[]],
-    )[0]
-
-    metadatas = resultado.get(
-        "metadatas",
-        [[]],
-    )[0]
-
-    distancias = resultado.get(
-        "distances",
-        [[]],
-    )[0]
-
+    documentos = resultado.get("documents", [[]])[0]
+    metadatas = resultado.get("metadatas", [[]])[0]
+    distancias = resultado.get("distances", [[]])[0]
     chunks = []
 
-    for texto, metadata, distancia in zip(
-        documentos,
-        metadatas,
-        distancias,
-    ):
+    for texto, metadata, distancia in zip(documentos, metadatas, distancias):
         chunks.append(
             {
                 "text": texto,
@@ -359,9 +279,7 @@ def buscar_chunks_relevantes(
 # NORMALIZACIÓN PARA EL RERANKING LÉXICO
 # =========================================================
 
-def normalizar_texto(
-    texto: str,
-) -> str:
+def normalizar_texto(texto: str) -> str:
     """
     Normaliza un texto para facilitar las comparaciones
     léxicas.
@@ -373,36 +291,19 @@ def normalizar_texto(
     """
 
     texto = str(texto).lower()
-
-    texto = unicodedata.normalize(
-        "NFD",
-        texto,
-    )
+    texto = unicodedata.normalize("NFD", texto)
 
     texto = "".join(
-        caracter
-        for caracter in texto
-        if unicodedata.category(caracter) != "Mn"
+        caracter for caracter in texto if unicodedata.category(caracter) != "Mn"
     )
 
-    texto = re.sub(
-        r"[^a-z0-9\s]",
-        " ",
-        texto,
-    )
-
-    texto = re.sub(
-        r"\s+",
-        " ",
-        texto,
-    ).strip()
+    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
+    texto = re.sub(r"\s+", " ", texto).strip()
 
     return texto
 
 
-def extraer_palabras_importantes(
-    texto: str,
-) -> set[str]:
+def extraer_palabras_importantes(texto: str) -> set[str]:
     """
     Extrae los términos relevantes de una consulta eliminando
     palabras funcionales frecuentes que aportan poca
@@ -437,17 +338,11 @@ def extraer_palabras_importantes(
         "y",
     }
 
-    palabras = normalizar_texto(
-        texto
-    ).split()
+    palabras = normalizar_texto(texto).split()
 
     return {
-        palabra
-        for palabra in palabras
-        if (
-            palabra not in stopwords
-            and len(palabra) > 2
-        )
+        palabra for palabra in palabras
+        if palabra not in stopwords and len(palabra) > 2
     }
 
 
@@ -455,10 +350,7 @@ def extraer_palabras_importantes(
 # TEXTO UTILIZADO PARA EL RERANKING
 # =========================================================
 
-def construir_texto_busqueda(
-    documento: str,
-    metadata: dict,
-) -> str:
+def construir_texto_busqueda(documento: str, metadata: dict) -> str:
     """
     Combina el texto del chunk con metadata relevante.
 
@@ -468,31 +360,13 @@ def construir_texto_busqueda(
     """
 
     campos_metadata = [
-        metadata.get(
-            "source",
-            "",
-        ),
-        metadata.get(
-            "document_type",
-            "",
-        ),
-        metadata.get(
-            "district",
-            "",
-        ),
-        metadata.get(
-            "neighborhood",
-            "",
-        ),
+        metadata.get("source", ""),
+        metadata.get("document_type", ""),
+        metadata.get("district", ""),
+        metadata.get("neighborhood", ""),
     ]
 
-    return " ".join(
-        [documento]
-        + [
-            str(campo)
-            for campo in campos_metadata
-        ]
-    )
+    return " ".join([documento] + [str(campo) for campo in campos_metadata])
 
 
 # =========================================================
@@ -511,42 +385,25 @@ def calcular_coincidencia_lexica(
     El valor resultante está comprendido entre 0 y 1.
     """
 
-    palabras_pregunta = extraer_palabras_importantes(
-        pregunta
-    )
+    palabras_pregunta = extraer_palabras_importantes(pregunta)
 
     if not palabras_pregunta:
         return 0.0
 
-    texto_busqueda = construir_texto_busqueda(
-        documento,
-        metadata,
-    )
+    texto_busqueda = construir_texto_busqueda(documento, metadata)
 
-    palabras_documento = set(
-        normalizar_texto(
-            texto_busqueda
-        ).split()
-    )
+    palabras_documento = set(normalizar_texto(texto_busqueda).split())
 
-    coincidencias = palabras_pregunta.intersection(
-        palabras_documento
-    )
+    coincidencias = palabras_pregunta.intersection(palabras_documento)
 
-    return (
-        len(coincidencias)
-        / len(palabras_pregunta)
-    )
+    return len(coincidencias) / len(palabras_pregunta)
 
 
 # =========================================================
 # SCORE HÍBRIDO
 # =========================================================
 
-def calcular_score(
-    distancia: float,
-    coincidencia_lexica: float,
-) -> float:
+def calcular_score(distancia: float, coincidencia_lexica: float) -> float:
     """
     Combina la similitud semántica y la coincidencia léxica.
 
@@ -561,16 +418,12 @@ def calcular_score(
     La ponderación se encuentra centralizada en config.py.
     """
 
-    similitud_semantica = (
-        1 - distancia
-    )
+    similitud_semantica = 1 - distancia
 
     return (
-        RETRIEVAL_SEMANTIC_WEIGHT
-        * similitud_semantica
+        RETRIEVAL_SEMANTIC_WEIGHT * similitud_semantica
         +
-        RETRIEVAL_LEXICAL_WEIGHT
-        * coincidencia_lexica
+        RETRIEVAL_LEXICAL_WEIGHT * coincidencia_lexica
     )
 
 
@@ -578,10 +431,7 @@ def calcular_score(
 # RERANKING DE CANDIDATOS
 # =========================================================
 
-def rerankear_chunks(
-    pregunta: str,
-    chunks: list[dict],
-) -> list[dict]:
+def rerankear_chunks(pregunta: str, chunks: list[dict]) -> list[dict]:
     """
     Aplica el reranking híbrido a una lista de candidatos
     obtenidos previamente mediante retrieval semántico.
@@ -598,24 +448,12 @@ def rerankear_chunks(
 
     for chunk in chunks:
 
-        documento = chunk.get(
-            "text",
-            "",
-        )
-
-        metadata = chunk.get(
-            "metadata",
-            {},
-        )
-
-        distancia = chunk.get(
-            "distance"
-        )
+        documento = chunk.get("text", "")
+        metadata = chunk.get("metadata", {})
+        distancia = chunk.get("distance")
 
         if distancia is None:
-            raise ValueError(
-                "Uno de los chunks no contiene distancia."
-            )
+            raise ValueError("Uno de los chunks no contiene distancia.")
 
         coincidencia_lexica = calcular_coincidencia_lexica(
             pregunta,
@@ -623,10 +461,7 @@ def rerankear_chunks(
             metadata,
         )
 
-        score = calcular_score(
-            distancia,
-            coincidencia_lexica,
-        )
+        score = calcular_score(distancia, coincidencia_lexica)
 
         candidato = {
             **chunk,
@@ -634,14 +469,9 @@ def rerankear_chunks(
             "score": score,
         }
 
-        candidatos.append(
-            candidato
-        )
+        candidatos.append(candidato)
 
-    candidatos.sort(
-        key=lambda item: item["score"],
-        reverse=True,
-    )
+    candidatos.sort(key=lambda item: item["score"], reverse=True)
 
     return candidatos
 
@@ -680,32 +510,22 @@ def recuperar_chunks(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
     if k <= 0:
-        raise ValueError(
-            "k debe ser mayor que 0."
-        )
+        raise ValueError("k debe ser mayor que 0.")
 
-    candidate_k = max(
-        k * 10,
-        RETRIEVAL_MIN_CANDIDATES,
-    )
+    candidate_k = max(k * 10, RETRIEVAL_MIN_CANDIDATES)
 
     candidatos_semanticos = buscar_chunks_relevantes(
         pregunta=pregunta,
         top_k=candidate_k,
         client=client,
         collection=collection,
-        query_embedding=query_embedding,
+        query_embedding=query_embedding
     )
 
-    candidatos_rerankeados = rerankear_chunks(
-        pregunta,
-        candidatos_semanticos,
-    )
+    candidatos_rerankeados = rerankear_chunks(pregunta, candidatos_semanticos)
 
     return candidatos_rerankeados[:k]
 
@@ -714,9 +534,7 @@ def recuperar_chunks(
 # RESUMEN DE FUENTES
 # =========================================================
 
-def resumir_fuentes(
-    chunks: list[dict],
-) -> list[dict]:
+def resumir_fuentes(chunks: list[dict]) -> list[dict]:
     """
     Extrae información de las fuentes recuperadas.
 
@@ -727,32 +545,16 @@ def resumir_fuentes(
     fuentes = []
 
     for chunk in chunks:
-
-        metadata = chunk.get(
-            "metadata",
-            {},
-        )
+        metadata = chunk.get("metadata", {})
 
         fuentes.append(
             {
-                "source": metadata.get(
-                    "source"
-                ),
-                "document_type": metadata.get(
-                    "document_type"
-                ),
-                "district": metadata.get(
-                    "district"
-                ),
-                "distance": chunk.get(
-                    "distance"
-                ),
-                "lexical_score": chunk.get(
-                    "lexical_score"
-                ),
-                "score": chunk.get(
-                    "score"
-                ),
+                "source": metadata.get("source"),
+                "document_type": metadata.get("document_type"),
+                "district": metadata.get("district"),
+                "distance": chunk.get("distance"),
+                "lexical_score": chunk.get("lexical_score"),
+                "score": chunk.get("score")
             }
         )
 
@@ -763,10 +565,7 @@ def resumir_fuentes(
 # EJECUCIÓN MANUAL / PRUEBA RÁPIDA
 # =========================================================
 
-def ejecutar_retrieval(
-    pregunta: str,
-    top_k: int = TOP_K,
-) -> list[dict]:
+def ejecutar_retrieval(pregunta: str, top_k: int = TOP_K) -> list[dict]:
     """
     Ejecuta el retrieval completo y muestra por consola los
     resultados principales.
@@ -774,30 +573,15 @@ def ejecutar_retrieval(
     Esta función sirve únicamente como prueba manual rápida.
     """
 
-    print(
-        f"Pregunta: {pregunta}"
-    )
-
-    print(
-        f"TOP_K: {top_k}"
-    )
-
+    print(f"Pregunta: {pregunta}")
+    print(f"TOP_K: {top_k}")
     print()
 
-    chunks = recuperar_chunks(
-        pregunta,
-        k=top_k,
-    )
+    chunks = recuperar_chunks(pregunta, k=top_k)
 
-    for posicion, chunk in enumerate(
-        chunks,
-        start=1,
-    ):
+    for posicion, chunk in enumerate(chunks, start=1):
 
-        metadata = chunk.get(
-            "metadata",
-            {},
-        )
+        metadata = chunk.get("metadata", {})
 
         print(
             f"[{posicion}] "
@@ -806,22 +590,10 @@ def ejecutar_retrieval(
             f"lexical={chunk['lexical_score']:.4f}"
         )
 
-        print(
-            f"    fuente={metadata.get('source')}"
-        )
-
-        print(
-            f"    tipo={metadata.get('document_type')}"
-        )
-
-        print(
-            f"    distrito={metadata.get('district')}"
-        )
-
-        print(
-            f"    {chunk['text'][:200]}..."
-        )
-
+        print(f"    fuente={metadata.get('source')}")
+        print(f"    tipo={metadata.get('document_type')}")
+        print(f"    distrito={metadata.get('district')}")
+        print(f"    {chunk['text'][:200]}...")
         print()
 
     return chunks
@@ -832,7 +604,4 @@ def ejecutar_retrieval(
 # =========================================================
 
 if __name__ == "__main__":
-    ejecutar_retrieval(
-        "¿Dónde hay un punto limpio fijo "
-        "en el distrito de Arganzuela?"
-    )
+    ejecutar_retrieval("¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?")

@@ -34,10 +34,7 @@ def guardar_chunks_json(
     Devuelve la ruta del archivo generado.
     """
 
-    fuentes = sorted({
-        chunk["metadata"]["source"]
-        for chunk in chunks
-    })
+    fuentes = sorted({chunk["metadata"]["source"] for chunk in chunks})
 
     payload = {
         "schema_version": 1,
@@ -51,22 +48,10 @@ def guardar_chunks_json(
         "chunks": chunks,
     }
 
-    ruta.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    ruta.parent.mkdir(parents=True, exist_ok=True)
 
-    with ruta.open(
-        "w",
-        encoding="utf-8",
-    ) as archivo:
-
-        json.dump(
-            payload,
-            archivo,
-            ensure_ascii=False,
-            indent=2,
-        )
+    with ruta.open("w", encoding="utf-8") as archivo:
+        json.dump(payload, archivo, ensure_ascii=False, indent=2)
 
     return ruta
 
@@ -83,23 +68,13 @@ def cargar_chunks_json(
     """
 
     if not ruta.exists():
-        raise FileNotFoundError(
-            f"No existe el archivo de chunks: {ruta}"
-        )
+        raise FileNotFoundError(f"No existe el archivo de chunks: {ruta}")
 
-    with ruta.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
-
-        payload = json.load(
-            archivo
-        )
+    with ruta.open("r", encoding="utf-8") as archivo:
+        payload = json.load(archivo)
 
     if "chunks" not in payload:
-        raise ValueError(
-            "El archivo no contiene la clave 'chunks'."
-        )
+        raise ValueError("El archivo no contiene la clave 'chunks'.")
 
     return payload["chunks"]
 
@@ -132,36 +107,20 @@ def guardar_embeddings_json(
         "schema_version": 1,
         "embedding_model": modelo,
         "embedding_dimensions": dimensiones,
-        "embedding_input_format": (
-            "title: {title_or_none} | text: {text}"
-        ),
+        "embedding_input_format": "title: {title_or_none} | text: {text}",
         "total_chunks_origen": total_chunks_origen,
         "total_embeddings": len(items),
         "items": items,
     }
 
-    ruta.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    ruta.parent.mkdir(parents=True, exist_ok=True)
 
-    with ruta.open(
-        "w",
-        encoding="utf-8",
-    ) as archivo:
-
-        json.dump(
-            payload,
-            archivo,
-            ensure_ascii=False,
-            indent=2,
-        )
+    with ruta.open("w", encoding="utf-8") as archivo:
+        json.dump(payload, archivo, ensure_ascii=False, indent=2)
 
     return ruta
 
-def cargar_embeddings_json(
-    ruta: Path = EMBEDDINGS_JSON,
-) -> list[dict]:
+def cargar_embeddings_json(ruta: Path = EMBEDDINGS_JSON) -> list[dict]:
     """
     Carga los embeddings previamente generados.
 
@@ -175,29 +134,17 @@ def cargar_embeddings_json(
     """
 
     if not ruta.exists():
-        raise FileNotFoundError(
-            f"No existe el archivo de embeddings: {ruta}"
-        )
+        raise FileNotFoundError(f"No existe el archivo de embeddings: {ruta}")
 
-    with ruta.open(
-        "r",
-        encoding="utf-8",
-    ) as archivo:
-
-        payload = json.load(
-            archivo
-        )
+    with ruta.open("r", encoding="utf-8") as archivo:
+        payload = json.load(archivo)
 
     if "items" not in payload:
-        raise ValueError(
-            "El archivo no contiene la clave 'items'."
-        )
+        raise ValueError("El archivo no contiene la clave 'items'.")
 
     items = payload["items"]
 
     if not isinstance(items, list):
-        raise ValueError(
-            "La clave 'items' debe contener una lista."
-        )
+        raise ValueError("La clave 'items' debe contener una lista.")
 
     return items

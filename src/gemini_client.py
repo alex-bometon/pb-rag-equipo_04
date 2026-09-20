@@ -22,13 +22,9 @@ def crear_cliente_gemini() -> genai.Client:
 
     ruta_env = BASE_DIR / ".env"
 
-    load_dotenv(
-        dotenv_path=ruta_env
-    )
+    load_dotenv(dotenv_path=ruta_env)
 
-    api_key = os.getenv(
-        "GEMINI_API_KEY"
-    )
+    api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
         raise ValueError(
@@ -36,6 +32,4 @@ def crear_cliente_gemini() -> genai.Client:
             "Configúrala en el archivo .env."
         )
 
-    return genai.Client(
-        api_key=api_key
-    )
+    return genai.Client(api_key=api_key)

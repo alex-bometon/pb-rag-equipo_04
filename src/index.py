@@ -30,23 +30,16 @@ def crear_cliente_chroma():
     retrieve.py sin volver a ejecutar la indexación.
     """
 
-    CHROMA_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
 
-    return chromadb.PersistentClient(
-        path=str(CHROMA_DIR)
-    )
+    return chromadb.PersistentClient(path=str(CHROMA_DIR))
 
 
 # =========================================================
 # IDENTIFICADORES
 # =========================================================
 
-def generar_id_item(
-    item: dict,
-) -> str:
+def generar_id_item(item: dict) -> str:
     """
     Genera un identificador determinista para un embedding.
 
@@ -68,31 +61,14 @@ def generar_id_item(
 
     identidad = "|".join(
         [
-            str(
-                metadata.get(
-                    "path",
-                    "",
-                )
-            ),
-            str(
-                metadata.get(
-                    "source_row",
-                    "",
-                )
-            ),
-            str(
-                metadata.get(
-                    "chunk_index",
-                    "",
-                )
-            ),
+            str(metadata.get("path", "")),
+            str(metadata.get("source_row", "")),
+            str(metadata.get("chunk_index", "")),
             item["text"],
         ]
     )
 
-    hash_id = hashlib.sha256(
-        identidad.encode("utf-8")
-    ).hexdigest()
+    hash_id = hashlib.sha256(identidad.encode("utf-8")).hexdigest()
 
     return f"chunk_{hash_id}"
 
@@ -101,9 +77,7 @@ def generar_id_item(
 # CREACIÓN DE LA COLECCIÓN
 # =========================================================
 
-def crear_coleccion(
-    client,
-):
+def crear_coleccion(client):
     """
     Crea desde cero la colección utilizada por el RAG.
 
@@ -117,16 +91,10 @@ def crear_coleccion(
 
     colecciones = client.list_collections()
 
-    nombres = [
-        coleccion.name
-        for coleccion in colecciones
-    ]
+    nombres = [coleccion.name for coleccion in colecciones]
 
     if CHROMA_COLLECTION_NAME in nombres:
-
-        client.delete_collection(
-            name=CHROMA_COLLECTION_NAME
-        )
+        client.delete_collection(name=CHROMA_COLLECTION_NAME)
 
     return client.create_collection(
         name=CHROMA_COLLECTION_NAME,
@@ -134,18 +102,12 @@ def crear_coleccion(
         # Los embeddings ya han sido generados por Gemini.
         # Chroma no debe generar otros embeddings.
         embedding_function=None,
-
-        configuration={
-            "hnsw": {
-                "space": CHROMA_DISTANCE,
-            }
-        },
-
+        configuration={"hnsw": {"space": CHROMA_DISTANCE}},
         metadata={
             "embedding_model": EMBEDDING_MODEL,
             "embedding_dimensions": EMBEDDING_DIMENSIONS,
             "distance_metric": CHROMA_DISTANCE,
-        },
+        }
     )
 
 
@@ -172,35 +134,15 @@ def indexar_embeddings(
     pueda seguir funcionando aunque el corpus crezca.
     """
 
-    for inicio in range(
-        0,
-        len(items),
-        batch_size,
-    ):
+    for inicio in range(0, len(items), batch_size):
 
         fin = inicio + batch_size
-
         lote = items[inicio:fin]
 
-        ids = [
-            generar_id_item(item)
-            for item in lote
-        ]
-
-        documentos = [
-            item["text"]
-            for item in lote
-        ]
-
-        embeddings = [
-            item["vector"]
-            for item in lote
-        ]
-
-        metadatas = [
-            item["metadata"]
-            for item in lote
-        ]
+        ids = [generar_id_item(item) for item in lote]
+        documentos = [item["text"] for item in lote]
+        embeddings = [item["vector"] for item in lote]
+        metadatas = [item["metadata"] for item in lote]
 
         collection.add(
             ids=ids,
@@ -236,28 +178,19 @@ def ejecutar_indexacion():
     items = cargar_embeddings_json()
 
     if not items:
-        raise ValueError(
-            "embeddings.json no contiene elementos."
-        )
+        raise ValueError("embeddings.json no contiene elementos.")
 
-    print(
-        f"Embeddings disponibles: {len(items)}"
-    )
+    print(f"Embeddings disponibles: {len(items)}")
 
 
     # -----------------------------------------------------
     # COMPROBAR IDS
     # -----------------------------------------------------
 
-    ids = [
-        generar_id_item(item)
-        for item in items
-    ]
+    ids = [generar_id_item(item) for item in items]
 
     if len(ids) != len(set(ids)):
-        raise ValueError(
-            "Se han generado IDs duplicados."
-        )
+        raise ValueError("Se han generado IDs duplicados.")
 
 
     # -----------------------------------------------------
@@ -271,38 +204,25 @@ def ejecutar_indexacion():
     # CREAR COLECCIÓN
     # -----------------------------------------------------
 
-    collection = crear_coleccion(
-        client
-    )
+    collection = crear_coleccion(client)
 
 
     # -----------------------------------------------------
     # DETERMINAR TAMAÑO DE LOTE
     # -----------------------------------------------------
 
-    max_batch_size = (
-        client.get_max_batch_size()
-    )
+    max_batch_size = (client.get_max_batch_size())
 
-    batch_size = min(
-        INDEX_BATCH_SIZE,
-        max_batch_size,
-    )
+    batch_size = min(INDEX_BATCH_SIZE, max_batch_size)
 
-    print(
-        f"Tamaño de lote: {batch_size}"
-    )
+    print(f"Tamaño de lote: {batch_size}")
 
 
     # -----------------------------------------------------
     # INDEXAR
     # -----------------------------------------------------
 
-    indexar_embeddings(
-        collection,
-        items,
-        batch_size,
-    )
+    indexar_embeddings(collection, items, batch_size)
 
 
     # -----------------------------------------------------
@@ -326,26 +246,11 @@ def ejecutar_indexacion():
 
     print()
     print("Indexación completada correctamente.")
-
-    print(
-        f"Colección: {CHROMA_COLLECTION_NAME}"
-    )
-
-    print(
-        f"Registros indexados: {total_indexados}"
-    )
-
-    print(
-        f"Dimensiones: {EMBEDDING_DIMENSIONS}"
-    )
-
-    print(
-        f"Métrica: {CHROMA_DISTANCE}"
-    )
-
-    print(
-        f"Base de datos: {CHROMA_DIR}"
-    )
+    print(f"Colección: {CHROMA_COLLECTION_NAME}")
+    print(f"Registros indexados: {total_indexados}")
+    print(f"Dimensiones: {EMBEDDING_DIMENSIONS}")
+    print(f"Métrica: {CHROMA_DISTANCE}")
+    print(f"Base de datos: {CHROMA_DIR}")
 
     return collection
 

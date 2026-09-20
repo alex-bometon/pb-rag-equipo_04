@@ -5,14 +5,8 @@ import time
 from config import GENERATION_MODEL, TOP_K
 
 from src.logging_utils import registrar_consulta
-
 from src.gemini_client import crear_cliente_gemini
-
-from src.retrieve import (
-    embeddear_pregunta_original,
-    buscar_chunks_relevantes,
-)
-
+from src.retrieve import embeddear_pregunta_original, buscar_chunks_relevantes
 from src.generate import generar_respuesta
 
 
@@ -20,9 +14,7 @@ from src.generate import generar_respuesta
 # CONSTRUCCIÓN DEL CONTEXTO
 # =========================================================
 
-def construir_contexto(
-    chunks: list[dict],
-) -> str:
+def construir_contexto(chunks: list[dict]) -> str:
     """
     Construye el contexto que se enviará al modelo de
     generación a partir de los chunks recuperados.
@@ -36,50 +28,26 @@ def construir_contexto(
 
     partes = []
 
-    for i, chunk in enumerate(
-        chunks,
-        start=1,
-    ):
-
-        texto = (
-            chunk.get(
-                "text",
-                "",
-            )
-            or ""
-        ).strip()
+    for i, chunk in enumerate(chunks, start=1):
+        texto = (chunk.get("text", "") or "").strip()
 
         if not texto:
             continue
 
-        metadata = chunk.get(
-            "metadata",
-            {},
-        ) or {}
+        metadata = chunk.get("metadata", {}) or {}
 
-        source = metadata.get(
-            "source",
-            "fuente desconocida",
-        )
+        source = metadata.get("source", "fuente desconocida")
 
-        partes.append(
-            f"[CHUNK {i}]\n"
-            f"Fuente: {source}\n"
-            f"{texto}"
-        )
+        partes.append(f"[CHUNK {i}]\nFuente: {source}\n{texto}")
 
-    return "\n\n".join(
-        partes
-    )
+    return "\n\n".join(partes)
 
 
 # =========================================================
 # EXTRACCIÓN DE FUENTES
 # =========================================================
 
-def extraer_fuentes(
-    chunks: list[dict],
-) -> list[dict]:
+def extraer_fuentes(chunks: list[dict]) -> list[dict]:
     """
     Extrae las fuentes utilizadas por los chunks recuperados.
 
@@ -92,37 +60,16 @@ def extraer_fuentes(
 
     for chunk in chunks:
 
-        metadata = chunk.get(
-            "metadata",
-            {},
-        ) or {}
-
-        source = metadata.get(
-            "source"
-        )
-
-        path = metadata.get(
-            "path"
-        )
-
-        clave = (
-            source,
-            path,
-        )
+        metadata = chunk.get("metadata", {}) or {}
+        source = metadata.get("source")
+        path = metadata.get("path")
+        clave = (source, path)
 
         if clave in vistas:
             continue
 
-        vistas.add(
-            clave
-        )
-
-        fuentes.append(
-            {
-                "source": source,
-                "path": path,
-            }
-        )
+        vistas.add(clave)
+        fuentes.append({"source": source, "path": path,})
 
     return fuentes
 
@@ -195,22 +142,16 @@ def responder(
     """
 
     if not pregunta or not pregunta.strip():
-        raise ValueError(
-            "La pregunta no puede estar vacía."
-        )
+        raise ValueError("La pregunta no puede estar vacía.")
 
     if k <= 0:
-        raise ValueError(
-            "k debe ser mayor que 0."
-        )
+        raise ValueError("k debe ser mayor que 0.")
 
     pregunta = pregunta.strip()
 
     inicio = time.perf_counter()
 
-    cliente_propio = (
-        client is None
-    )
+    cliente_propio = client is None
 
     if cliente_propio:
         client = crear_cliente_gemini()
@@ -226,12 +167,7 @@ def responder(
         # en la evaluación actual del retrieval.
         if query_embedding is None:
 
-            query_embedding = (
-                embeddear_pregunta_original(
-                    client,
-                    pregunta,
-                )
-            )
+            query_embedding = embeddear_pregunta_original(client, pregunta)
 
         # -------------------------------------------------
         # 2. RETRIEVAL
@@ -248,16 +184,14 @@ def responder(
             pregunta=pregunta,
             top_k=k,
             collection=collection,
-            query_embedding=query_embedding,
+            query_embedding=query_embedding
         )
 
         # -------------------------------------------------
         # 3. CONSTRUCCIÓN DEL CONTEXTO
         # -------------------------------------------------
 
-        contexto = construir_contexto(
-            chunks
-        )
+        contexto = construir_contexto(chunks)
 
         # -------------------------------------------------
         # 4. GENERACIÓN
@@ -266,34 +200,26 @@ def responder(
         respuesta = generar_respuesta(
             pregunta=pregunta,
             contexto=contexto,
-            client=client,
+            client=client
         )
 
         # -------------------------------------------------
         # 5. FUENTES
         # -------------------------------------------------
 
-        fuentes = extraer_fuentes(
-            chunks
-        )
+        fuentes = extraer_fuentes(chunks)
 
         # -------------------------------------------------
         # 6. MÉTRICAS Y LOGGING
         # -------------------------------------------------
 
-        tiempo_segundos = (
-            time.perf_counter()
-            - inicio
-        )
+        tiempo_segundos = time.perf_counter() - inicio 
 
         metricas = {
             "k": k,
             "num_chunks": len(chunks),
-            "time_seconds": round(
-                tiempo_segundos,
-                3,
-            ),
-            "model": GENERATION_MODEL,
+            "time_seconds": round(tiempo_segundos, 3),
+            "model": GENERATION_MODEL
         }
 
         registrar_consulta(
@@ -301,7 +227,7 @@ def responder(
             k=k,
             num_chunks=len(chunks),
             tiempo_segundos=tiempo_segundos,
-            modelo=GENERATION_MODEL,
+            modelo=GENERATION_MODEL
         )
 
         # -------------------------------------------------
@@ -312,7 +238,7 @@ def responder(
             "answer": respuesta,
             "sources": fuentes,
             "chunks": chunks,
-            "metrics": metricas,
+            "metrics": metricas
         }
 
     finally:
@@ -327,72 +253,33 @@ def responder(
 
 if __name__ == "__main__":
 
-    pregunta = (
-        "¿Dónde hay un punto limpio fijo "
-        "en el distrito de Arganzuela?"
-    )
+    pregunta = "¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?"
 
-    resultado = responder(
-        pregunta
-    )
+    resultado = responder(pregunta)
 
     print()
-    print(
-        "RESPUESTA RAG"
-    )
-    print(
-        "=" * 60
-    )
-    print(
-        resultado["answer"]
-    )
+    print("RESPUESTA RAG")
+    print("=" * 60)
+    print(resultado["answer"])
 
     print()
-    print(
-        "FUENTES"
-    )
-    print(
-        "=" * 60
-    )
+    print("FUENTES")
+    print("=" * 60)
 
-    for fuente in resultado[
-        "sources"
-    ]:
-        print(
-            fuente
-        )
+    for fuente in resultado["sources"]:
+        print(fuente)
 
     print()
-    print(
-        "CHUNKS RECUPERADOS"
-    )
-    print(
-        "=" * 60
-    )
+    print("CHUNKS RECUPERADOS")
+    print("=" * 60)
 
-    for i, chunk in enumerate(
-        resultado["chunks"],
-        start=1,
-    ):
-
+    for i, chunk in enumerate(resultado["chunks"], start=1):
         print()
-        print(
-            f"CHUNK {i}"
-        )
-        print(
-            "-" * 60
-        )
+        print(f"CHUNK {i}")
+        print("-" * 60)
 
-        print(
-            "Distancia: "
-            f"{chunk['distance']}"
-        )
+        print(f"Distancia: {chunk['distance']}")
 
-        print(
-            "Fuente: "
-            f"{chunk['metadata'].get('source')}"
-        )
+        print(f"Fuente: {chunk['metadata'].get('source')}")
 
-        print(
-            chunk["text"]
-        )
+        print(chunk["text"])

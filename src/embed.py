@@ -14,10 +14,7 @@ from config import (
     MAX_CHUNKS_EMBED,
 )
 
-from src.artifacts import (
-    cargar_chunks_json,
-    guardar_embeddings_json,
-)
+from src.artifacts import cargar_chunks_json, guardar_embeddings_json
 
 from src.gemini_client import crear_cliente_gemini
 
@@ -26,9 +23,7 @@ from src.gemini_client import crear_cliente_gemini
 # PREPARACIÓN DEL TEXTO
 # =========================================================
 
-def preparar_documento_embedding(
-    chunk: dict,
-) -> str:
+def preparar_documento_embedding(chunk: dict,) -> str:
     """
     Prepara un chunk para generar su embedding.
 
@@ -43,66 +38,46 @@ def preparar_documento_embedding(
 
     texto = chunk["text"]
 
-    metadata = chunk.get(
-        "metadata",
-        {},
-    )
+    metadata = chunk.get("metadata", {})
 
-    titulo = metadata.get(
-        "title"
-    )
+    titulo = metadata.get("title")
 
     if not titulo:
         titulo = "none"
 
-    return (
-        f"title: {titulo} | "
-        f"text: {texto}"
-    )
+    return f"title: {titulo} | text: {texto}"
 
 
 # =========================================================
 # GENERACIÓN DE UN EMBEDDING
 # =========================================================
 
-def embeddear_documento(
-    client,
-    chunk: dict,
-) -> list[float]:
+def embeddear_documento(client, chunk: dict) -> list[float]:
     """
     Genera el embedding de un único chunk.
 
     Devuelve solamente el vector numérico.
     """
 
-    contenido = preparar_documento_embedding(
-        chunk
-    )
+    contenido = preparar_documento_embedding(chunk)
 
     resultado = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=contenido,
-        config=types.EmbedContentConfig(
-            output_dimensionality=EMBEDDING_DIMENSIONS
-        ),
+        config=types.EmbedContentConfig(output_dimensionality=EMBEDDING_DIMENSIONS),
     )
 
     if not resultado.embeddings:
-        raise ValueError(
-            "Gemini no ha devuelto ningún embedding."
-        )
+        raise ValueError("Gemini no ha devuelto ningún embedding.")
 
     vector = resultado.embeddings[0].values
 
     if vector is None:
-        raise ValueError(
-            "El embedding recibido no contiene valores."
-        )
+        raise ValueError("El embedding recibido no contiene valores.")
 
     if len(vector) != EMBEDDING_DIMENSIONS:
         raise ValueError(
-            "Dimensión inesperada del embedding: "
-            f"{len(vector)}. "
+            f"Dimensión inesperada del embedding: {len(vector)}. "
             f"Se esperaban {EMBEDDING_DIMENSIONS}."
         )
 
@@ -113,10 +88,7 @@ def embeddear_documento(
 # GENERACIÓN DE EMBEDDINGS POR LOTES
 # =========================================================
 
-def _embeddear_lote(
-    client,
-    contenidos,
-):
+def _embeddear_lote(client, contenidos):
     """
     Genera los embeddings de un lote.
 
@@ -124,9 +96,7 @@ def _embeddear_lote(
     espera y vuelve a intentarlo.
     """
 
-    for intento in range(
-        EMBED_MAX_RETRIES
-    ):
+    for intento in range(EMBED_MAX_RETRIES):
         try:
             return client.models.embed_content(
                 model=EMBEDDING_MODEL,
@@ -149,24 +119,13 @@ def _embeddear_lote(
                 raise
 
             print()
-            print(
-                "Límite temporal del Free Tier "
-                "alcanzado (429)."
-            )
+            print("Límite temporal del Free Tier alcanzado (429).")
+            print(f"Esperando {EMBED_RETRY_SECONDS} segundos antes de reintentar...")
 
-            print(
-                f"Esperando {EMBED_RETRY_SECONDS} segundos "
-                "antes de reintentar..."
-            )
+            time.sleep(EMBED_RETRY_SECONDS)
 
-            time.sleep(
-                EMBED_RETRY_SECONDS
-            )
 
-def embeddear_documentos(
-    client,
-    chunks: list[dict],
-) -> list[list[float]]:
+def embeddear_documentos(client, chunks: list[dict]) -> list[list[float]]:
     """
     Genera los embeddings de varios chunks.
 
@@ -185,11 +144,7 @@ def embeddear_documentos(
 
     embeddings = []
 
-    for inicio in range(
-        0,
-        len(chunks),
-        EMBED_BATCH_SIZE,
-    ):
+    for inicio in range(0, len(chunks), EMBED_BATCH_SIZE):
 
         fin = inicio + EMBED_BATCH_SIZE
 
@@ -206,10 +161,7 @@ def embeddear_documentos(
             for chunk in lote
         ]
 
-        resultado = _embeddear_lote(
-            client,
-            contenidos,
-        )
+        resultado = _embeddear_lote(client, contenidos)
 
         # Comprobamos que Gemini devuelve exactamente
         # un embedding por cada chunk enviado.
@@ -217,8 +169,7 @@ def embeddear_documentos(
             raise ValueError(
                 "Número de embeddings inesperado. "
                 f"Se enviaron {len(lote)} chunks "
-                f"y se recibieron "
-                f"{len(resultado.embeddings)} embeddings."
+                f"y se recibieron {len(resultado.embeddings)} embeddings."
             )
 
         for embedding in resultado.embeddings:
@@ -232,22 +183,17 @@ def embeddear_documentos(
 
             if len(vector) != EMBEDDING_DIMENSIONS:
                 raise ValueError(
-                    "Dimensión inesperada del embedding: "
-                    f"{len(vector)}. "
+                    f"Dimensión inesperada del embedding: {len(vector)}. "
                     f"Se esperaban {EMBEDDING_DIMENSIONS}."
                 )
 
-            embeddings.append(
-                vector
-            )
+            embeddings.append(vector)
 
         # Cada lote de 50 consume 50 operaciones de la cuota.
         # Introducimos una pausa para mantenernos por debajo
         # del límite de 100 embeddings/minuto del Free Tier.
         if fin < len(chunks):
-            time.sleep(
-                EMBED_BATCH_PAUSE_SECONDS
-            )
+            time.sleep(EMBED_BATCH_PAUSE_SECONDS)
 
     return embeddings
 
@@ -277,20 +223,13 @@ def ejecutar_embeddings() -> list[dict]:
     total_chunks_origen = len(chunks)
 
     if MAX_CHUNKS_EMBED is not None:
-        chunks_a_procesar = chunks[
-            :MAX_CHUNKS_EMBED
-        ]
+        chunks_a_procesar = chunks[:MAX_CHUNKS_EMBED]
     else:
         chunks_a_procesar = chunks
 
-    print(
-        f"Chunks disponibles: {total_chunks_origen}"
-    )
+    print(f"Chunks disponibles: {total_chunks_origen}")
 
-    print(
-        f"Chunks que se procesarán: "
-        f"{len(chunks_a_procesar)}"
-    )
+    print(f"Chunks que se procesarán: {len(chunks_a_procesar)}")
 
 
     # GENERAR EMBEDDINGS
@@ -298,10 +237,7 @@ def ejecutar_embeddings() -> list[dict]:
     client = crear_cliente_gemini()
 
     try:
-        vectores = embeddear_documentos(
-            client,
-            chunks_a_procesar,
-        )
+        vectores = embeddear_documentos(client, chunks_a_procesar)
 
     finally:
         client.close()
@@ -320,10 +256,7 @@ def ejecutar_embeddings() -> list[dict]:
 
     items = []
 
-    for chunk, vector in zip(
-        chunks_a_procesar,
-        vectores,
-    ):
+    for chunk, vector in zip(chunks_a_procesar, vectores):
 
         items.append(
             {
