@@ -15,17 +15,12 @@ for path in (PROJECT_ROOT, TESTS_DIR):
 
 
 from config import CHROMA_COLLECTION_NAME
-from query_embeddings import (
-    cargar_embeddings_queries,
-    cargar_queries,
-)
+from query_embeddings import cargar_embeddings_queries, cargar_queries
 from src.index import crear_cliente_chroma
 from src.retrieve import buscar_chunks_relevantes
 
-
 # Valores comparados durante la evaluación de retrieval.
 K_VALUES = (3, 5, 8, 10)
-
 
 def fuente_esperada_recuperada(
     chunks: list[dict],
@@ -36,15 +31,9 @@ def fuente_esperada_recuperada(
     entre los chunks recuperados.
     """
 
-    fuentes = {
-        chunk.get("metadata", {}).get("source")
-        for chunk in chunks
-    }
+    fuentes = {chunk.get("metadata", {}).get("source") for chunk in chunks}
 
-    return any(
-        fuente in fuentes
-        for fuente in fuentes_esperadas
-    )
+    return any(fuente in fuentes for fuente in fuentes_esperadas)
 
 
 def evaluar_k(
@@ -65,9 +54,9 @@ def evaluar_k(
     respondibles = 0
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print(f"K = {k}")
-    print("=" * 70)
+    print("=" * 60)
 
     for query in queries:
 
@@ -78,15 +67,11 @@ def evaluar_k(
             pregunta=pregunta,
             top_k=k,
             collection=collection,
-            query_embedding=embeddings[query_id],
+            query_embedding=embeddings[query_id]
         )
 
         top = chunks[0]
-
-        top_source = (
-            top.get("metadata", {}).get("source")
-        )
-
+        top_source = top.get("metadata", {}).get("source")
         top_distance = top.get("distance")
 
         print()
@@ -95,13 +80,9 @@ def evaluar_k(
         print(f"    Top distancia: {top_distance:.4f}")
 
         if query["es_respondible"]:
-
             respondibles += 1
 
-            hit = fuente_esperada_recuperada(
-                chunks,
-                query["fuentes_esperadas"],
-            )
+            hit = fuente_esperada_recuperada(chunks, query["fuentes_esperadas"])
 
             if hit:
                 aciertos += 1
@@ -112,10 +93,7 @@ def evaluar_k(
             )
 
         else:
-            print(
-                "    Fuera de dominio "
-                "(no puntúa retrieval)"
-            )
+            print("    Fuera de dominio (no puntúa retrieval)")
 
     return aciertos, respondibles
 
@@ -132,62 +110,44 @@ def main() -> None:
     ]
 
     if ids_sin_embedding:
-        raise ValueError(
-            "Faltan embeddings para las preguntas: "
-            f"{ids_sin_embedding}"
-        )
+        raise ValueError(f"Faltan embeddings para las preguntas: {ids_sin_embedding}")
 
     chroma_client = crear_cliente_chroma()
+    collection = chroma_client.get_collection(name=CHROMA_COLLECTION_NAME)
 
-    collection = chroma_client.get_collection(
-        name=CHROMA_COLLECTION_NAME
-    )
-
-    print("=" * 70)
+    print("=" * 60)
     print("EVALUACIÓN DE RETRIEVAL")
-    print("=" * 70)
+    print("=" * 60)
 
-    print(
-        f"Preguntas totales: {len(queries)}"
-    )
+    print(f"Preguntas totales: {len(queries)}")
 
-    print(
-        f"Registros ChromaDB: {collection.count()}"
-    )
+    print(f"Registros ChromaDB: {collection.count()}")
 
     resumen = []
 
     for k in K_VALUES:
-
         aciertos, respondibles = evaluar_k(
             queries=queries,
             embeddings=embeddings,
             collection=collection,
-            k=k,
+            k=k
         )
 
-        resumen.append(
-            (k, aciertos, respondibles)
-        )
+        resumen.append((k, aciertos, respondibles))
 
     print()
-    print("=" * 70)
+    print("=" * 60)
     print("RESUMEN")
-    print("=" * 70)
+    print("=" * 60)
 
     for k, aciertos, total in resumen:
-
         porcentaje = (
             aciertos / total * 100
             if total
             else 0
         )
 
-        print(
-            f"K={k:<2} -> "
-            f"{aciertos}/{total} "
-            f"({porcentaje:.1f} %)"
-        )
+        print(f"K={k:<2} -> {aciertos}/{total} ({porcentaje:.1f} %)")
 
 
 if __name__ == "__main__":

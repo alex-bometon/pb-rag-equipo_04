@@ -32,9 +32,7 @@ from src.chunk import crear_chunks
 # =========================================================
 
 corpus = cargar_corpus()
-
 documentos = limpiar_corpus(corpus)
-
 chunks = crear_chunks(documentos)
 
 
@@ -60,7 +58,6 @@ print("PRIMEROS 5 CHUNKS")
 print("=" * 60)
 
 for i, chunk in enumerate(chunks[:5]):
-
     print(f"\n--- CHUNK {i} ---")
 
     print("\nTEXTO:")
@@ -74,10 +71,7 @@ for i, chunk in enumerate(chunks[:5]):
 # DISTRIBUCIÓN POR TIPO DE DOCUMENTO
 # =========================================================
 
-tipos = Counter(
-    chunk["metadata"]["document_type"]
-    for chunk in chunks
-)
+tipos = Counter(chunk["metadata"]["document_type"] for chunk in chunks)
 
 print("\n" + "=" * 60)
 print("CHUNKS POR TIPO")
@@ -91,11 +85,7 @@ for tipo, cantidad in tipos.items():
 # CHUNKS PROCEDENTES DE HTML
 # =========================================================
 
-chunks_html = [
-    chunk
-    for chunk in chunks
-    if chunk["metadata"]["format"] == "html"
-]
+chunks_html = [chunk for chunk in chunks if chunk["metadata"]["format"] == "html"]
 
 print("\n" + "=" * 60)
 print(f"CHUNKS HTML: {len(chunks_html)}")
@@ -104,17 +94,13 @@ print("=" * 60)
 for i, chunk in enumerate(chunks_html[:10]):
 
     print(f"\n--- HTML CHUNK {i} ---")
-
     print(f"Fuente: {chunk['metadata']['source']}")
     print(
         f"Chunk: "
         f"{chunk['metadata']['chunk_index'] + 1}"
         f"/{chunk['metadata']['chunk_count']}"
     )
-    print(
-        f"Tamaño: "
-        f"{chunk['metadata']['chunk_size']}"
-    )
+    print(f"Tamaño: {chunk['metadata']['chunk_size']}")
 
     print("\nTEXTO:")
     print(chunk["text"])
