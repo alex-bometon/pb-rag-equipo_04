@@ -1,0 +1,15 @@
+
+======================================================================
+COMPROBACIÓN DE EMBEDDINGS
+======================================================================
+Modelo:                  gemini-embedding-2
+Chunks en corpus:        712
+Embeddings comprobados:  712
+Dimensiones por vector:  768
+
+Correspondencia texto:   OK
+Correspondencia metadata: OK
+Dimensiones:             OK
+Valores numéricos:       OK
+
+RESULTADO: EMBEDDINGS VÁLIDOS
