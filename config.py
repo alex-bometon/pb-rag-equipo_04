@@ -156,7 +156,7 @@ EVAL_QUERY_EMBEDDINGS_JSON = CACHE_DIR / "eval_query_embeddings.json"
 #
 # Se mantienen separados tanto del dataset de entrada
 # como de los artefactos principales del pipeline.
-EVALUATION_RESULTS_DIR = OUTPUT_DIR / "evaluation"
+EVALUATION_RESULTS_DIR = BASE_DIR / "tests" / "evaluation"
 
 # =========================================================
 # GENERACIÓN

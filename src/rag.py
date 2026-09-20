@@ -132,6 +132,7 @@ def responder(
     k: int = TOP_K,
     client=None,
     collection=None,
+    query_embedding: list[float] | None = None,
 ) -> dict:
     """
     Ejecuta el flujo completo del sistema RAG.
@@ -171,6 +172,13 @@ def responder(
 
         Permite evitar recuperar repetidamente la colección
         durante evaluaciones con varias preguntas.
+    
+    query_embedding : list[float] | None
+        Embedding de la pregunta ya calculado.
+
+        Permite reutilizar embeddings persistidos durante
+        las evaluaciones y evitar llamadas repetidas a la
+        API de embeddings.
 
     Returns
     -------
@@ -210,12 +218,14 @@ def responder(
         # Utilizamos de momento el embedding original porque
         # es la variante que ha obtenido mejores resultados
         # en la evaluación actual del retrieval.
-        query_embedding = (
-            embeddear_pregunta_original(
-                client,
-                pregunta,
+        if query_embedding is None:
+
+            query_embedding = (
+                embeddear_pregunta_original(
+                    client,
+                    pregunta,
+                )
             )
-        )
 
         # -------------------------------------------------
         # 2. RETRIEVAL
