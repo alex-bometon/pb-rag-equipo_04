@@ -1,0 +1,309 @@
+======================================================================
+EVALUACIÓN DE RETRIEVAL
+======================================================================
+Preguntas totales: 14
+Registros ChromaDB: 712
+
+======================================================================
+K = 3
+======================================================================
+
+[1] ¿En qué contenedor tiro un envase de plástico?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2334
+    Fuente esperada recuperada: NO
+
+[2] ¿Dónde tiro los restos de comida y las cáscaras de fruta?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2666
+    Fuente esperada recuperada: SÍ
+
+[3] ¿Qué puedo depositar en el contenedor verde de vidrio?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2148
+    Fuente esperada recuperada: SÍ
+
+[4] ¿Qué se debe tirar en el contenedor azul de papel y cartón?
+    Top fuente:    fraccion_papel.html
+    Top distancia: 0.2430
+    Fuente esperada recuperada: SÍ
+
+[5] ¿Qué va en el contenedor gris de restos?
+    Top fuente:    fraccion_resto.html
+    Top distancia: 0.2832
+    Fuente esperada recuperada: SÍ
+
+[6] ¿Dónde puedo tirar el aceite vegetal usado de la cocina?
+    Top fuente:    recogida_aceite_vegetal.html
+    Top distancia: 0.2498
+    Fuente esperada recuperada: SÍ
+
+[7] ¿Cómo puedo deshacerme de un colchón o un mueble viejo?
+    Top fuente:    recogida_muebles_enseres.html
+    Top distancia: 0.2715
+    Fuente esperada recuperada: SÍ
+
+[8] ¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1966
+    Fuente esperada recuperada: NO
+
+[9] ¿Qué horario tiene el punto limpio móvil?
+    Top fuente:    puntos_limpios_moviles.csv
+    Top distancia: 0.2683
+    Fuente esperada recuperada: SÍ
+
+[10] ¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?
+    Top fuente:    residuos_punto_limpio_fijo.html
+    Top distancia: 0.2274
+    Fuente esperada recuperada: NO
+
+[11] ¿Cuál es la dirección del punto limpio fijo de Hortaleza?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1969
+    Fuente esperada recuperada: SÍ
+
+[12] ¿Cuál es el horario de las piscinas municipales de Madrid?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3383
+    Fuera de dominio (no puntúa retrieval)
+
+[13] ¿Dónde reciclo el vidrio en Barcelona?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2853
+    Fuera de dominio (no puntúa retrieval)
+
+[14] ¿Qué servicios de reparación de móviles hay cerca de Gran Vía?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3412
+    Fuera de dominio (no puntúa retrieval)
+
+======================================================================
+K = 5
+======================================================================
+
+[1] ¿En qué contenedor tiro un envase de plástico?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2334
+    Fuente esperada recuperada: SÍ
+
+[2] ¿Dónde tiro los restos de comida y las cáscaras de fruta?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2666
+    Fuente esperada recuperada: SÍ
+
+[3] ¿Qué puedo depositar en el contenedor verde de vidrio?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2148
+    Fuente esperada recuperada: SÍ
+
+[4] ¿Qué se debe tirar en el contenedor azul de papel y cartón?
+    Top fuente:    fraccion_papel.html
+    Top distancia: 0.2430
+    Fuente esperada recuperada: SÍ
+
+[5] ¿Qué va en el contenedor gris de restos?
+    Top fuente:    fraccion_resto.html
+    Top distancia: 0.2832
+    Fuente esperada recuperada: SÍ
+
+[6] ¿Dónde puedo tirar el aceite vegetal usado de la cocina?
+    Top fuente:    recogida_aceite_vegetal.html
+    Top distancia: 0.2498
+    Fuente esperada recuperada: SÍ
+
+[7] ¿Cómo puedo deshacerme de un colchón o un mueble viejo?
+    Top fuente:    recogida_muebles_enseres.html
+    Top distancia: 0.2715
+    Fuente esperada recuperada: SÍ
+
+[8] ¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1966
+    Fuente esperada recuperada: NO
+
+[9] ¿Qué horario tiene el punto limpio móvil?
+    Top fuente:    puntos_limpios_moviles.csv
+    Top distancia: 0.2683
+    Fuente esperada recuperada: SÍ
+
+[10] ¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?
+    Top fuente:    residuos_punto_limpio_fijo.html
+    Top distancia: 0.2274
+    Fuente esperada recuperada: NO
+
+[11] ¿Cuál es la dirección del punto limpio fijo de Hortaleza?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1969
+    Fuente esperada recuperada: SÍ
+
+[12] ¿Cuál es el horario de las piscinas municipales de Madrid?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3383
+    Fuera de dominio (no puntúa retrieval)
+
+[13] ¿Dónde reciclo el vidrio en Barcelona?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2853
+    Fuera de dominio (no puntúa retrieval)
+
+[14] ¿Qué servicios de reparación de móviles hay cerca de Gran Vía?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3412
+    Fuera de dominio (no puntúa retrieval)
+
+======================================================================
+K = 8
+======================================================================
+
+[1] ¿En qué contenedor tiro un envase de plástico?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2334
+    Fuente esperada recuperada: SÍ
+
+[2] ¿Dónde tiro los restos de comida y las cáscaras de fruta?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2666
+    Fuente esperada recuperada: SÍ
+
+[3] ¿Qué puedo depositar en el contenedor verde de vidrio?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2148
+    Fuente esperada recuperada: SÍ
+
+[4] ¿Qué se debe tirar en el contenedor azul de papel y cartón?
+    Top fuente:    fraccion_papel.html
+    Top distancia: 0.2430
+    Fuente esperada recuperada: SÍ
+
+[5] ¿Qué va en el contenedor gris de restos?
+    Top fuente:    fraccion_resto.html
+    Top distancia: 0.2832
+    Fuente esperada recuperada: SÍ
+
+[6] ¿Dónde puedo tirar el aceite vegetal usado de la cocina?
+    Top fuente:    recogida_aceite_vegetal.html
+    Top distancia: 0.2498
+    Fuente esperada recuperada: SÍ
+
+[7] ¿Cómo puedo deshacerme de un colchón o un mueble viejo?
+    Top fuente:    recogida_muebles_enseres.html
+    Top distancia: 0.2715
+    Fuente esperada recuperada: SÍ
+
+[8] ¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1966
+    Fuente esperada recuperada: NO
+
+[9] ¿Qué horario tiene el punto limpio móvil?
+    Top fuente:    puntos_limpios_moviles.csv
+    Top distancia: 0.2683
+    Fuente esperada recuperada: SÍ
+
+[10] ¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?
+    Top fuente:    residuos_punto_limpio_fijo.html
+    Top distancia: 0.2274
+    Fuente esperada recuperada: NO
+
+[11] ¿Cuál es la dirección del punto limpio fijo de Hortaleza?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1969
+    Fuente esperada recuperada: SÍ
+
+[12] ¿Cuál es el horario de las piscinas municipales de Madrid?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3383
+    Fuera de dominio (no puntúa retrieval)
+
+[13] ¿Dónde reciclo el vidrio en Barcelona?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2853
+    Fuera de dominio (no puntúa retrieval)
+
+[14] ¿Qué servicios de reparación de móviles hay cerca de Gran Vía?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3412
+    Fuera de dominio (no puntúa retrieval)
+
+======================================================================
+K = 10
+======================================================================
+
+[1] ¿En qué contenedor tiro un envase de plástico?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2334
+    Fuente esperada recuperada: SÍ
+
+[2] ¿Dónde tiro los restos de comida y las cáscaras de fruta?
+    Top fuente:    tipos_residuos.csv
+    Top distancia: 0.2666
+    Fuente esperada recuperada: SÍ
+
+[3] ¿Qué puedo depositar en el contenedor verde de vidrio?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2148
+    Fuente esperada recuperada: SÍ
+
+[4] ¿Qué se debe tirar en el contenedor azul de papel y cartón?
+    Top fuente:    fraccion_papel.html
+    Top distancia: 0.2430
+    Fuente esperada recuperada: SÍ
+
+[5] ¿Qué va en el contenedor gris de restos?
+    Top fuente:    fraccion_resto.html
+    Top distancia: 0.2832
+    Fuente esperada recuperada: SÍ
+
+[6] ¿Dónde puedo tirar el aceite vegetal usado de la cocina?
+    Top fuente:    recogida_aceite_vegetal.html
+    Top distancia: 0.2498
+    Fuente esperada recuperada: SÍ
+
+[7] ¿Cómo puedo deshacerme de un colchón o un mueble viejo?
+    Top fuente:    recogida_muebles_enseres.html
+    Top distancia: 0.2715
+    Fuente esperada recuperada: SÍ
+
+[8] ¿Dónde hay un punto limpio fijo en el distrito de Arganzuela?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1966
+    Fuente esperada recuperada: NO
+
+[9] ¿Qué horario tiene el punto limpio móvil?
+    Top fuente:    puntos_limpios_moviles.csv
+    Top distancia: 0.2683
+    Fuente esperada recuperada: SÍ
+
+[10] ¿Qué tipos de residuos reconoce el Ayuntamiento de Madrid?
+    Top fuente:    residuos_punto_limpio_fijo.html
+    Top distancia: 0.2274
+    Fuente esperada recuperada: NO
+
+[11] ¿Cuál es la dirección del punto limpio fijo de Hortaleza?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.1969
+    Fuente esperada recuperada: SÍ
+
+[12] ¿Cuál es el horario de las piscinas municipales de Madrid?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3383
+    Fuera de dominio (no puntúa retrieval)
+
+[13] ¿Dónde reciclo el vidrio en Barcelona?
+    Top fuente:    fraccion_vidrio.html
+    Top distancia: 0.2853
+    Fuera de dominio (no puntúa retrieval)
+
+[14] ¿Qué servicios de reparación de móviles hay cerca de Gran Vía?
+    Top fuente:    puntos_limpios_proximidad.csv
+    Top distancia: 0.3412
+    Fuera de dominio (no puntúa retrieval)
+
+======================================================================
+RESUMEN
+======================================================================
+K=3  -> 8/11 (72.7 %)
+K=5  -> 9/11 (81.8 %)
+K=8  -> 9/11 (81.8 %)
+K=10 -> 9/11 (81.8 %)

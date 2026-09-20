@@ -1,0 +1,80 @@
+======================================================================
+COMPROBACIÓN DE INDEXACIÓN EN CHROMADB
+======================================================================
+
+1. ARTEFACTO DE REFERENCIA
+----------------------------------------------------------------------
+Embeddings en embeddings.json: 712
+Dimensiones esperadas:         768
+
+2. CONEXIÓN CON CHROMADB
+----------------------------------------------------------------------
+[OK] Existe la base de datos persistente
+       /Users/dyingskeleton/IA Engineering/repositorios/pb-rag-equipo_04/output/chroma_db
+
+3. COLECCIÓN
+----------------------------------------------------------------------
+[OK] Existe la colección esperada
+       Colección: residuos_madrid
+
+4. CANTIDAD DE REGISTROS
+----------------------------------------------------------------------
+[OK] Chroma contiene un registro por embedding
+       embeddings.json: 712 | ChromaDB: 712
+
+5. ESTRUCTURA DE LOS REGISTROS
+----------------------------------------------------------------------
+[OK] Número de IDs
+       Encontrados: 712
+[OK] Número de documentos
+       Encontrados: 712
+[OK] Número de metadatos
+       Encontrados: 712
+[OK] Número de vectores
+       Encontrados: 712
+
+6. IDENTIFICADORES
+----------------------------------------------------------------------
+[OK] Todos los IDs son únicos
+       IDs totales: 712 | IDs únicos: 712
+[OK] Todos los IDs son cadenas no vacías
+       IDs inválidos: 0
+
+7. DOCUMENTOS
+----------------------------------------------------------------------
+[OK] Todos los documentos contienen texto
+       Documentos vacíos: 0
+
+8. METADATA
+----------------------------------------------------------------------
+[OK] Todos los registros contienen metadata
+       Metadata inválidos: 0
+[OK] Todos los registros conservan la fuente
+       Registros sin source: 0
+[OK] Todos los registros conservan document_type
+       Registros sin document_type: 0
+
+9. VECTORES INDEXADOS
+----------------------------------------------------------------------
+[OK] Todos los vectores tienen 768 dimensiones
+       Vectores incorrectos: 0
+[OK] Todos los valores son numéricos y finitos
+       Vectores con valores inválidos: 0
+[OK] No existen vectores nulos
+       Vectores de norma 0: 0
+
+10. CORRESPONDENCIA CON EMBEDDINGS.JSON
+----------------------------------------------------------------------
+[OK] Los documentos de Chroma corresponden al corpus
+       Origen: 712 documentos únicos | Chroma: 712 documentos únicos
+[OK] Cada documento conserva su metadata correcta
+       Documentos con diferencias: 0
+======================================================================
+RESUMEN
+======================================================================
+Colección:               residuos_madrid
+Embeddings de origen:    712
+Registros en ChromaDB:   712
+Dimensiones por vector:  768
+
+RESULTADO: INDEXACIÓN VÁLIDA
