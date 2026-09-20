@@ -18,5 +18,6 @@ python-dotenv
 chromadb
 langchain-chroma
 
-# Interfaz
+# Interfaz y autenticación
 streamlit
+bcrypt
